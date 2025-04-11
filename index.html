@@ -23,11 +23,13 @@
       color: #66fcf1;
       margin: 0;
     }
-    header .logo-top-left {
-      position: absolute;
-      top: 8px;
+    .logo-fixed {
+      position: fixed;
+      top: 20px;
       left: 20px;
-      height: 130px;
+      height: 80px;
+      z-index: 999;
+      cursor: pointer;
     }
     main {
       padding: 40px;
@@ -65,8 +67,10 @@
   </style>
 </head>
 <body>
-  <header>
-    <img src="images/haip-logo-transparent.png" alt="HAIP Logo" class="logo-top-left">
+  <a href="#top">
+    <img src="images/haip-logo-transparent.png" alt="HAIP Logo" class="logo-fixed">
+  </a>
+  <header id="top">
     <h1>Hp Artificial Intelligence Power (HAIP)</h1>
     <p>The official BEP20 token powered by AI innovation</p>
   </header>
@@ -146,3 +150,4 @@
   </main>
 </body>
 </html>
+
