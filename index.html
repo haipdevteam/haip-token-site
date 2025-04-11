@@ -17,17 +17,17 @@
       background: #1f2833;
       padding: 20px;
       text-align: center;
+      position: relative;
     }
     header h1 {
       color: #66fcf1;
       margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
     }
-    header h1 img {
-      height: 288px; /* tripled and then doubled = 48px * 6 */
+    header .logo-top-left {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      height: 48px;
     }
     main {
       padding: 40px;
@@ -66,10 +66,8 @@
 </head>
 <body>
   <header>
-    <h1>
-      <img src="images/haip-logo-transparent.png" alt="HAIP Logo">
-      Hp Artificial Intelligence Power (HAIP)
-    </h1>
+    <img src="images/haip-logo-transparent.png" alt="HAIP Logo" class="logo-top-left">
+    <h1>Hp Artificial Intelligence Power (HAIP)</h1>
     <p>The official BEP20 token powered by AI innovation</p>
   </header>
   <main>
