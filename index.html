@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HAIP Token - Official Site</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <style>
     html {
       scroll-behavior: smooth;
     }
     body {
       font-family: 'Orbitron', sans-serif;
-      background: #0b0c10;
+      background: linear-gradient(135deg, #0b0c10, #1f2833);
       color: #f8f8f8;
       margin: 0;
       padding: 0;
@@ -28,9 +29,9 @@
     }
     .logo-fixed {
       position: fixed;
-      top: 20px;
-      left: 20px;
-      height: 120px;
+      top: 25px;
+      left: 25px;
+      height: 150px;
       z-index: 999;
       cursor: pointer;
       transition: transform 0.3s ease;
@@ -82,13 +83,13 @@
     <p>The official BEP20 token powered by AI innovation</p>
   </header>
   <main>
-    <section>
+    <section data-aos="fade-up">
       <h2>About HAIP</h2>
       <p>HAIP is a BEP-20 token on the Binance Smart Chain designed to empower and fund artificial intelligence innovation and projects. Built by a community of tech and blockchain enthusiasts, HAIP aims to integrate AI capabilities into DeFi and Web3 ecosystems.</p>
       <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">Buy on PancakeSwap</a>
     </section>
 
-    <section>
+    <section data-aos="fade-up">
       <h2>Token Details</h2>
       <ul>
         <li><strong>Token Name:</strong> Hp Artificial Intelligence Power</li>
@@ -102,7 +103,7 @@
       </ul>
     </section>
 
-    <section>
+    <section data-aos="fade-up">
       <h2>Roadmap</h2>
       <ul>
         <li>✅ Q1 2025 - Token creation, smart contract deployment</li>
@@ -112,7 +113,7 @@
       </ul>
     </section>
 
-    <section>
+    <section data-aos="fade-up">
       <h2>Our Team</h2>
       <p>HAIP is developed by a team of blockchain engineers, AI researchers, and crypto evangelists. The project is community-driven and open source.</p>
       <ul>
@@ -122,7 +123,7 @@
       </ul>
     </section>
 
-    <section>
+    <section data-aos="fade-up">
       <h2>Technology Partners</h2>
       <p>We are proud to collaborate with industry leaders who support innovation and decentralized technologies.</p>
       <div style="display:flex; gap:40px; flex-wrap:wrap; align-items:center; justify-content:center;">
@@ -137,7 +138,7 @@
       </div>
     </section>
 
-    <section>
+    <section data-aos="fade-up">
       <h2>Contact Us</h2>
       <p>For inquiries, partnerships or collaborations, feel free to reach out via email or social media.</p>
       <ul>
@@ -147,7 +148,7 @@
       </ul>
     </section>
 
-    <section>
+    <section data-aos="fade-up">
       <h2>Resources</h2>
       <ul>
         <li><a href="https://bscscan.com/token/0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">View on BscScan</a></li>
@@ -155,5 +156,9 @@
       </ul>
     </section>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000 });
+  </script>
 </body>
 </html>
