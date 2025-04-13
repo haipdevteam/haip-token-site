@@ -88,14 +88,6 @@
       0% { transform: scale(0.7); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
-    .chart-tooltip {
-      background-color: #0b0c10;
-      color: #fff;
-      padding: 8px 10px;
-      border-radius: 5px;
-      font-size: 14px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
   </style>
 </head>
 <body>
@@ -204,22 +196,24 @@
         labels: ['Development', 'Partners', 'DEX', 'Presale'],
         datasets: [{
           data: [10, 9, 27, 54],
-          backgroundColor: ['#66fcf1', '#45a29e', '#1f2833', '#c5c6c7'],
+          backgroundColor: ['#7B61FF', '#00C9A7', '#FF6B6B', '#FFD93D'],
           borderColor: '#0b0c10',
-          borderWidth: 2
+          borderWidth: 2,
+          hoverOffset: 20
         }]
       },
       options: {
         responsive: true,
         animation: {
-          animateScale: true
+          animateScale: true,
+          animateRotate: true
         },
         plugins: {
           tooltip: {
-            backgroundColor: '#0b0c10',
-            titleColor: '#66fcf1',
+            backgroundColor: '#1f2833',
+            titleColor: '#fff',
             bodyColor: '#fff',
-            borderColor: '#45a29e',
+            borderColor: '#66fcf1',
             borderWidth: 1,
             cornerRadius: 6,
             padding: 10
