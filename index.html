@@ -88,6 +88,14 @@
       0% { transform: scale(0.7); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
+    .chart-tooltip {
+      background-color: #0b0c10;
+      color: #fff;
+      padding: 8px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
   </style>
 </head>
 <body>
@@ -207,6 +215,15 @@
           animateScale: true
         },
         plugins: {
+          tooltip: {
+            backgroundColor: '#0b0c10',
+            titleColor: '#66fcf1',
+            bodyColor: '#fff',
+            borderColor: '#45a29e',
+            borderWidth: 1,
+            cornerRadius: 6,
+            padding: 10
+          },
           legend: {
             labels: {
               color: 'white',
