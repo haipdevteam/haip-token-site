@@ -190,45 +190,50 @@
     AOS.init({ duration: 1000 });
 
     const ctx = document.getElementById('tokenomicsChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Development', 'Partners', 'DEX', 'Presale'],
-        datasets: [{
-          data: [10, 9, 27, 54],
-          backgroundColor: ['#7B61FF', '#00C9A7', '#FF6B6B', '#FFD93D'],
-          borderColor: '#0b0c10',
-          borderWidth: 2,
-          hoverOffset: 20
-        }]
+new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Development', 'Partners', 'DEX', 'Presale'],
+    datasets: [{
+      data: [10, 9, 27, 54],
+      backgroundColor: [
+        '#66fcf1',
+        '#0ff0fc',
+        '#2c3e50',
+        '#08fdd8'
+      ],
+      borderColor: '#0b0c10',
+      borderWidth: 2,
+      hoverOffset: 20
+    }]
+  },
+  options: {
+    responsive: true,
+    animation: {
+      animateScale: true,
+      animateRotate: true
+    },
+    plugins: {
+      tooltip: {
+        backgroundColor: '#1f2833',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        borderColor: '#66fcf1',
+        borderWidth: 1,
+        cornerRadius: 6,
+        padding: 10
       },
-      options: {
-        responsive: true,
-        animation: {
-          animateScale: true,
-          animateRotate: true
-        },
-        plugins: {
-          tooltip: {
-            backgroundColor: '#1f2833',
-            titleColor: '#fff',
-            bodyColor: '#fff',
-            borderColor: '#66fcf1',
-            borderWidth: 1,
-            cornerRadius: 6,
-            padding: 10
-          },
-          legend: {
-            labels: {
-              color: 'white',
-              font: {
-                size: 14
-              }
-            }
+      legend: {
+        labels: {
+          color: 'white',
+          font: {
+            size: 14
           }
         }
       }
-    });
+    }
+  }
+});
   </script>
 </body>
 </html>
