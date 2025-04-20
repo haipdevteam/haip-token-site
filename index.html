@@ -76,33 +76,44 @@
       margin-top: 10px;
       display: inline-block;
     }
-    .tokenomics-chart {
-      max-width: 400px;
-      margin: 20px auto;
-      animation: pop-in 1.5s ease;
-    }
     .partner-logo {
       transition: transform 0.5s ease, filter 0.5s ease;
       animation: floatLogo 4s ease-in-out infinite;
-      filter: drop-shadow(0 0 0 transparent);
       background-color: transparent;
     }
     .partner-logo:hover {
       transform: scale(1.1);
-      filter: drop-shadow(0 0 10px #00f9ff) brightness(1.3);
+      filter: drop-shadow(0 0 20px #00f9ff);
+    }
+    .presale-stage {
+      background: rgba(31, 40, 51, 0.7);
+      border-left: 4px solid #66fcf1;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 249, 255, 0.1);
+      animation: fadeInUp 1s ease both;
+    }
+    .presale-stage h3 {
+      margin-top: 0;
+      color: #0ff0fc;
+    }
+    .presale-stage p {
+      margin: 5px 0;
+      color: #f0f0f0;
     }
     @keyframes gradientBG {
       0% {background-position: 0% 50%;}
       50% {background-position: 100% 50%;}
       100% {background-position: 0% 50%;}
     }
-    @keyframes pop-in {
-      0% { transform: scale(0.7); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
     @keyframes floatLogo {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -177,6 +188,44 @@
         <a href="https://www.mit.edu" target="_blank"><img src="images/logos/mit.png" alt="MIT" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
         <a href="https://pancakeswap.finance" target="_blank"><img src="images/logos/pancakeswap.png" alt="PancakeSwap" class="partner-logo" style="max-width:130px; margin-top:10px;"></a>
         <a href="https://chain.link" target="_blank"><img src="images/logos/chainlink.png" alt="Chainlink" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
+      </div>
+    </section>
+        <section data-aos="fade-up">
+      <h2>Presale Stages</h2>
+      <div class="presale-stage" style="animation-delay: 0.2s">
+        <h3>Private Presale</h3>
+        <p>Allocation: <strong>2%</strong></p>
+        <p>Price: <strong>0.0009 USDT</strong> per HAIP</p>
+        <p>Min per user: <strong>3.24 USDT</strong> (3,600 HAIP)</p>
+        <p>Max per user: <strong>32.4 USDT</strong></p>
+      </div>
+      <div class="presale-stage" style="animation-delay: 0.4s">
+        <h3>Public Presale - Stage 1</h3>
+        <p>Allocation: <strong>13%</strong></p>
+        <p>Price: <strong>0.0036 USDT</strong> per HAIP</p>
+        <p>Min per user: <strong>9.72 USDT</strong></p>
+        <p>Max per user: <strong>194.4 USDT</strong></p>
+      </div>
+      <div class="presale-stage" style="animation-delay: 0.6s">
+        <h3>Public Presale - Stage 2</h3>
+        <p>Allocation: <strong>13%</strong></p>
+        <p>Price: <strong>0.0108 USDT</strong> per HAIP</p>
+        <p>Min per user: <strong>19.44 USDT</strong></p>
+        <p>Max per user: <strong>388.8 USDT</strong></p>
+      </div>
+      <div class="presale-stage" style="animation-delay: 0.8s">
+        <h3>Public Presale - Stage 3</h3>
+        <p>Allocation: <strong>13%</strong></p>
+        <p>Price: <strong>0.0324 USDT</strong> per HAIP</p>
+        <p>Min per user: <strong>29.16 USDT</strong></p>
+        <p>Max per user: <strong>874.8 USDT</strong></p>
+      </div>
+      <div class="presale-stage" style="animation-delay: 1s">
+        <h3>Public Presale - Stage 4</h3>
+        <p>Allocation: <strong>13%</strong></p>
+        <p>Price: <strong>0.0972 USDT</strong> per HAIP</p>
+        <p>Min per user: <strong>32.3676 USDT</strong></p>
+        <p>Max per user: <strong>2361.96 USDT</strong></p>
       </div>
     </section>
     <section data-aos="fade-up">
