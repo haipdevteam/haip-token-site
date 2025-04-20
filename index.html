@@ -12,15 +12,14 @@
     }
     body {
       font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(270deg, #0f2027, #203a43, #2c5364);
-      background-size: 600% 600%;
-      animation: gradientBG 20s ease infinite;
+      background: url('images/background-cyber.jpg') no-repeat center center fixed;
+      background-size: cover;
       color: #f8f8f8;
       margin: 0;
       padding: 0;
     }
     header {
-      background: #1f2833;
+      background: rgba(31, 40, 51, 0.85);
       padding: 20px;
       text-align: center;
       position: relative;
@@ -45,6 +44,9 @@
       padding: 40px;
       max-width: 900px;
       margin: auto;
+      background-color: rgba(15, 32, 39, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
     }
     section {
       margin-bottom: 40px;
@@ -87,7 +89,7 @@
     }
     .partner-logo:hover {
       transform: scale(1.1);
-      filter: drop-shadow(0 0 8px #00f9ff) brightness(1.2);
+      filter: drop-shadow(0 0 10px #00f9ff) brightness(1.3);
     }
     @keyframes gradientBG {
       0% {background-position: 0% 50%;}
