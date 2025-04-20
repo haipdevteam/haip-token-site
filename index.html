@@ -79,6 +79,15 @@
       margin: 20px auto;
       animation: pop-in 1.5s ease;
     }
+    .partner-logo {
+      transition: transform 0.5s ease, filter 0.5s ease, box-shadow 0.5s ease;
+      animation: floatLogo 4s ease-in-out infinite;
+    }
+    .partner-logo:hover {
+      transform: scale(1.1);
+      filter: brightness(1.3);
+      box-shadow: 0 0 15px #00f9ff, 0 0 25px #00f9ff;
+    }
     @keyframes gradientBG {
       0% {background-position: 0% 50%;}
       50% {background-position: 100% 50%;}
@@ -87,6 +96,10 @@
     @keyframes pop-in {
       0% { transform: scale(0.7); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
   </style>
 </head>
