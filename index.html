@@ -104,6 +104,20 @@
       margin: 5px 0;
       color: #f0f0f0;
     }
+    .countdown {
+      text-align: center;
+      font-size: 28px;
+      color: #0ff0fc;
+      margin: 30px auto;
+      font-weight: bold;
+      text-shadow: 0 0 15px #0ff0fc;
+      border: 2px solid #0ff0fc;
+      border-radius: 10px;
+      padding: 20px;
+      width: fit-content;
+      background: rgba(0, 255, 255, 0.05);
+      animation: glowPulse 2s ease-in-out infinite;
+    }
     @keyframes gradientBG {
       0% {background-position: 0% 50%;}
       50% {background-position: 100% 50%;}
@@ -116,6 +130,14 @@
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes glowPulse {
+      0%, 100% {
+        box-shadow: 0 0 10px #0ff0fc, 0 0 20px #0ff0fc;
+      }
+      50% {
+        box-shadow: 0 0 20px #0ff0fc, 0 0 30px #0ff0fc;
+      }
     }
     canvas#tokenomicsChart {
       display: block;
@@ -198,6 +220,9 @@
       </div>
     </section>
         <section data-aos="fade-up">
+      <h2>Presale Countdown</h2>
+      <div class="countdown" id="countdown"></div>
+    </section>
       <h2>Presale Stages</h2>
       <div class="presale-stage" style="animation-delay: 0.2s">
         <h3>Private Presale</h3>
@@ -257,6 +282,29 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     AOS.init({ duration: 1000 });
+      // Countdown logic
+    const countdown = document.getElementById('countdown');
+    const launchDate = new Date('2025-07-01T00:00:00Z').getTime();
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = launchDate - now;
+
+      if (distance < 0) {
+        countdown.innerHTML = "Presale has started!";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    };
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
 
     const ctx = document.getElementById('tokenomicsChart').getContext('2d');
 new Chart(ctx, {
