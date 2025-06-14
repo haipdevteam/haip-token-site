@@ -139,6 +139,12 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    .tokenomics-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px; /* Spațiu mai mare între legendă și diagramă pentru a muta legenda mai în stânga */
+    }
     @keyframes floatLogo {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
@@ -158,7 +164,7 @@
     canvas#tokenomicsChart {
       display: block;
       max-width: 400px;
-      margin: 20px auto;
+      margin: 0;
     }
   </style>
 </head>
@@ -199,7 +205,9 @@
         <li><strong>Partners:</strong> 9% (1.62B HAIP, for strategic collaborations)</li>
       </ul>
       <p><strong>Vesting:</strong> Team and partner tokens vested over 2 years to ensure long-term commitment.</p>
-      <canvas id="tokenomicsChart" class="tokenomics-chart"></canvas>
+      <div class="tokenomics-container">
+        <canvas id="tokenomicsChart" class="tokenomics-chart"></canvas>
+      </div>
     </section>
     <section data-aos="fade-up">
       <h2>Roadmap</h2>
@@ -348,7 +356,7 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Tokenomics chart
+    // Tokenomics chart with legend on the left and adjusted spacing
     const ctx = document.getElementById('tokenomicsChart').getContext('2d');
     new Chart(ctx, {
       type: 'doughnut',
@@ -369,6 +377,26 @@
           animateRotate: true
         },
         plugins: {
+          legend: {
+            position: 'left',
+            labels: {
+              color: 'white',
+              font: { size: 12 }, // Redus la 12px pentru a economisi spațiu, poate fi ajustat
+              boxWidth: 20, // Lărgime mai mare pentru casete de culoare
+              padding: 10, // Spațiu vertical între etichete
+              generateLabels: function(chart) {
+                const data = chart.data;
+                return data.labels.map((label, i) => ({
+                  text: label,
+                  fillStyle: data.datasets[0].backgroundColor[i],
+                  strokeStyle: data.datasets[0].borderColor,
+                  lineWidth: data.datasets[0].borderWidth,
+                  hidden: isNaN(data.datasets[0].data[i]) || data.datasets[0].data[i] === 0,
+                  index: i
+                }));
+              }
+            }
+          },
           tooltip: {
             backgroundColor: '#1f2833',
             titleColor: '#fff',
@@ -377,12 +405,6 @@
             borderWidth: 1,
             cornerRadius: 6,
             padding: 10
-          },
-          legend: {
-            labels: {
-              color: 'white',
-              font: { size: 14 }
-            }
           }
         }
       }
