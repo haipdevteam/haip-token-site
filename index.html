@@ -18,16 +18,37 @@
       color: #f8f8f8;
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
     }
     header {
       background: rgba(31, 40, 51, 0.85);
       padding: 20px;
       text-align: center;
       position: relative;
+      z-index: 1000;
     }
     header h1 {
       color: #66fcf1;
       margin: 0;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(31, 40, 51, 0.9);
+      padding: 10px 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 255, 255, 0.2);
+    }
+    nav a {
+      color: #66fcf1;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #0ff0fc;
     }
     .logo-fixed {
       position: fixed;
@@ -42,7 +63,7 @@
       transform: scale(1.1);
     }
     main {
-      padding: 40px;
+      padding: 80px 40px 40px; /* Ajustat pentru navbar fix */
       max-width: 900px;
       margin: auto;
       background-color: rgba(15, 32, 39, 0.8);
@@ -76,6 +97,11 @@
       cursor: pointer;
       margin-top: 10px;
       display: inline-block;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(102, 252, 241, 0.5);
     }
     .partner-logo {
       transition: transform 0.5s ease, filter 0.5s ease;
@@ -96,10 +122,20 @@
       border-radius: 8px;
       box-shadow: 0 0 15px rgba(0, 249, 255, 0.1);
       animation: fadeInUp 1s ease both;
+      transition: all 0.3s ease;
+    }
+    .presale-stage:hover {
+      border-left: 4px solid #0ff0fc;
+      box-shadow: 0 0 25px rgba(0, 249, 255, 0.3);
+      transform: translateY(-5px);
     }
     .presale-stage h3 {
       margin-top: 0;
       color: #0ff0fc;
+      transition: color 0.3s ease;
+    }
+    .presale-stage:hover h3 {
+      color: #66fcf1;
     }
     .presale-stage p {
       margin: 5px 0;
@@ -138,12 +174,66 @@
       padding: 10px 20px;
       border-radius: 5px;
       cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .newsletter-form button:hover {
+      transform: scale(1.05);
     }
     .tokenomics-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 40px; /* Spațiu mai mare între legendă și diagramă pentru a muta legenda mai în stânga */
+      gap: 40px; /* Spațiu mai mare între legendă și diagramă */
+    }
+    footer {
+      background: rgba(31, 40, 51, 0.9);
+      padding: 20px;
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #66fcf1;
+      color: #0b0c10;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
+      transition: transform 0.3s ease;
+    }
+    .back-to-top:hover {
+      transform: scale(1.1);
+    }
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 32, 39, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      animation: fadeOut 1s 2s forwards;
+    }
+    .loader span {
+      color: #66fcf1;
+      font-size: 24px;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
     @keyframes floatLogo {
       0%, 100% { transform: translateY(0); }
@@ -166,23 +256,42 @@
       max-width: 400px;
       margin: 0;
     }
+    @media (max-width: 768px) {
+      main { padding: 20px; }
+      nav a { margin: 0 10px; font-size: 14px; }
+      .tokenomics-container { flex-direction: column; gap: 20px; }
+      .presale-stage { margin-bottom: 15px; }
+    }
   </style>
 </head>
 <body>
+  <div class="loader">
+    <span>Loading HAIP...</span>
+  </div>
   <a href="#top">
     <img src="images/haip-logo-transparent.png" alt="HAIP Logo" class="logo-fixed">
   </a>
+  <nav>
+    <a href="#top">Home</a>
+    <a href="#about">About</a>
+    <a href="#tokenomics">Tokenomics</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#team">Team</a>
+    <a href="#partners">Partners</a>
+    <a href="#presale">Presale</a>
+    <a href="#contact">Contact</a>
+  </nav>
   <header id="top">
     <h1>Hp Artificial Intelligence Power (HAIP)</h1>
     <p>The official BEP20 token powering AI innovation on Binance Smart Chain</p>
   </header>
   <main>
-    <section data-aos="fade-up">
+    <section data-aos="fade-up" id="about">
       <h2>About HAIP</h2>
       <p>HAIP is a BEP-20 token on Binance Smart Chain designed to fund and integrate artificial intelligence with decentralized finance (DeFi) and Web3 ecosystems. Leveraging smart contracts, Chainlink oracles, and IPFS storage, HAIP empowers AI-driven dApps and community governance through a decentralized DAO.</p>
       <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">Buy on PancakeSwap</a>
     </section>
-    <section data-aos="fade-up">
+    <section data-aos="fade-up" id="token-details">
       <h2>Token Details</h2>
       <ul>
         <li><strong>Token Name:</strong> Hp Artificial Intelligence Power</li>
@@ -195,7 +304,7 @@
         </li>
       </ul>
     </section>
-    <section data-aos="fade-up">
+    <section data-aos="fade-up" id="tokenomics">
       <h2>Tokenomics</h2>
       <p><strong>Total Supply:</strong> 18,000,000,000 HAIP</p>
       <ul>
@@ -209,7 +318,7 @@
         <canvas id="tokenomicsChart" class="tokenomics-chart"></canvas>
       </div>
     </section>
-    <section data-aos="fade-up">
+    <section data-aos="fade-up" id="roadmap">
       <h2>Roadmap</h2>
       <p>Updated June 2025 to reflect current development timeline.</p>
       <ul>
@@ -221,7 +330,7 @@
         <li><strong>Q4 2026:</strong> Launchpad for AI startups funded in HAIP, pilot program for AI education grants</li>
       </ul>
     </section>
-    <section data-aos="fade-up">
+    <section data-aos="fade-up" id="technical">
       <h2>Technical Progress</h2>
       <p>HAIP is built on a modular architecture integrating blockchain and AI:</p>
       <ul>
@@ -231,7 +340,7 @@
         <li><strong>GitHub:</strong> Open-source repository to be released in Q4 2025.</li>
       </ul>
     </section>
-    <section data-aos="fade-up">
+    <section data-aos="fade-up" id="team">
       <h2>Our Team</h2>
       <p>HAIP is driven by a multidisciplinary team of experts in blockchain, AI, and community governance.</p>
       <ul>
@@ -242,7 +351,7 @@
         <li><strong>Academic Advisors:</strong> Experts from leading institutions, providing AI and blockchain insights.</li>
       </ul>
     </section>
-    <section data-aos="fade-up">
+    <section data-aos="fade-up" id="partners">
       <h2>Technology Partners</h2>
       <p>We are proud to collaborate with industry leaders who support innovation and decentralized technologies.</p>
       <div style="display:flex; gap:40px; flex-wrap:wrap; align-items:center; justify-content:center;">
@@ -256,7 +365,7 @@
         <a href="https://chain.link" target="_blank"><img src="images/logos/chainlink.png" alt="Chainlink" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
       </div>
     </section>
-    <section data-aos="fade-up">
+    <section data-aos="fade-up" id="presale">
       <h2>Presale Countdown</h2>
       <div class="countdown" id="countdown"></div>
     </section>
@@ -297,9 +406,9 @@
         <p>Min per user: <strong>32.36 USDT</strong> (333 HAIP)</p>
         <p>Max per user: <strong>2,361.96 USDT</strong> (24,300 HAIP)</p>
       </div>
-      <a class="btn" href="#contact">Join Presale</a>
+      <a class="btn" href="#contact" id="join-presale">Join Presale</a>
     </section>
-    <section data-aos="fade-up">
+    <section data-aos="fade-up" id="contact">
       <h2>Contact Us</h2>
       <p>Join our community or reach out for inquiries and collaborations.</p>
       <ul>
@@ -312,6 +421,7 @@
         <input type="email" placeholder="Enter your email for updates" required>
         <button type="submit">Subscribe</button>
       </div>
+      <p><a href="#" class="btn" id="kyc-link">Complete KYC/AML</a> (Required for Presale)</p>
     </section>
     <section data-aos="fade-up">
       <h2>Resources</h2>
@@ -325,10 +435,20 @@
       <p>HAIP Token is a utility token, not a security or equity in any entity. Participants must comply with local regulations before acquiring or transacting with HAIP. All smart contracts undergo independent public audits prior to deployment (Q3 2025). KYC and AML procedures are enforced for presale participants and regulated partner platforms to ensure compliance with international regulatory standards.</p>
     </section>
   </main>
+  <footer>
+    <p>&copy; 2025 HAIP Token. All rights reserved. | <a href="#legal">Legal</a> | <a href="#privacy">Privacy Policy</a></p>
+  </footer>
+  <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">↑</button>
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     AOS.init({ duration: 1000 });
+
+    // Loading animation
+    window.addEventListener('load', () => {
+      const loader = document.querySelector('.loader');
+      setTimeout(() => loader.style.display = 'none', 2000);
+    });
 
     // Countdown logic
     const countdown = document.getElementById('countdown');
@@ -356,7 +476,7 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Tokenomics chart with legend on the left and adjusted spacing
+    // Tokenomics chart with legend on the left
     const ctx = document.getElementById('tokenomicsChart').getContext('2d');
     new Chart(ctx, {
       type: 'doughnut',
@@ -381,9 +501,9 @@
             position: 'left',
             labels: {
               color: 'white',
-              font: { size: 12 }, // Redus la 12px pentru a economisi spațiu, poate fi ajustat
-              boxWidth: 20, // Lărgime mai mare pentru casete de culoare
-              padding: 10, // Spațiu vertical între etichete
+              font: { size: 12 },
+              boxWidth: 20,
+              padding: 10,
               generateLabels: function(chart) {
                 const data = chart.data;
                 return data.labels.map((label, i) => ({
@@ -408,6 +528,12 @@
           }
         }
       }
+    });
+
+    // KYC link placeholder (replace with actual link)
+    document.getElementById('kyc-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('KYC/AML process coming soon. Check back for updates.');
     });
   </script>
 </body>
