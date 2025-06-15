@@ -79,38 +79,15 @@
       display: inline-block;
     }
     .partner-logo {
-      width: 120px;
-      height: 120px;
-      background-color: #2a2a2a;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
-    }
-    .partner-logo img {
-      max-width: 80%;
-      max-height: 80%;
-      object-fit: contain;
-      filter: grayscale(20%);
-      transition: filter 0.3s ease;
+      transition: transform 0.5s ease, filter 0.5s ease;
+      animation: floatLogo 4s ease-in-out infinite;
+      background-color: transparent;
+      filter: drop-shadow(0 0 5px rgba(102, 252, 241, 0.4));
+      max-width: 140px;
     }
     .partner-logo:hover {
       transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
-    }
-    .partner-logo:hover img {
-      filter: grayscale(0);
-    }
-    .partner-grid {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 30px;
-      margin-top: 20px;
+      filter: drop-shadow(0 0 25px #00f9ff);
     }
     .presale-stage {
       background: rgba(31, 40, 51, 0.7);
@@ -208,15 +185,6 @@
       margin-left: 10px;
       font-size: 24px;
     }
-    @media (max-width: 768px) {
-      .partner-grid {
-        gap: 15px;
-      }
-      .partner-logo {
-        width: 90px;
-        height: 90px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -259,10 +227,10 @@
     </section>
     <div class="tokenomics-container">
       <div class="chart-legend">
-        <p><span style="color: #66fcf1;">■</span> Presale (54%)</p>
-        <p><span style="color: #0ff0fc;">■</span> DEX Liquidity (27%)</p>
-        <p><span style="color: #2c3e50;">■</span> Development (10%)</p>
-        <p><span style="color: #08fdd8;">■</span> Partners (9%)</p>
+        <p><span style="color: #66fcf1;">¦</span> Presale (54%)</p>
+        <p><span style="color: #0ff0fc;">¦</span> DEX Liquidity (27%)</p>
+        <p><span style="color: #2c3e50;">¦</span> Development (10%)</p>
+        <p><span style="color: #08fdd8;">¦</span> Partners (9%)</p>
       </div>
       <canvas id="tokenomicsChart" class="tokenomics-chart"></canvas>
     </div>
@@ -289,6 +257,17 @@
       </ul>
     </section>
     <section data-aos="fade-up">
+      <h2>Our Team</h2>
+      <p>HAIP is driven by a multidisciplinary team of experts in blockchain, AI, and community governance.</p>
+      <ul>
+        <li><strong>Blockchain Lead:</strong> Former HP Inc. engineer with 8 years in smart contract development.</li>
+        <li><strong>AI Research Lead:</strong> Machine learning expert with 10 years in AI model deployment.</li>
+        <li><strong>UI/UX & Web3 Lead:</strong> Specialist in decentralized application interfaces with 5 years in Web3.</li>
+        <li><strong>Community Managers:</strong> Global team driving engagement and DAO governance.</li>
+        <li><strong>Academic Advisors:</strong> Experts from leading institutions, providing AI and blockchain insights.</li>
+      </ul>
+    </section>
+    <section data-aos="fade-up">
       <h2>Technology Partners</h2>
       <p>We are proud to collaborate with industry leaders who support innovation and decentralized technologies.</p>
       <div style="display:flex; gap:40px; flex-wrap:wrap; align-items:center; justify-content:center;">
@@ -301,31 +280,6 @@
         <a href="https://pancakeswap.finance" target="_blank"><img src="images/logos/pancakeswap.png" alt="PancakeSwap" class="partner-logo" style="max-width:130px; margin-top:10px;"></a>
         <a href="https://chain.link" target="_blank"><img src="images/logos/chainlink.png" alt="Chainlink" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
       </div>
-    </section>
-    <section data-aos="fade-up" class="partners-section">
-      <h2>Future Collaboration Plans</h2>
-      <div class="partner-grid">
-        <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Binance_logo.svg" alt="Binance"></div>
-        <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Bybit_logo.svg" alt="Bybit"></div>
-        <div class="partner-logo"><img src="https://thena.fi/assets/images/logo.png" alt="Thena.fi"></div>
-        <div class="partner-logo"><img src="https://www.htx.com/favicon.ico" alt="Htx.com"></div>
-        <div class="partner-logo"><img src="https://www.gate.io/favicon.ico" alt="Gate.io"></div>
-        <div class="partner-logo"><img src="https://www.bitmart.com/favicon.ico" alt="Bitmart"></div>
-        <div class="partner-logo"><img src="https://www.bitget.com/favicon.ico" alt="Bitget"></div>
-        <div class="partner-logo"><img src="https://www.bingx.com/favicon.ico" alt="BingX"></div>
-        <div class="partner-logo"><img src="https://four.meme/favicon.ico" alt="Four.meme"></div>
-      </div>
-    </section>
-    <section data-aos="fade-up">
-      <h2>Our Team</h2>
-      <p>HAIP is driven by a multidisciplinary team of experts in blockchain, AI, and community governance.</p>
-      <ul>
-        <li><strong>Blockchain Lead:</strong> Former HP Inc. engineer with 8 years in smart contract development.</li>
-        <li><strong>AI Research Lead:</strong> Machine learning expert with 10 years in AI model deployment.</li>
-        <li><strong>UI/UX & Web3 Lead:</strong> Specialist in decentralized application interfaces with 5 years in Web3.</li>
-        <li><strong>Community Managers:</strong> Global team driving engagement and DAO governance.</li>
-        <li><strong>Academic Advisors:</strong> Experts from leading institutions, providing AI and blockchain insights.</li>
-      </ul>
     </section>
     <section data-aos="fade-up">
       <h2>Presale Countdown</h2>
