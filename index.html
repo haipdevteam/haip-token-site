@@ -152,7 +152,7 @@
       justify-content: center;
       align-items: center;
       gap: 20px;
-      margin: 10px 0; /* Reduced from 20px to 10px to minimize vertical spacing */
+      margin: 10px 0;
     }
     @keyframes floatLogo {
       0%, 100% { transform: translateY(0); }
@@ -175,13 +175,15 @@
       max-width: 400px;
       margin: 0;
     }
-    /* Added to reduce spacing above Tokenomics chart */
     .tokenomics-section p:last-child {
-      margin-bottom: 5px; /* Reduced spacing after last paragraph */
+      margin-bottom: 5px;
     }
-    /* Added to reduce spacing below Tokenomics chart */
     .roadmap-section {
-      margin-top: 5px; /* Reduced spacing before Roadmap section */
+      margin-top: 5px;
+    }
+    .tokenomics-container .chart-legend {
+      margin-left: 10px;
+      font-size: 24px;
     }
   </style>
 </head>
@@ -224,6 +226,12 @@
       <p><strong>Vesting:</strong> Team and partner tokens vested over 2 years to ensure long-term commitment.</p>
     </section>
     <div class="tokenomics-container">
+      <div class="chart-legend">
+        <p><span style="color: #66fcf1;">■</span> Presale (54%)</p>
+        <p><span style="color: #0ff0fc;">■</span> DEX Liquidity (27%)</p>
+        <p><span style="color: #2c3e50;">■</span> Development (10%)</p>
+        <p><span style="color: #08fdd8;">■</span> Partners (9%)</p>
+      </div>
       <canvas id="tokenomicsChart" class="tokenomics-chart"></canvas>
     </div>
     <section data-aos="fade-up" class="roadmap-section">
@@ -395,24 +403,7 @@
         },
         plugins: {
           legend: {
-            position: 'left',
-            labels: {
-              color: 'white',
-              font: { size: 12 },
-              boxWidth: 20,
-              padding: 10,
-              generateLabels: function(chart) {
-                const data = chart.data;
-                return data.labels.map((label, i) => ({
-                  text: label,
-                  fillStyle: data.datasets[0].backgroundColor[i],
-                  strokeStyle: data.datasets[0].borderColor,
-                  lineWidth: data.datasets[0].borderWidth,
-                  hidden: isNaN(data.datasets[0].data[i]) || data.datasets[0].data[i] === 0,
-                  index: i
-                }));
-              }
-            }
+            display: false
           },
           tooltip: {
             backgroundColor: '#1f2833',
