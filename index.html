@@ -7,8 +7,10 @@
   <title>HAIP Token - Official Site</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <!-- Adăugare Web3.js CDN -->
+  <!-- Web3.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
+  <!-- Web3Modal CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@web3modal/standalone@2.4.1/dist/index.min.js"></script>
   <style>
     html {
       scroll-behavior: smooth;
@@ -296,6 +298,35 @@
     .staking-input.hidden {
       display: none;
     }
+    /* Transaction Ticker Styles */
+    .transaction-ticker {
+      background: rgba(31, 40, 51, 0.7);
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 20px;
+      overflow: hidden;
+      position: relative;
+      height: 40px;
+    }
+    .ticker-container {
+      display: flex;
+      animation: ticker 30s linear infinite;
+    }
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      padding: 0 20px;
+      color: #0ff0fc;
+      font-size: 14px;
+    }
+    .ticker-item span {
+      margin-right: 10px;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
     @media (max-width: 600px) {
       .staking-actions {
         flex-direction: column;
@@ -306,6 +337,10 @@
       }
       .staking-input input {
         width: 100%;
+      }
+      .ticker-item {
+        font-size: 12px;
+        padding: 0 10px;
       }
     }
   </style>
@@ -484,6 +519,9 @@
           <button class="btn" id="buyBtn" disabled>Buy HAIP</button>
           <button class="btn" id="transferBtn" disabled>Transfer</button>
         </div>
+        <div class="transaction-ticker">
+          <div class="ticker-container" id="tickerContainer"></div>
+        </div>
       </div>
     </section>
     <section data-aos="fade-up">
@@ -590,48 +628,62 @@
     const transferAmountInput = document.getElementById('transferAmount');
     const transferAddressInput = document.getElementById('transferAddress');
     const buyAmountInput = document.getElementById('buyAmount');
+    const tickerContainer = document.getElementById('tickerContainer');
 
     // Contract details
     const HAIP_ADDRESS = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
-    const USDT_ADDRESS = '0x55d398326f99059ff775485246999027b3197955'; // USDT BEP-20
+    const USDT_ADDRESS = '0x55d398326f99059ff775485246999027b3197955';
+    const PRESALE_ADDRESS = '0xYOUR_PRESALE_CONTRACT_ADDRESS'; // Replace with deployed presale contract address
     const FOUNDER_ADDRESS = '0xD82D9eB1C0D36fBEA8e48898B5e4B88Ae82011De';
     const HAIP_ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[{"internalType":"address","name":"ownerAddr","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}];
     const USDT_ABI = [{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"}];
+    const PRESALE_ABI = [{"inputs":[{"internalType":"address","name":"_usdtToken","type":"address"},{"internalType":"address","name":"_haipToken","type":"address"},{"internalType":"address","name":"_founderAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"buyer","type":"address"},{"indexed":false,"internalType":"uint256","name":"usdtAmount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"haipAmount","type":"uint256"}],"name":"Purchase","type":"event"},{"inputs":[{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"buyHAIP","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"contributions","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"founderAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"haipToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"tokenAddress","type":"address"}],"name":"recoverTokens","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalContributed","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdtToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"}];
 
     // Presale Stage 1 details
     const PRICE_PER_HAIP = 0.0036; // USDT per HAIP
     const MIN_USDT = 9.72; // Min per user
     const MAX_USDT = 194.4; // Max per user
 
+    // Web3Modal configuration
+    const web3Modal = new Web3Modal.default({
+      providerOptions: {
+        walletconnect: {
+          package: true,
+          options: {
+            infuraId: 'YOUR_INFURA_PROJECT_ID', // Replace with your Infura or Alchemy Project ID
+            rpc: {
+              56: 'https://bsc-dataseed.binance.org/'
+            },
+            chainId: 56
+          }
+        }
+      }
+    });
+
     // Initialize Web3
     let web3;
     let haipContract;
     let usdtContract;
+    let presaleContract;
     let connectedAddress = null;
-    const initWeb3 = async () => {
-      if (window.ethereum) {
-        web3 = new Web3(window.ethereum);
-        haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
-        usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-        return true;
-      } else if (window.web3) {
-        web3 = new Web3(window.web3.currentProvider);
-        haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
-        usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-        return true;
-      } else {
-        walletStatus.textContent = 'Please install a wallet (MetaMask, Trust Wallet, or Wigwam)';
-        return false;
-      }
+    let provider;
+    const transactions = []; // Store last 10 transactions
+
+    const initWeb3 = async (web3Provider) => {
+      web3 = new Web3(web3Provider);
+      haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
+      usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+      presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
+      return true;
     };
 
     // Detect wallet type
     const detectWalletType = () => {
-      if (window.ethereum?.isMetaMask) {
+      if (provider?.isMetaMask) {
         return 'MetaMask';
-      } else if (window.trustwallet) {
+      } else if (provider?.isTrust) {
         return 'Trust Wallet';
-      } else if (window.ethereum) {
+      } else if (provider) {
         return 'Wigwam or other wallet';
       }
       return 'Unknown wallet';
@@ -647,22 +699,35 @@
       return true;
     };
 
-    // Connect wallet and fetch balance
+    // Update transaction ticker
+    const updateTicker = () => {
+      tickerContainer.innerHTML = '';
+      transactions.forEach(tx => {
+        const item = document.createElement('div');
+        item.className = 'ticker-item';
+        item.innerHTML = `<span>Buyer: ${tx.buyer.slice(0, 6)}...${tx.buyer.slice(-4)}</span>
+                         <span>USDT: ${tx.usdtAmount.toFixed(2)}</span>
+                         <span>HAIP: ${tx.haipAmount.toFixed(6)}</span>`;
+        tickerContainer.appendChild(item);
+      });
+    };
+
+    // Connect wallet
     const connectWallet = async () => {
       connectWalletBtn.classList.add('loading');
       connectWalletBtn.disabled = true;
 
       try {
-        if (!await initWeb3()) {
-          throw new Error('No wallet provider detected');
-        }
+        // Open Web3Modal
+        provider = await web3Modal.connect();
+        await initWeb3(provider);
 
         if (!await checkNetwork()) {
           throw new Error('Wrong network');
         }
 
         // Request account access
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const accounts = await web3.eth.getAccounts();
         if (accounts.length === 0) {
           throw new Error('No accounts authorized');
         }
@@ -682,11 +747,30 @@
         transferBtn.disabled = false;
         buyBtn.disabled = false;
 
+        // Listen for presale purchase events
+        presaleContract.events.Purchase({ fromBlock: 'latest' })
+          .on('data', event => {
+            const usdtAmount = parseFloat(web3.utils.fromWei(event.returnValues.usdtAmount, 'mwei')); // USDT 6 decimals
+            const haipAmount = parseFloat(web3.utils.fromWei(event.returnValues.haipAmount, 'ether')); // HAIP 18 decimals
+            transactions.unshift({
+              buyer: event.returnValues.buyer,
+              usdtAmount: usdtAmount,
+              haipAmount: haipAmount
+            });
+            if (transactions.length > 10) {
+              transactions.pop();
+            }
+            updateTicker();
+          })
+          .on('error', error => {
+            console.error('Error listening to Purchase events:', error);
+          });
+
         // Handle account or chain changes
-        window.ethereum.on('accountsChanged', () => {
+        provider.on('accountsChanged', () => {
           disconnectWallet();
         });
-        window.ethereum.on('chainChanged', () => {
+        provider.on('chainChanged', () => {
           disconnectWallet();
         });
       } catch (error) {
@@ -701,6 +785,8 @@
     // Disconnect wallet
     const disconnectWallet = () => {
       connectedAddress = null;
+      provider = null;
+      web3 = null;
       walletStatus.textContent = 'Wallet not connected';
       walletBalance.textContent = 'Balance: -- HAIP';
       connectWalletBtn.classList.remove('hidden');
@@ -712,6 +798,7 @@
       transferAmountInput.value = '';
       transferAddressInput.value = '';
       buyAmountInput.value = '';
+      web3Modal.clearCachedProvider();
     };
 
     // Buy HAIP with USDT
@@ -722,7 +809,7 @@
         buyBtn.disabled = true;
 
         try {
-          if (!web3 || !usdtContract || !connectedAddress) {
+          if (!web3 || !presaleContract || !usdtContract || !connectedAddress) {
             throw new Error('Wallet not connected');
           }
 
@@ -730,22 +817,39 @@
           if (!amountUSDT || amountUSDT < MIN_USDT || amountUSDT > MAX_USDT) {
             throw new Error(`Amount must be between ${MIN_USDT} and ${MAX_USDT} USDT`);
           }
+          if (amountUSDT * 100 % 1 !== 0) {
+            throw new Error('Amount must be a multiple of 0.01 USDT');
+          }
 
           // Check USDT balance
           const usdtBalance = await usdtContract.methods.balanceOf(connectedAddress).call();
-          const usdtDecimals = await usdtContract.methods.decimals().call();
-          const formattedUsdtBalance = parseFloat(web3.utils.fromWei(usdtBalance, 'mwei')); // USDT has 6 decimals
+          const formattedUsdtBalance = parseFloat(web3.utils.fromWei(usdtBalance, 'mwei')); // USDT 6 decimals
           if (formattedUsdtBalance < amountUSDT) {
             throw new Error('Insufficient USDT balance');
           }
 
-          // Calculate HAIP amount
-          const haipAmount = amountUSDT / PRICE_PER_HAIP;
-          const usdtWei = web3.utils.toWei(amountUSDT.toString(), 'mwei'); // USDT has 6 decimals
+          // Check contribution limit
+          const contribution = await presaleContract.methods.contributions(connectedAddress).call();
+          const formattedContribution = parseFloat(web3.utils.fromWei(contribution, 'mwei'));
+          if (formattedContribution + amountUSDT > MAX_USDT) {
+            throw new Error('Total contribution exceeds max limit');
+          }
 
-          // Transfer USDT to founder
-          await usdtContract.methods.transfer(FOUNDER_ADDRESS, usdtWei).send({ from: connectedAddress });
-          walletStatus.textContent = `Purchased ${haipAmount.toFixed(6)} HAIP for ${amountUSDT} USDT. Tokens will be distributed by the founder.`;
+          // Approve USDT for presale contract
+          const usdtWei = web3.utils.toWei(amountUSDT.toString(), 'mwei'); // USDT 6 decimals
+          await usdtContract.methods.approve(PRESALE_ADDRESS, usdtWei).send({ from: connectedAddress });
+
+          // Call buyHAIP
+          await presaleContract.methods.buyHAIP(usdtWei).send({ from: connectedAddress });
+
+          // Calculate HAIP amount for display
+          const haipAmount = amountUSDT / PRICE_PER_HAIP;
+
+          // Update HAIP balance
+          const balance = await haipContract.methods.balanceOf(connectedAddress).call();
+          walletBalance.textContent = `Balance: ${parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(6)} HAIP`;
+
+          walletStatus.textContent = `Purchased ${haipAmount.toFixed(6)} HAIP for ${amountUSDT} USDT`;
 
           // Reset input
           buyInput.classList.add('hidden');
@@ -786,13 +890,19 @@
 
           const weiAmount = web3.utils.toWei(amount, 'ether');
 
+          // Check HAIP balance
+          const balance = await haipContract.methods.balanceOf(connectedAddress).call();
+          if (parseFloat(web3.utils.fromWei(balance, 'ether')) < amount) {
+            throw new Error('Insufficient HAIP balance');
+          }
+
           // Call transfer method
           await haipContract.methods.transfer(recipient, weiAmount).send({ from: connectedAddress });
           walletStatus.textContent = `Transferred ${amount} HAIP to ${recipient.slice(0, 6)}...${recipient.slice(-4)}`;
 
           // Refresh balance
-          const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-          walletBalance.textContent = `Balance: ${parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(6)} HAIP`;
+          const newBalance = await haipContract.methods.balanceOf(connectedAddress).call();
+          walletBalance.textContent = `Balance: ${parseFloat(web3.utils.fromWei(newBalance, 'ether')).toFixed(6)} HAIP`;
 
           // Reset inputs
           transferInput.classList.add('hidden');
