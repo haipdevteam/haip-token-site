@@ -287,11 +287,14 @@
       border-radius: 5px;
       background: #1f2833;
       color: #f8f8f8;
-      width: 200px;
+      width: 300px;
       margin: 0 auto;
     }
     .staking-input input::placeholder {
       color: #a0a0a0;
+    }
+    .staking-input.hidden {
+      display: none;
     }
     @media (max-width: 600px) {
       .staking-actions {
@@ -468,13 +471,13 @@
       <div class="staking-dashboard">
         <div class="staking-status" id="walletStatus">Wallet not connected</div>
         <div class="staking-balance" id="walletBalance">Balance: -- HAIP</div>
-        <div class="staking-input">
-          <input type="number" id="approveAmount" placeholder="Amount to approve (HAIP)" min="0" step="0.000000000000000001">
+        <div class="staking-input" id="transferInput" class="hidden">
           <input type="number" id="transferAmount" placeholder="Amount to transfer (HAIP)" min="0" step="0.000000000000000001">
+          <input type="text" id="transferAddress" placeholder="Recipient contract address (0x...)">
         </div>
         <div class="staking-actions">
           <button class="btn" id="connectWalletBtn">Connect Wallet</button>
-          <button class="btn" id="approveBtn" disabled>Approve</button>
+          <button class="btn hidden" id="disconnectWalletBtn">Disconnect Wallet</button>
           <button class="btn" id="transferBtn" disabled>Transfer</button>
         </div>
       </div>
@@ -575,20 +578,20 @@
     const walletStatus = document.getElementById('walletStatus');
     const walletBalance = document.getElementById('walletBalance');
     const connectWalletBtn = document.getElementById('connectWalletBtn');
-    const approveBtn = document.getElementById('approveBtn');
+    const disconnectWalletBtn = document.getElementById('disconnectWalletBtn');
     const transferBtn = document.getElementById('transferBtn');
-    const approveAmountInput = document.getElementById('approveAmount');
+    const transferInput = document.getElementById('transferInput');
     const transferAmountInput = document.getElementById('transferAmount');
+    const transferAddressInput = document.getElementById('transferAddress');
 
     // Contract details
     const HAIP_ADDRESS = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
     const HAIP_ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[{"internalType":"address","name":"ownerAddr","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}];
-    // Temporary staking contract address (replace with actual address)
-    const STAKING_CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000';
 
     // Initialize Web3
     let web3;
     let haipContract;
+    let connectedAddress = null;
     const initWeb3 = async () => {
       if (window.ethereum) {
         web3 = new Web3(window.ethereum);
@@ -647,26 +650,25 @@
         }
 
         const walletType = detectWalletType();
-        const address = accounts[0];
+        connectedAddress = accounts[0];
 
         // Fetch HAIP balance
-        const balance = await haipContract.methods.balanceOf(address).call();
+        const balance = await haipContract.methods.balanceOf(connectedAddress).call();
         const formattedBalance = web3.utils.fromWei(balance, 'ether');
 
         // Update UI
-        walletStatus.textContent = `Connected with ${walletType}: ${address.slice(0, 6)}...${address.slice(-4)}`;
+        walletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
         walletBalance.textContent = `Balance: ${parseFloat(formattedBalance).toFixed(6)} HAIP`;
-        connectWalletBtn.textContent = 'Wallet Connected';
-        connectWalletBtn.style.opacity = '0.7';
-        approveBtn.disabled = false;
+        connectWalletBtn.classList.add('hidden');
+        disconnectWalletBtn.classList.remove('hidden');
         transferBtn.disabled = false;
 
         // Handle account or chain changes
         window.ethereum.on('accountsChanged', () => {
-          window.location.reload();
+          disconnectWallet();
         });
         window.ethereum.on('chainChanged', () => {
-          window.location.reload();
+          disconnectWallet();
         });
       } catch (error) {
         walletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
@@ -677,71 +679,70 @@
       }
     };
 
-    // Approve tokens
-    const approveTokens = async () => {
-      approveBtn.classList.add('loading');
-      approveBtn.disabled = true;
-
-      try {
-        if (!web3 || !haipContract) {
-          throw new Error('Wallet not connected');
-        }
-
-        const amount = approveAmountInput.value;
-        if (!amount || amount <= 0) {
-          throw new Error('Invalid amount');
-        }
-
-        const accounts = await web3.eth.getAccounts();
-        const weiAmount = web3.utils.toWei(amount, 'ether');
-
-        // Call approve method
-        await haipContract.methods.approve(STAKING_CONTRACT_ADDRESS, weiAmount).send({ from: accounts[0] });
-        walletStatus.textContent = `Approved ${amount} HAIP for staking contract`;
-      } catch (error) {
-        walletStatus.textContent = `Error: ${error.message || 'Approval failed'}`;
-      } finally {
-        approveBtn.classList.remove('loading');
-        approveBtn.disabled = false;
-      }
+    // Disconnect wallet
+    const disconnectWallet = () => {
+      connectedAddress = null;
+      walletStatus.textContent = 'Wallet not connected';
+      walletBalance.textContent = 'Balance: -- HAIP';
+      connectWalletBtn.classList.remove('hidden');
+      disconnectWalletBtn.classList.add('hidden');
+      transferBtn.disabled = true;
+      transferInput.classList.add('hidden');
+      transferAmountInput.value = '';
+      transferAddressInput.value = '';
     };
 
     // Transfer tokens
     const transferTokens = async () => {
-      transferBtn.classList.add('loading');
-      transferBtn.disabled = true;
+      if (!transferInput.classList.contains('hidden')) {
+        // Process transfer
+        transferBtn.classList.add('loading');
+        transferBtn.disabled = true;
 
-      try {
-        if (!web3 || !haipContract) {
-          throw new Error('Wallet not connected');
+        try {
+          if (!web3 || !haipContract || !connectedAddress) {
+            throw new Error('Wallet not connected');
+          }
+
+          const amount = transferAmountInput.value;
+          const recipient = transferAddressInput.value;
+
+          if (!amount || amount <= 0) {
+            throw new Error('Invalid amount');
+          }
+          if (!web3.utils.isAddress(recipient)) {
+            throw new Error('Invalid recipient address');
+          }
+
+          const weiAmount = web3.utils.toWei(amount, 'ether');
+
+          // Call transfer method
+          await haipContract.methods.transfer(recipient, weiAmount).send({ from: connectedAddress });
+          walletStatus.textContent = `Transferred ${amount} HAIP to ${recipient.slice(0, 6)}...${recipient.slice(-4)}`;
+
+          // Refresh balance
+          const balance = await haipContract.methods.balanceOf(connectedAddress).call();
+          walletBalance.textContent = `Balance: ${parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(6)} HAIP`;
+
+          // Reset inputs
+          transferInput.classList.add('hidden');
+          transferAmountInput.value = '';
+          transferAddressInput.value = '';
+        } catch (error) {
+          walletStatus.textContent = `Error: ${error.message || 'Transfer failed'}`;
+        } finally {
+          transferBtn.classList.remove('loading');
+          transferBtn.disabled = false;
         }
-
-        const amount = transferAmountInput.value;
-        if (!amount || amount <= 0) {
-          throw new Error('Invalid amount');
-        }
-
-        const accounts = await web3.eth.getAccounts();
-        const weiAmount = web3.utils.toWei(amount, 'ether');
-
-        // Call transfer method
-        await haipContract.methods.transfer(STAKING_CONTRACT_ADDRESS, weiAmount).send({ from: accounts[0] });
-        walletStatus.textContent = `Transferred ${amount} HAIP to staking contract`;
-
-        // Refresh balance
-        const balance = await haipContract.methods.balanceOf(accounts[0]).call();
-        walletBalance.textContent = `Balance: ${parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(6)} HAIP`;
-      } catch (error) {
-        walletStatus.textContent = `Error: ${error.message || 'Transfer failed'}`;
-      } finally {
-        transferBtn.classList.remove('loading');
-        transferBtn.disabled = false;
+      } else {
+        // Show transfer inputs
+        transferInput.classList.remove('hidden');
       }
     };
 
     // Event listeners
     connectWalletBtn.addEventListener('click', connectWallet);
-    approveBtn.addEventListener('click', approveTokens);
+    disconnectWalletBtn.addEventListener('click', disconnectWallet);
     transferBtn.addEventListener('click', transferTokens);
   </script>
 </body>
