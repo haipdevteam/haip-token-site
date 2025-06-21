@@ -77,6 +77,16 @@
       cursor: pointer;
       margin-top: 10px;
       display: inline-block;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .btn:hover {
+      background: #0ff0fc;
+      transform: scale(1.05);
+    }
+    .btn:disabled {
+      background: #4a6360;
+      cursor: not-allowed;
+      opacity: 0.7;
     }
     .partner-logo {
       transition: transform 0.5s ease, filter 0.5s ease;
@@ -213,6 +223,45 @@
     .tokenomics-container .chart-legend {
       margin-left: 10px;
       font-size: 24px;
+    }
+    /* Staking Dashboard Styles */
+    .staking-dashboard {
+      background: rgba(31, 40, 51, 0.9);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 249, 255, 0.2);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .staking-dashboard h2 {
+      color: #66fcf1;
+      margin-bottom: 15px;
+    }
+    .staking-status {
+      font-size: 18px;
+      color: #f0f0f0;
+      margin-bottom: 15px;
+    }
+    .staking-balance {
+      font-size: 24px;
+      color: #0ff0fc;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #0ff0fc;
+    }
+    .staking-actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 600px) {
+      .staking-actions {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .staking-actions .btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -372,6 +421,18 @@
       </div>
       <a class="btn" href="#contact">Join Presale</a>
     </section>
+    <section data-aos="fade-up" data-aos-delay="200">
+      <h2>HAIP Staking (Dashboard)</h2>
+      <div class="staking-dashboard">
+        <div class="staking-status" id="walletStatus">Wallet not connected</div>
+        <div class="staking-balance" id="walletBalance">Balance: -- HAIP</div>
+        <div class="staking-actions">
+          <button class="btn" id="connectWalletBtn">Connect Wallet</button>
+          <button class="btn" id="approveBtn" disabled>Approve</button>
+          <button class="btn" id="transferBtn" disabled>Transfer</button>
+        </div>
+      </div>
+    </section>
     <section data-aos="fade-up">
       <h2>Contact Us</h2>
       <p>Join our community or reach out for inquiries and collaborations.</p>
@@ -429,7 +490,7 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Tokenomics chart with legend on the left and adjusted spacing
+    // Tokenomics chart
     const ctx = document.getElementById('tokenomicsChart').getContext('2d');
     new Chart(ctx, {
       type: 'doughnut',
@@ -450,9 +511,7 @@
           animateRotate: true
         },
         plugins: {
-          legend: {
-            display: false
-          },
+          legend: { display: false },
           tooltip: {
             backgroundColor: '#1f2833',
             titleColor: '#fff',
@@ -464,6 +523,34 @@
           }
         }
       }
+    });
+
+    // Staking Dashboard Logic
+    const walletStatus = document.getElementById('walletStatus');
+    const walletBalance = document.getElementById('walletBalance');
+    const connectWalletBtn = document.getElementById('connectWalletBtn');
+    const approveBtn = document.getElementById('approveBtn');
+    const transferBtn = document.getElementById('transferBtn');
+
+    // Simulate wallet connection (replace with actual Web3.js integration in production)
+    connectWalletBtn.addEventListener('click', () => {
+      // Simulating wallet connection
+      walletStatus.textContent = 'Wallet connected';
+      walletBalance.textContent = 'Balance: 1234.56 HAIP'; // Example balance
+      connectWalletBtn.disabled = true;
+      connectWalletBtn.style.opacity = '0.7';
+      approveBtn.disabled = false;
+      transferBtn.disabled = false;
+    });
+
+    approveBtn.addEventListener('click', () => {
+      alert('Approval transaction initiated (simulated).');
+      // In production, integrate with smart contract for approval
+    });
+
+    transferBtn.addEventListener('click', () => {
+      alert('Transfer transaction initiated (simulated).');
+      // In production, integrate with smart contract for transfer
     });
   </script>
 </body>
