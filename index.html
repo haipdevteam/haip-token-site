@@ -7,7 +7,6 @@
   <title>HAIP Token - Official Site</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <!-- Adaugare Web3.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
   <style>
     html {
@@ -78,6 +77,7 @@
       text-transform: uppercase;
       cursor: pointer;
       margin-top: 10px;
+      margin-right: 10px;
       display: inline-block;
       transition: background 0.3s ease, transform 0.3s ease;
       position: relative;
@@ -244,7 +244,6 @@
       margin-left: 10px;
       font-size: 24px;
     }
-    /* Staking Dashboard Styles */
     .staking-dashboard {
       background: rgba(31, 40, 51, 0.9);
       border-radius: 10px;
@@ -323,6 +322,8 @@
       <h2>About HAIP</h2>
       <p>HAIP is a BEP-20 token on Binance Smart Chain designed to fund and integrate artificial intelligence with decentralized finance (DeFi) and Web3 ecosystems. Leveraging smart contracts, Chainlink oracles, and IPFS storage, HAIP empowers AI-driven dApps and community governance through a decentralized DAO.</p>
       <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">Buy on PancakeSwap</a>
+      <a class="btn" href="#staking">Join Presale</a>
+      <a class="btn" href="#staking">HAIP Staking</a>
     </section>
     <section data-aos="fade-up">
       <h2>Token Details</h2>
@@ -464,9 +465,8 @@
         <p>Min per user: <strong>32.36 USDT</strong> (333 HAIP)</p>
         <p>Max per user: <strong>2,361.96 USDT</strong> (24,300 HAIP)</p>
       </div>
-      <a class="btn" href="#contact">Join Presale</a>
     </section>
-    <section data-aos="fade-up" data-aos-delay="200">
+    <section id="staking" data-aos="fade-up" data-aos-delay="200">
       <h2>HAIP Staking (Dashboard)</h2>
       <div class="staking-dashboard">
         <div class="staking-status" id="walletStatus">Wallet not connected</div>
