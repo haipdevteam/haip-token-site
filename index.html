@@ -11,6 +11,7 @@
   <style>
     html {
       scroll-behavior: smooth;
+      overflow-x: hidden;
     }
     body {
       font-family: 'Orbitron', sans-serif;
@@ -19,6 +20,8 @@
       color: #f8f8f8;
       margin: 0;
       padding: 0;
+      min-width: 100%;
+      overflow-x: hidden;
     }
     header {
       background: rgba(31, 40, 51, 0.85);
@@ -29,12 +32,13 @@
     header h1 {
       color: #66fcf1;
       margin: 0;
+      font-size: 1.8rem;
     }
     .logo-fixed {
       position: fixed;
       top: 25px;
       left: 25px;
-      height: 150px;
+      height: 100px;
       z-index: 999;
       cursor: pointer;
       transition: transform 0.3s ease;
@@ -43,7 +47,7 @@
       transform: scale(1.1);
     }
     main {
-      padding: 40px;
+      padding: 20px;
       max-width: 900px;
       margin: auto;
       background-color: rgba(15, 32, 39, 0.8);
@@ -56,6 +60,7 @@
     h2 {
       color: #45a29e;
       margin-bottom: 10px;
+      font-size: 1.5rem;
     }
     a {
       color: #66fcf1;
@@ -70,7 +75,7 @@
     .btn {
       background: #66fcf1;
       color: #0b0c10;
-      padding: 10px 20px;
+      padding: 12px 24px;
       border: none;
       border-radius: 5px;
       font-weight: bold;
@@ -81,6 +86,9 @@
       display: inline-block;
       transition: background 0.3s ease, transform 0.3s ease;
       position: relative;
+      font-size: 1rem;
+      min-width: 120px;
+      touch-action: manipulation;
     }
     .btn:hover {
       background: #0ff0fc;
@@ -145,13 +153,13 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      gap: 30px;
-      padding: 40px 20px;
+      gap: 20px;
+      padding: 20px;
     }
     .presale-stage {
       background: rgba(31, 40, 51, 0.7);
       border-left: 4px solid #66fcf1;
-      padding: 15px 20px;
+      padding: 15px;
       margin-bottom: 10px;
       border-radius: 8px;
       box-shadow: 0 0 15px rgba(0, 249, 255, 0.1);
@@ -167,27 +175,30 @@
     .presale-stage h3 {
       margin-top: 0;
       color: #0ff0fc;
+      font-size: 1.2rem;
     }
     .presale-stage p {
       margin: 5px 0;
       color: #f0f0f0;
+      font-size: 0.9rem;
     }
     .countdown {
       text-align: center;
-      font-size: 28px;
+      font-size: 1.5rem;
       color: #0ff0fc;
       margin: 20px auto;
       font-weight: bold;
       text-shadow: 0 0 15px #0ff0fc;
       border: 2px solid #0ff0fc;
       border-radius: 10px;
-      padding: 20px;
+      padding: 15px;
       width: fit-content;
       background: rgba(0, 255, 255, 0.05);
       animation: glowPulse 2s ease-in-out infinite;
     }
     .newsletter-form {
       display: flex;
+      flex-direction: column;
       gap: 10px;
       margin-top: 10px;
     }
@@ -197,6 +208,8 @@
       border-radius: 5px;
       background: #1f2833;
       color: #f8f8f8;
+      width: 100%;
+      box-sizing: border-box;
     }
     .newsletter-form button {
       background: #66fcf1;
@@ -208,9 +221,9 @@
     }
     .tokenomics-container {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      gap: 20px;
+      gap: 15px;
       margin: 10px 0;
     }
     @keyframes floatLogo {
@@ -231,8 +244,9 @@
     }
     canvas#tokenomicsChart {
       display: block;
-      max-width: 400px;
-      margin: 0;
+      max-width: 300px;
+      width: 100%;
+      margin: 0 auto;
     }
     .tokenomics-section p:last-child {
       margin-bottom: 5px;
@@ -241,13 +255,17 @@
       margin-top: 5px;
     }
     .tokenomics-container .chart-legend {
-      margin-left: 10px;
-      font-size: 24px;
+      font-size: 1rem;
+      text-align: center;
+      padding: 0 10px;
+    }
+    .tokenomics-container .chart-legend p {
+      margin: 5px 0;
     }
     .staking-dashboard, .presale-dashboard {
       background: rgba(31, 40, 51, 0.9);
       border-radius: 10px;
-      padding: 20px;
+      padding: 15px;
       box-shadow: 0 0 20px rgba(0, 249, 255, 0.2);
       text-align: center;
       margin-bottom: 20px;
@@ -255,15 +273,16 @@
     .staking-dashboard h2, .presale-dashboard h2 {
       color: #66fcf1;
       margin-bottom: 15px;
+      font-size: 1.5rem;
     }
     .staking-status, .presale-status {
-      font-size: 18px;
+      font-size: 1rem;
       color: #f0f0f0;
       margin-bottom: 15px;
       word-break: break-word;
     }
     .staking-balance, .presale-limits {
-      font-size: 24px;
+      font-size: 1.2rem;
       color: #0ff0fc;
       margin-bottom: 20px;
       text-shadow: 0 0 10px #0ff0fc;
@@ -286,8 +305,10 @@
       border-radius: 5px;
       background: #1f2833;
       color: #f8f8f8;
-      width: 300px;
+      width: 100%;
+      max-width: 300px;
       margin: 0 auto;
+      box-sizing: border-box;
     }
     .staking-input input::placeholder, .presale-input input::placeholder {
       color: #a0a0a0;
@@ -296,15 +317,65 @@
       display: none;
     }
     @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+      .logo-fixed {
+        height: 80px;
+        top: 15px;
+        left: 15px;
+      }
+      main {
+        padding: 15px;
+      }
+      .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 100px;
+      }
+      .presale-stage h3 {
+        font-size: 1rem;
+      }
+      .presale-stage p {
+        font-size: 0.8rem;
+      }
+      .countdown {
+        font-size: 1.2rem;
+        padding: 10px;
+      }
+      .tokenomics-container {
+        flex-direction: column;
+        gap: 10px;
+      }
+      canvas#tokenomicsChart {
+        max-width: 250px;
+      }
+      .tokenomics-container .chart-legend {
+        font-size: 0.9rem;
+      }
+      .staking-dashboard, .presale-dashboard {
+        padding: 10px;
+      }
+      .staking-status, .presale-status {
+        font-size: 0.9rem;
+      }
+      .staking-balance, .presale-limits {
+        font-size: 1rem;
+      }
       .staking-actions, .presale-actions {
         flex-direction: column;
         gap: 10px;
       }
       .staking-actions .btn, .presale-actions .btn {
         width: 100%;
+        max-width: 300px;
       }
       .staking-input input, .presale-input input {
         width: 100%;
+        max-width: none;
       }
     }
   </style>
@@ -570,6 +641,7 @@
       },
       options: {
         responsive: true,
+        maintainAspectRatio: true,
         animation: {
           animateScale: true,
           animateRotate: true
@@ -614,25 +686,29 @@
     const HAIP_ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[{"internalType":"address","name":"ownerAddr","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}];
     const USDT_ABI = [{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
 
-    // Initialize Web3
+    // Initialize Web3 with mobile support
     let web3;
     let haipContract;
     let usdtContract;
     let connectedAddress = null;
     const initWeb3 = async () => {
-      if (window.ethereum) {
-        web3 = new Web3(window.ethereum);
-        haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
-        usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-        return true;
-      } else if (window.web3) {
-        web3 = new Web3(window.web3.currentProvider);
-        haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
-        usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-        return true;
+      // Check for mobile wallet providers
+      if (window.ethereum || window.web3) {
+        try {
+          // Wait for wallet provider to be available (mobile wallets may take a moment)
+          await new Promise(resolve => setTimeout(resolve, 500));
+          web3 = window.ethereum ? new Web3(window.ethereum) : new Web3(window.web3.currentProvider);
+          haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
+          usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+          return true;
+        } catch (error) {
+          walletStatus.textContent = 'Error initializing wallet. Please ensure your wallet app is active.';
+          presaleWalletStatus.textContent = 'Error initializing wallet. Please ensure your wallet app is active.';
+          return false;
+        }
       } else {
-        walletStatus.textContent = 'Please install a wallet (MetaMask, Trust Wallet, or Wigwam)';
-        presaleWalletStatus.textContent = 'Please install a wallet (MetaMask, Trust Wallet, or Wigwam)';
+        walletStatus.textContent = 'Please install a wallet (MetaMask, Trust Wallet, or another Web3 wallet)';
+        presaleWalletStatus.textContent = 'Please install a wallet (MetaMask, Trust Wallet, or another Web3 wallet)';
         return false;
       }
     };
@@ -641,23 +717,29 @@
     const detectWalletType = () => {
       if (window.ethereum?.isMetaMask) {
         return 'MetaMask';
-      } else if (window.trustwallet) {
+      } else if (window.ethereum?.isTrust) {
         return 'Trust Wallet';
       } else if (window.ethereum) {
-        return 'Wigwam or other wallet';
+        return 'Web3 Wallet';
       }
       return 'Unknown wallet';
     };
 
     // Check if connected to Binance Smart Chain (chain ID: 56)
     const checkNetwork = async () => {
-      const chainId = await web3.eth.getChainId();
-      if (chainId !== 56) {
-        walletStatus.textContent = 'Please switch to Binance Smart Chain';
-        presaleWalletStatus.textContent = 'Please switch to Binance Smart Chain';
+      try {
+        const chainId = await web3.eth.getChainId();
+        if (chainId !== 56) {
+          walletStatus.textContent = 'Please switch to Binance Smart Chain';
+          presaleWalletStatus.textContent = 'Please switch to Binance Smart Chain';
+          return false;
+        }
+        return true;
+      } catch (error) {
+        walletStatus.textContent = 'Error checking network. Please ensure your wallet is connected.';
+        presaleWalletStatus.textContent = 'Error checking network. Please ensure your wallet is connected.';
         return false;
       }
-      return true;
     };
 
     // Connect wallet and fetch balance
@@ -781,7 +863,7 @@
           presaleWalletStatus.textContent = `Error: ${error.message || 'Transfer failed'}`;
         } finally {
           transferBtn.classList.remove('loading');
-          transferBtn.disabled = false;
+          transferBtn.disabled = connectedAddress ? false : true;
         }
       } else {
         // Show transfer inputs
@@ -807,8 +889,8 @@
           const pricePerHaip = 0.0036; // USDT per HAIP for Stage 1
 
           // Validate input
-          if (isNaN(usdtAmount)) {
-            throw new Error('Please enter a valid number');
+          if (isNaN(usdtAmount) || usdtAmount <= 0) {
+            throw new Error('Please enter a valid positive number');
           }
           if (usdtAmount < minUsdt || usdtAmount > maxUsdt) {
             throw new Error(`Amount must be between ${minUsdt} and ${maxUsdt} USDT`);
@@ -842,7 +924,7 @@
           presaleWalletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
         } finally {
           purchaseBtn.classList.remove('loading');
-          purchaseBtn.disabled = connectedAddress ? false : true; // Re-enable only if wallet is connected
+          purchaseBtn.disabled = connectedAddress ? false : true;
         }
       } else {
         // Show purchase input
