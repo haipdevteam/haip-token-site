@@ -71,6 +71,7 @@
       padding: 10px;
       border-radius: 5px;
       word-break: break-word;
+      min-width: 300px; /* Ajustat pentru a se potrivi lungimii adresei contractului */
     }
     .btn {
       background: #66fcf1;
@@ -231,11 +232,17 @@
       border-radius: 10px;
       text-align: center;
       color: #f8f8f8;
+      border: 2px solid #1f2833; /* Bordură inițială invizibilă */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .token-details div strong {
       color: #66fcf1;
       display: block;
       margin-bottom: 5px;
+    }
+    .token-details div:hover {
+      border-color: #0ff0fc; /* Schimbă culoarea bordurii la hover */
+      box-shadow: 0 0 15px #0ff0fc, 0 0 30px rgba(0, 255, 252, 0.5); /* Efect luminos */
     }
     @keyframes floatLogo {
       0%, 100% { transform: translateY(0); }
@@ -435,7 +442,7 @@
         </div>
         <div>
           <strong>Contract</strong>
-          0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29
+          <div class="contract">0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29</div>
         </div>
       </div>
     </section>
