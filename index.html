@@ -8,9 +8,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <!-- Web3Modal Multi-Wallet Connect -->
-  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
-  <script src="https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <script src="https://unpkg.com/web3modal@1.9.12/dist/index.js"></script>
+<script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
+<script src="https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script src="https://unpkg.com/web3modal@1.9.12/dist/index.js"></script>
   <style>
     html {
       scroll-behavior: smooth;
@@ -746,53 +746,142 @@
     const HAIP_ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[{"internalType":"address","name":"ownerAddr","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}];
     const USDT_ABI = [{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
 
-    // Initialize Web3Modal
-    let provider;
-    let web3Modal;
-    let selectedProvider;
+    // Initialize Web3 with enhanced mobile support
+    let web3;
+    let haipContract;
+    let usdtContract;
+    let connectedAddress = null;
+    const initWeb3 = async () => {
+      let attempts = 0;
+      const maxAttempts = 15;
+      const retryDelay = 2000;
 
-    async function initWeb3() {
-      const providerOptions = {
-        walletconnect: {
-          package: window.WalletConnectProvider.default,
-          options: {
-            rpc: {
-              56: "https://bsc-dataseed.binance.org/" // BSC mainnet
-            }
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+      while (attempts < maxAttempts) {
+        if (window.ethereum) {
+          try {
+            web3 = new Web3(window.ethereum);
+            haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
+            usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+            return true;
+          } catch (error) {
+            console.error('Web3 initialization error:', error);
+            attempts++;
+            await new Promise(resolve => setTimeout(resolve, retryDelay));
           }
+        } else if (window.web3) {
+          try {
+            web3 = new Web3(window.web3.currentProvider);
+            haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
+            usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+            return true;
+          } catch (error) {
+            console.error('Legacy Web3 initialization error:', error);
+            attempts++;
+            await new Promise(resolve => setTimeout(resolve, retryDelay));
+          }
+        } else {
+          attempts++;
+          await new Promise(resolve => setTimeout(resolve, retryDelay));
         }
-      };
+      }
 
-      web3Modal = new window.Web3Modal.default({
-        cacheProvider: false,
-        providerOptions,
-        theme: "dark"
-      });
-    }
+      const errorMessage = isMobile
+        ? 'No wallet provider detected. Please open your wallet app (e.g., <a href="metamask://">MetaMask</a> or <a href="trustwallet://">Trust Wallet</a>) or install one from your app store: <a href="https://metamask.io/download" target="_blank">MetaMask</a>, <a href="https://trustwallet.com/download" target="_blank">Trust Wallet</a>.'
+        : 'No wallet provider detected. Please install a wallet like <a href="https://metamask.io/download" target="_blank">MetaMask</a> or <a href="https://trustwallet.com/download" target="_blank">Trust Wallet</a>.';
+
+      walletStatus.innerHTML = errorMessage;
+      presaleWalletStatus.innerHTML = errorMessage;
+      return false;
+    };
 
     // Detect wallet type
-    function detectWalletType() {
-      if (!selectedProvider) return 'Unknown';
-      if (selectedProvider.isMetaMask) return 'MetaMask';
-      if (selectedProvider.isTrust) return 'Trust Wallet';
-      if (selectedProvider.isWalletConnect) return 'WalletConnect';
-      return 'Web3 Wallet';
-    }
+    const detectWalletType = () => {
+      if (window.ethereum?.isMetaMask) {
+        return 'MetaMask';
+      } else if (window.ethereum?.isTrust) {
+        return 'Trust Wallet';
+      } else if (window.ethereum?.isCoinbaseWallet) {
+        return 'Coinbase Wallet';
+      } else if (window.ethereum) {
+        return 'Web3 Wallet';
+      } else if (window.web3) {
+        return 'Legacy Web3 Wallet';
+      }
+      return 'Unknown Wallet';
+    };
 
-    // Connect wallet with Web3Modal
-    async function connectWallet() {
+    // Check if connected to Binance Smart Chain (chain ID: 56)
+    const checkNetwork = async () => {
       try {
-        await initWeb3();
+        const chainId = await web3.eth.getChainId();
+        if (chainId !== 56) {
+          walletStatus.textContent = 'Please switch to Binance Smart Chain in your wallet app.';
+          presaleWalletStatus.textContent = 'Please switch to Binance Smart Chain in your wallet app.';
+          try {
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: '0x38' }],
+            });
+            return true;
+          } catch (switchError) {
+            if (switchError.code === 4902) {
+              await window.ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [{
+                  chainId: '0x38',
+                  chainName: 'Binance Smart Chain',
+                  nativeCurrency: {
+                    name: 'BNB',
+                    symbol: 'BNB',
+                    decimals: 18
+                  },
+                  rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                  blockExplorerUrls: ['https://bscscan.com']
+                }]
+              });
+              return true;
+            }
+            walletStatus.textContent = 'Failed to switch to Binance Smart Chain. Please set it manually in your wallet.';
+            presaleWalletStatus.textContent = 'Failed to switch to Binance Smart Chain. Please set it manually in your wallet.';
+            return false;
+          }
+        }
+        return true;
+      } catch (error) {
+        walletStatus.textContent = 'Error checking network. Please ensure your wallet app is active.';
+        presaleWalletStatus.textContent = 'Error checking network. Please ensure your wallet app is active.';
+        return false;
+      }
+    };
 
-        selectedProvider = await web3Modal.connect();
-        provider = new ethers.providers.Web3Provider(selectedProvider);
-        const signer = provider.getSigner();
-        connectedAddress = await signer.getAddress();
+    // Connect wallet and fetch balance
+    const connectWallet = async () => {
+      connectWalletBtn.classList.add('loading');
+      presaleConnectWalletBtn.classList.add('loading');
+      connectWalletBtn.disabled = true;
+      presaleConnectWalletBtn.disabled = true;
+
+      try {
+        if (!await initWeb3()) {
+          throw new Error('No wallet provider detected. Please open your wallet app.');
+        }
+
+        if (!await checkNetwork()) {
+          throw new Error('Wrong network');
+        }
+
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        if (accounts.length === 0) {
+          throw new Error('No accounts authorized. Please allow access in your wallet app.');
+        }
 
         const walletType = detectWalletType();
-        const haipWithSigner = new ethers.Contract(HAIP_ADDRESS, HAIP_ABI, signer);
-        const balance = await haipWithSigner.balanceOf(connectedAddress);
-        const formattedBalance = ethers.utils.formatUnits(balance, 18);
+        connectedAddress = accounts[0];
+
+        const balance = await haipContract.methods.balanceOf(connectedAddress).call();
+        const formattedBalance = web3.utils.fromWei(balance, 'ether');
 
         walletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
         presaleWalletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
@@ -804,37 +893,36 @@
         transferBtn.disabled = false;
         purchaseBtn.disabled = false;
 
-        // Event listeners for account and chain changes
-        selectedProvider.on('accountsChanged', async (accounts) => {
-          if (accounts.length === 0) {
+        window.ethereum.on('accountsChanged', (newAccounts) => {
+          if (newAccounts.length === 0) {
             disconnectWallet();
           } else {
-            connectedAddress = accounts[0];
-            await updateWalletUI();
+            connectedAddress = newAccounts[0];
+            updateWalletUI();
           }
         });
-
-        selectedProvider.on('chainChanged', () => {
+        window.ethereum.on('chainChanged', () => {
           disconnectWallet();
         });
-      } catch (err) {
-        walletStatus.textContent = 'Connection failed: ' + (err.message || err);
-        presaleWalletStatus.textContent = 'Connection failed: ' + (err.message || err);
+      } catch (error) {
+        walletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
+        presaleWalletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
+        connectWalletBtn.textContent = 'Connect Wallet';
+        presaleConnectWalletBtn.textContent = 'Connect Wallet';
       } finally {
         connectWalletBtn.classList.remove('loading');
         presaleConnectWalletBtn.classList.remove('loading');
         connectWalletBtn.disabled = false;
         presaleConnectWalletBtn.disabled = false;
       }
-    }
+    };
 
     // Update wallet UI after account change
-    async function updateWalletUI() {
+    const updateWalletUI = async () => {
       if (connectedAddress) {
         const walletType = detectWalletType();
-        const haipWithSigner = new ethers.Contract(HAIP_ADDRESS, HAIP_ABI, provider.getSigner());
-        const balance = await haipWithSigner.balanceOf(connectedAddress);
-        const formattedBalance = ethers.utils.formatUnits(balance, 18);
+        const balance = await haipContract.methods.balanceOf(connectedAddress).call();
+        const formattedBalance = web3.utils.fromWei(balance, 'ether');
         walletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
         presaleWalletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
         walletBalance.textContent = `Balance: ${parseFloat(formattedBalance).toFixed(6)} HAIP`;
@@ -845,14 +933,10 @@
         transferBtn.disabled = false;
         purchaseBtn.disabled = false;
       }
-    }
+    };
 
     // Disconnect wallet
-    function disconnectWallet() {
-      if (web3Modal) {
-        web3Modal.clearCachedProvider();
-      }
-      selectedProvider = null;
+    const disconnectWallet = () => {
       connectedAddress = null;
       walletStatus.textContent = 'Wallet not connected';
       presaleWalletStatus.textContent = 'Wallet not connected';
@@ -868,16 +952,16 @@
       transferAmountInput.value = '';
       transferAddressInput.value = '';
       purchaseAmountInput.value = '';
-    }
+    };
 
     // Transfer tokens
-    async function transferTokens() {
+    const transferTokens = async () => {
       if (!transferInput.classList.contains('hidden')) {
         transferBtn.classList.add('loading');
         transferBtn.disabled = true;
 
         try {
-          if (!provider || !connectedAddress) {
+          if (!web3 || !haipContract || !connectedAddress) {
             throw new Error('Wallet not connected');
           }
 
@@ -887,21 +971,18 @@
           if (isNaN(amount) || amount <= 0) {
             throw new Error('Invalid amount');
           }
-          if (!ethers.utils.isAddress(recipient)) {
+          if (!web3.utils.isAddress(recipient)) {
             throw new Error('Invalid recipient address');
           }
 
-          const haipWithSigner = new ethers.Contract(HAIP_ADDRESS, HAIP_ABI, provider.getSigner());
-          const weiAmount = ethers.utils.parseUnits(amount.toString(), 18);
+          const weiAmount = web3.utils.toWei(amount.toString(), 'ether');
 
-          const tx = await haipWithSigner.transfer(recipient, weiAmount);
-          await tx.wait();
-
+          await haipContract.methods.transfer(recipient, weiAmount).send({ from: connectedAddress });
           walletStatus.textContent = `Transferred ${amount} HAIP to ${recipient.slice(0, 6)}...${recipient.slice(-4)}`;
           presaleWalletStatus.textContent = `Transferred ${amount} HAIP to ${recipient.slice(0, 6)}...${recipient.slice(-4)}`;
 
-          const balance = await haipWithSigner.balanceOf(connectedAddress);
-          walletBalance.textContent = `Balance: ${parseFloat(ethers.utils.formatUnits(balance, 18)).toFixed(6)} HAIP`;
+          const balance = await haipContract.methods.balanceOf(connectedAddress).call();
+          walletBalance.textContent = `Balance: ${parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(6)} HAIP`;
 
           transferInput.classList.add('hidden');
           transferAmountInput.value = '';
@@ -916,16 +997,16 @@
       } else {
         transferInput.classList.remove('hidden');
       }
-    }
+    };
 
     // Purchase tokens (simulated for Stage 1)
-    async function purchaseTokens() {
+    const purchaseTokens = async () => {
       if (!purchaseInput.classList.contains('hidden')) {
         purchaseBtn.classList.add('loading');
         purchaseBtn.disabled = true;
 
         try {
-          if (!provider || !connectedAddress) {
+          if (!web3 || !haipContract || !usdtContract || !connectedAddress) {
             throw new Error('Wallet not connected');
           }
 
@@ -942,20 +1023,14 @@
           }
 
           const haipAmount = usdtAmount / pricePerHaip;
-          const usdtWeiAmount = ethers.utils.parseUnits(usdtAmount.toString(), 6); // USDT has 6 decimals
-          const haipWeiAmount = ethers.utils.parseUnits(haipAmount.toString(), 18);
+          const usdtWeiAmount = web3.utils.toWei(usdtAmount.toString(), 'mwei');
+          const haipWeiAmount = web3.utils.toWei(haipAmount.toString(), 'ether');
 
-          const usdtWithSigner = new ethers.Contract(USDT_ADDRESS, USDT_ABI, provider.getSigner());
-          const txApprove = await usdtWithSigner.approve(PRESALE_ADDRESS, usdtWeiAmount);
-          await txApprove.wait();
-
-          // Simulate purchase (replace with actual presale contract interaction)
           presaleWalletStatus.textContent = `Purchased ${haipAmount.toFixed(6)} HAIP for ${usdtAmount} USDT`;
           walletStatus.textContent = `Purchased ${haipAmount.toFixed(6)} HAIP for ${usdtAmount} USDT`;
 
-          const haipWithSigner = new ethers.Contract(HAIP_ADDRESS, HAIP_ABI, provider.getSigner());
-          const balance = await haipWithSigner.balanceOf(connectedAddress);
-          walletBalance.textContent = `Balance: ${parseFloat(ethers.utils.formatUnits(balance, 18)).toFixed(6)} HAIP`;
+          const balance = await haipContract.methods.balanceOf(connectedAddress).call();
+          walletBalance.textContent = `Balance: ${parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(6)} HAIP`;
 
           purchaseInput.classList.add('hidden');
           purchaseAmountInput.value = '';
@@ -969,7 +1044,7 @@
       } else {
         purchaseInput.classList.remove('hidden');
       }
-    }
+    };
 
     // Event listeners
     connectWalletBtn.addEventListener('click', connectWallet);
