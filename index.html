@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +8,7 @@
   <title>HAIP Token - Official Site</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <!-- Modern Web3 Modal Setup -->
-<script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
-<script src="https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-<script src="https://unpkg.com/web3modal@1.9.12/dist/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
   <style>
     html {
       scroll-behavior: smooth;
@@ -742,15 +740,157 @@
     // Contract details
     const HAIP_ADDRESS = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
     const USDT_ADDRESS = '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56';
-    const PRESALE_ADDRESS = '0x0000000000000000000000000000000000000000';
+    const PRESALE_ADDRESS = '0xe9fB5E1a36D1dA62776C9B9181735c015467359a';
     const HAIP_ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[{"internalType":"address","name":"ownerAddr","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}];
     const USDT_ABI = [{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
+    const PRESALE_ABI = [
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "usdtAmount",
+            "type": "uint256"
+          }
+        ],
+        "name": "buy",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "newPrice",
+            "type": "uint256"
+          }
+        ],
+        "name": "setPrice",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_usdt",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_haip",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "withdrawTokens",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "haip",
+        "outputs": [
+          {
+            "internalType": "contract IERC20",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "PRICE_DENOMINATOR",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "pricePerToken",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "tokensSold",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "usdt",
+        "outputs": [
+          {
+            "internalType": "contract IERC20",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ];
 
     // Initialize Web3 with enhanced mobile support
     let web3;
     let haipContract;
     let usdtContract;
+    let presaleContract;
     let connectedAddress = null;
+
     const initWeb3 = async () => {
       let attempts = 0;
       const maxAttempts = 15;
@@ -764,6 +904,7 @@
             web3 = new Web3(window.ethereum);
             haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
             usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+            presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
             return true;
           } catch (error) {
             console.error('Web3 initialization error:', error);
@@ -775,6 +916,7 @@
             web3 = new Web3(window.web3.currentProvider);
             haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
             usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+            presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
             return true;
           } catch (error) {
             console.error('Legacy Web3 initialization error:', error);
@@ -999,21 +1141,20 @@
       }
     };
 
-    // Purchase tokens (simulated for Stage 1)
+    // Purchase tokens
     const purchaseTokens = async () => {
       if (!purchaseInput.classList.contains('hidden')) {
         purchaseBtn.classList.add('loading');
         purchaseBtn.disabled = true;
 
         try {
-          if (!web3 || !haipContract || !usdtContract || !connectedAddress) {
+          if (!web3 || !haipContract || !usdtContract || !presaleContract || !connectedAddress) {
             throw new Error('Wallet not connected');
           }
 
           const usdtAmount = parseFloat(purchaseAmountInput.value);
           const minUsdt = 9.72;
           const maxUsdt = 194.4;
-          const pricePerHaip = 0.0036;
 
           if (isNaN(usdtAmount) || usdtAmount <= 0) {
             throw new Error('Please enter a valid positive number');
@@ -1022,13 +1163,26 @@
             throw new Error(`Amount must be between ${minUsdt} and ${maxUsdt} USDT`);
           }
 
-          const haipAmount = usdtAmount / pricePerHaip;
+          // Convert USDT amount to wei (USDT uses 6 decimals on BSC)
           const usdtWeiAmount = web3.utils.toWei(usdtAmount.toString(), 'mwei');
-          const haipWeiAmount = web3.utils.toWei(haipAmount.toString(), 'ether');
 
-          presaleWalletStatus.textContent = `Purchased ${haipAmount.toFixed(6)} HAIP for ${usdtAmount} USDT`;
-          walletStatus.textContent = `Purchased ${haipAmount.toFixed(6)} HAIP for ${usdtAmount} USDT`;
+          // Step 1: Approve USDT spending for presale contract
+          await usdtContract.methods.approve(PRESALE_ADDRESS, usdtWeiAmount).send({ from: connectedAddress });
+          presaleWalletStatus.textContent = `Approved ${usdtAmount} USDT for presale`;
 
+          // Step 2: Call buy function on presale contract
+          await presaleContract.methods.buy(usdtWeiAmount).send({ from: connectedAddress });
+
+          // Calculate HAIP amount based on pricePerToken from contract
+          const pricePerToken = await presaleContract.methods.pricePerToken().call();
+          const priceDenominator = await presaleContract.methods.PRICE_DENOMINATOR().call();
+          const haipAmount = (usdtWeiAmount * priceDenominator) / pricePerToken;
+          const formattedHaipAmount = web3.utils.fromWei(haipAmount.toString(), 'ether');
+
+          presaleWalletStatus.textContent = `Purchased ${parseFloat(formattedHaipAmount).toFixed(6)} HAIP for ${usdtAmount} USDT`;
+          walletStatus.textContent = `Purchased ${parseFloat(formattedHaipAmount).toFixed(6)} HAIP for ${usdtAmount} USDT`;
+
+          // Update balance
           const balance = await haipContract.methods.balanceOf(connectedAddress).call();
           walletBalance.textContent = `Balance: ${parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(6)} HAIP`;
 
@@ -1064,3 +1218,4 @@
   </script>
 </body>
 </html>
+```
