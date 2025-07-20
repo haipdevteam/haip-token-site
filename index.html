@@ -9,9 +9,6 @@
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
   <style>
-    * {
-      box-sizing: border-box;
-    }
     html {
       scroll-behavior: smooth;
       overflow-x: hidden;
@@ -23,7 +20,7 @@
       color: #f8f8f8;
       margin: 0;
       padding: 0;
-      width: 100%; /* Schimbă min-width în width pentru a limita la 100% */
+      min-width: 100%;
       overflow-x: hidden;
     }
     header {
@@ -31,8 +28,6 @@
       padding: 20px;
       text-align: center;
       position: relative;
-      width: 100%;
-      overflow-x: hidden;
     }
     header h1 {
       color: #66fcf1;
@@ -47,7 +42,6 @@
       z-index: 999;
       cursor: pointer;
       transition: transform 0.3s ease;
-      max-width: 100%; /* Asigură că logo-ul nu depășește */
     }
     .logo-fixed:hover {
       transform: scale(1.1);
@@ -59,13 +53,9 @@
       background-color: rgba(15, 32, 39, 0.8);
       border-radius: 15px;
       box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
-      overflow-x: hidden;
-      width: 100%;
     }
     section {
       margin-bottom: 20px;
-      width: 100%;
-      overflow-x: hidden;
     }
     h2 {
       color: #45a29e;
@@ -140,7 +130,6 @@
       background-color: transparent;
       filter: drop-shadow(0 0 5px rgba(102, 252, 241, 0.4));
       max-width: 140px;
-      width: 100%; /* Asigură responsivitate */
     }
     .partner-logo:hover {
       transform: scale(1.1);
@@ -152,7 +141,6 @@
       object-fit: contain;
       filter: drop-shadow(0 0 5px rgba(102, 252, 241, 0.3));
       transition: transform 0.3s ease, filter 0.3s ease;
-      max-width: 100%;
     }
     .future-partner-logo:hover {
       transform: scale(1.1);
@@ -176,8 +164,6 @@
       align-items: center;
       gap: 20px;
       padding: 20px;
-      max-width: 100%;
-      overflow-x: hidden;
     }
     .presale-stage {
       background: rgba(31, 40, 51, 0.7);
@@ -189,7 +175,6 @@
       animation: fadeInUp 1s ease both;
       transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
       cursor: pointer;
-      max-width: 100%;
     }
     .presale-stage:hover {
       transform: scale(1.02);
@@ -225,7 +210,6 @@
       flex-direction: column;
       gap: 10px;
       margin-top: 10px;
-      width: 100%;
     }
     .newsletter-form input {
       padding: 10px;
@@ -249,8 +233,6 @@
       grid-template-columns: repeat(3, minmax(200px, 1fr));
       gap: 15px;
       margin: 10px 0;
-      max-width: 100%;
-      overflow-x: hidden;
     }
     .token-details div {
       background: #1f2833;
@@ -263,7 +245,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      max-width: 100%;
     }
     .token-details div strong {
       color: #66fcf1;
@@ -311,7 +292,6 @@
       font-size: 1rem;
       text-align: center;
       padding: 0 10px;
-      max-width: 100%;
     }
     .tokenomics-container .chart-legend p {
       margin: 5px 0;
@@ -323,7 +303,6 @@
       box-shadow: 0 0 20px rgba(0, 249, 255, 0.2);
       text-align: center;
       margin-bottom: 20px;
-      max-width: 100%;
     }
     .staking-dashboard h2, .presale-dashboard h2 {
       color: #66fcf1;
@@ -347,14 +326,12 @@
       justify-content: center;
       gap: 15px;
       flex-wrap: wrap;
-      max-width: 100%;
     }
     .staking-input, .presale-input {
       display: flex;
       flex-direction: column;
       gap: 10px;
       margin-bottom: 15px;
-      max-width: 100%;
     }
     .staking-input input, .presale-input input {
       padding: 10px;
@@ -547,7 +524,7 @@
     <section data-aos="fade-up">
       <h2>Technology Partners</h2>
       <p>We are proud to collaborate with industry leaders who support innovation and decentralized technologies.</p>
-      <div style="display:flex; gap:40px; flex-wrap:wrap; align-items:center; justify-content:center; max-width: 100%; overflow-x: hidden;">
+      <div style="display:flex; gap:40px; flex-wrap:wrap; align-items:center; justify-content:center;">
         <a href="https://www.hp.com" target="_blank"><img src="images/logos/hp.png" alt="HP Logo" class="partner-logo" style="max-width:180px; margin-top:10px;"></a>
         <a href="https://ailabs.tw" target="_blank"><img src="images/logos/ai_labs.png" alt="AI Labs" class="partner-logo" style="max-width:120px; margin-top:10px;"></a>
         <a href="https://trustwallet.com" target="_blank"><img src="images/logos/trustwallet.png" alt="Trust Wallet" class="partner-logo" style="max-width:120px; margin-top:10px;"></a>
@@ -654,7 +631,7 @@
       <h2>Contact Us</h2>
       <p>Join our community or reach out for inquiries and collaborations.</p>
       <ul>
-        <li>Email: <a href="mailto:haiptoken@gmail.com">haiptoken@gmail.com</a></li>
+        <li>Email: <a href="mailto:contact@haip-token.org">contact@haip-token.org</a></li>
         <li>Telegram: <a href="https://t.me/haipcommunity" target="_blank">@haipcommunity</a></li>
         <li>Twitter: <a href="https://twitter.com/haiptoken" target="_blank">@haiptoken</a></li>
         <li>Discord: <a href="https://discord.gg/haip" target="_blank">HAIP Community</a></li>
