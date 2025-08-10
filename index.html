@@ -85,20 +85,20 @@
     .tokenomics-container .chart-legend { font-size: 1rem; text-align: center; padding: 0 10px; }
     .tokenomics-container .chart-legend p { margin: 5px 0; }
 
-    .staking-dashboard, .presale-dashboard {
+    .presale-dashboard {
       background: rgba(31, 40, 51, 0.9); border-radius: 10px; padding: 15px; box-shadow: 0 0 20px rgba(0, 249, 255, 0.2);
       text-align: center; margin-bottom: 20px;
     }
-    .staking-dashboard h2, .presale-dashboard h2 { color: #66fcf1; margin-bottom: 15px; font-size: 1.5rem; }
-    .staking-status, .presale-status { font-size: 1rem; color: #f0f0f0; margin-bottom: 15px; word-break: break-word; }
-    .staking-balance, .presale-limits { font-size: 1.2rem; color: #0ff0fc; margin-bottom: 20px; text-shadow: 0 0 10px #0ff0fc; }
-    .staking-actions, .presale-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-    .staking-input, .presale-input { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-    .staking-input input, .presale-input input {
+    .presale-dashboard h2 { color: #66fcf1; margin-bottom: 15px; font-size: 1.5rem; }
+    .presale-status { font-size: 1rem; color: #f0f0f0; margin-bottom: 15px; word-break: break-word; }
+    .presale-limits { font-size: 1.2rem; color: #0ff0fc; margin-bottom: 20px; text-shadow: 0 0 10px #0ff0fc; }
+    .presale-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+    .presale-input { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+    .presale-input input {
       padding: 10px; border: 1px solid #66fcf1; border-radius: 5px; background: #1f2833; color: #f8f8f8; width: 100%; max-width: 300px; margin: 0 auto; box-sizing: border-box;
     }
-    .staking-input input::placeholder, .presale-input input::placeholder { color: #a0a0a0; }
-    .staking-input.hidden, .presale-input.hidden { display: none; }
+    .presale-input input::placeholder { color: #a0a0a0; }
+    .presale-input.hidden { display: none; }
 
     /* Progress bar profesional */
     .stage-widget { text-align: left; margin-bottom: 15px; }
@@ -119,12 +119,12 @@
       .token-details { grid-template-columns: 1fr; gap: 10px; }
       .token-details div { padding: 10px; } canvas#tokenomicsChart { max-width: 250px; }
       .tokenomics-container .chart-legend { font-size: 0.9rem; }
-      .staking-dashboard, .presale-dashboard { padding: 10px; }
-      .staking-status, .presale-status { font-size: 0.9rem; }
-      .staking-balance, .presale-limits { font-size: 1rem; }
-      .staking-actions, .presale-actions { flex-direction: column; gap: 10px; }
-      .staking-actions .btn, .presale-actions .btn { width: 100%; max-width: 300px; }
-      .staking-input input, .presale-input input { width: 100%; max-width: none; }
+      .presale-dashboard { padding: 10px; }
+      .presale-status { font-size: 0.9rem; }
+      .presale-limits { font-size: 1rem; }
+      .presale-actions { flex-direction: column; gap: 10px; }
+      .presale-actions .btn { width: 100%; max-width: 300px; }
+      .presale-input input { width: 100%; max-width: none; }
       .stage-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -143,7 +143,6 @@
       <p>HAIP is a BEP-20 token on Binance Smart Chain designed to fund and integrate artificial intelligence with decentralized finance (DeFi) and Web3 ecosystems. Leveraging smart contracts, Chainlink oracles, and IPFS storage, HAIP empowers AI-driven dApps and community governance through a decentralized DAO.</p>
       <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">Buy on PancakeSwap</a>
       <a class="btn" href="#presale">Join Presale</a>
-      <a class="btn" href="#staking">HAIP Staking</a>
     </section>
 
     <section data-aos="fade-up">
@@ -237,45 +236,6 @@
       <div class="countdown" id="countdown"></div>
     </section>
 
-    <section data-aos="fade-up">
-      <h2>Presale Stages</h2>
-      <div class="presale-stage" style="animation-delay: 0.2s">
-        <h3>Private Presale</h3>
-        <p>Allocation: <strong>2% (360M HAIP)</strong></p>
-        <p>Price: <strong>XXX USDT</strong> per HAIP</p>
-        <p>Min per user: <strong>XXX USDT</strong> (XXX HAIP)</p>
-        <p>Max per user: <strong>XXX USDT</strong> (XXX HAIP)</p>
-      </div>
-      <div class="presale-stage" style="animation-delay: 0.4s">
-        <h3>Public Presale - Stage 1</h3>
-        <p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
-        <p>Price: <strong>0.0036 USDT</strong> per HAIP</p>
-        <p>Min per user: <strong>9.72 USDT</strong> (2,700 HAIP)</p>
-        <p>Max per user: <strong>194.4 USDT</strong> (54,000 HAIP)</p>
-      </div>
-      <div class="presale-stage" style="animation-delay: 0.6s">
-        <h3>Public Presale - Stage 2</h3>
-        <p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
-        <p>Price: <strong>0.0108 USDT</strong> per HAIP</p>
-        <p>Min per user: <strong>19.44 USDT</strong> (1,800 HAIP)</p>
-        <p>Max per user: <strong>388.8 USDT</strong> (36,000 HAIP)</p>
-      </div>
-      <div class="presale-stage" style="animation-delay: 0.8s">
-        <h3>Public Presale - Stage 3</h3>
-        <p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
-        <p>Price: <strong>0.0324 USDT</strong> per HAIP</p>
-        <p>Min per user: <strong>29.16 USDT</strong> (900 HAIP)</p>
-        <p>Max per user: <strong>874.8 USDT</strong> (27,000 HAIP)</p>
-      </div>
-      <div class="presale-stage" style="animation-delay: 1s">
-        <h3>Public Presale - Stage 4</h3>
-        <p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
-        <p>Price: <strong>0.0972 USDT</strong> per HAIP</p>
-        <p>Min per user: <strong>32.36 USDT</strong> (333 HAIP)</p>
-        <p>Max per user: <strong>2,361.96 USDT</strong> (24,300 HAIP)</p>
-      </div>
-    </section>
-
     <section id="presale" data-aos="fade-up" data-aos-delay="100">
       <h2>Join Presale Now</h2>
 
@@ -305,23 +265,6 @@
           <button class="btn" id="presaleConnectWalletBtn">Connect Wallet</button>
           <button class="btn hidden" id="presaleDisconnectWalletBtn">Disconnect Wallet</button>
           <button class="btn" id="purchaseBtn" disabled>Purchase</button>
-        </div>
-      </div>
-    </section>
-
-    <section id="staking" data-aos="fade-up" data-aos-delay="200">
-      <h2>HAIP Staking (Dashboard)</h2>
-      <div class="staking-dashboard">
-        <div class="staking-status" id="walletStatus">Wallet not connected</div>
-        <div class="staking-balance" id="walletBalance">Balance: -- HAIP</div>
-        <div class="staking-input" id="transferInput" class="hidden">
-          <input type="number" id="transferAmount" placeholder="Amount to transfer (HAIP)" min="0" step="0.000000000000000001">
-          <input type="text" id="transferAddress" placeholder="Recipient contract address (0x...)">
-        </div>
-        <div class="staking-actions">
-          <button class="btn" id="connectWalletBtn">Connect Wallet</button>
-          <button class="btn hidden" id="disconnectWalletBtn">Disconnect Wallet</button>
-          <button class="btn" id="transferBtn" disabled>Transfer</button>
         </div>
       </div>
     </section>
@@ -396,16 +339,7 @@
       }
     });
 
-    // ---------------------- Web3 & Presale Logic ----------------------
-    const walletStatus = document.getElementById('walletStatus');
-    const walletBalance = document.getElementById('walletBalance');
-    const connectWalletBtn = document.getElementById('connectWalletBtn');
-    const disconnectWalletBtn = document.getElementById('disconnectWalletBtn');
-    const transferBtn = document.getElementById('transferBtn');
-    const transferInput = document.getElementById('transferInput');
-    const transferAmountInput = document.getElementById('transferAmount');
-    const transferAddressInput = document.getElementById('transferAddress');
-
+    // ---------------------- Web3 & Presale Logic (staking code removed) ----------------------
     const presaleWalletStatus = document.getElementById('presaleWalletStatus');
     const presaleConnectWalletBtn = document.getElementById('presaleConnectWalletBtn');
     const presaleDisconnectWalletBtn = document.getElementById('presaleDisconnectWalletBtn');
@@ -494,7 +428,7 @@
         } else { attempts++; await new Promise(r=>setTimeout(r, retryDelay)); }
       }
       const msg = 'No wallet provider detected. Please install <a href="https://metamask.io/download" target="_blank">MetaMask</a> or <a href="https://trustwallet.com/download" target="_blank">Trust Wallet</a>.';
-      walletStatus.innerHTML = msg; presaleWalletStatus.innerHTML = msg; return false;
+      presaleWalletStatus.innerHTML = msg; return false;
     };
 
     const checkNetwork = async () => {
@@ -513,14 +447,13 @@
               });
               return true;
             }
-            walletStatus.textContent = 'Failed to switch to Binance Smart Chain.';
             presaleWalletStatus.textContent = 'Failed to switch to Binance Smart Chain.';
             return false;
           }
         }
         return true;
       } catch {
-        walletStatus.textContent = 'Error checking network.'; presaleWalletStatus.textContent = 'Error checking network.'; return false;
+        presaleWalletStatus.textContent = 'Error checking network.'; return false;
       }
     };
 
@@ -534,8 +467,7 @@
     };
 
     const connectWallet = async () => {
-      connectWalletBtn.classList.add('loading'); presaleConnectWalletBtn.classList.add('loading');
-      connectWalletBtn.disabled = true; presaleConnectWalletBtn.disabled = true;
+      presaleConnectWalletBtn.classList.add('loading'); presaleConnectWalletBtn.disabled = true;
       try {
         if (!await initWeb3()) throw new Error('No wallet provider detected.');
         if (!await checkNetwork()) throw new Error('Wrong network');
@@ -543,13 +475,11 @@
         if (accounts.length === 0) throw new Error('No accounts authorized.');
         connectedAddress = accounts[0];
         const walletType = detectWalletType();
-        const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-        walletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
         presaleWalletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
-        walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
-        connectWalletBtn.classList.add('hidden'); presaleConnectWalletBtn.classList.add('hidden');
-        disconnectWalletBtn.classList.remove('hidden'); presaleDisconnectWalletBtn.classList.remove('hidden');
-        transferBtn.disabled = false; purchaseBtn.disabled = false;
+
+        presaleConnectWalletBtn.classList.add('hidden');
+        presaleDisconnectWalletBtn.classList.remove('hidden');
+        purchaseBtn.disabled = false;
         purchaseInput.classList.remove('hidden');
 
         await refreshPresaleLimits();
@@ -558,11 +488,9 @@
         window.ethereum.on('accountsChanged', ()=>location.reload());
         window.ethereum.on('chainChanged', ()=>location.reload());
       } catch (error) {
-        walletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
         presaleWalletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
       } finally {
-        connectWalletBtn.classList.remove('loading'); presaleConnectWalletBtn.classList.remove('loading');
-        connectWalletBtn.disabled = false; presaleConnectWalletBtn.disabled = false;
+        presaleConnectWalletBtn.classList.remove('loading'); presaleConnectWalletBtn.disabled = false;
       }
     };
 
@@ -617,50 +545,13 @@
     // auto refresh every 20s
     setInterval(()=>{ if (presaleContract) refreshStageUI(); }, 20000);
 
-    const updateWalletUI = async () => {
-      if (!connectedAddress) return;
-      const walletType = (window.ethereum?.isMetaMask && 'MetaMask') || 'Wallet';
-      const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-      walletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
-      presaleWalletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
-      walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
-    };
-
     const disconnectWallet = () => {
       connectedAddress = null;
-      walletStatus.textContent = 'Wallet not connected'; presaleWalletStatus.textContent = 'Wallet not connected';
-      walletBalance.textContent = 'Balance: -- HAIP';
-      connectWalletBtn.classList.remove('hidden'); disconnectWalletBtn.classList.add('hidden');
+      presaleWalletStatus.textContent = 'Wallet not connected';
       presaleConnectWalletBtn.classList.remove('hidden'); presaleDisconnectWalletBtn.classList.add('hidden');
-      transferBtn.disabled = true; purchaseBtn.disabled = true; transferInput.classList.add('hidden'); purchaseInput.classList.add('hidden');
-      transferAmountInput.value = ''; transferAddressInput.value = ''; purchaseAmountInput.value = '';
+      purchaseBtn.disabled = true; purchaseInput.classList.add('hidden');
+      purchaseAmountInput.value = '';
       refreshStageUI();
-    };
-
-    const transferTokens = async () => {
-      if (!transferInput.classList.contains('hidden')) {
-        transferBtn.classList.add('loading'); transferBtn.disabled = true;
-        try {
-          if (!web3 || !haipContract || !connectedAddress) throw new Error('Wallet not connected');
-          const amount = parseFloat(transferAmountInput.value); const recipient = transferAddressInput.value;
-          if (isNaN(amount) || amount <= 0) throw new Error('Invalid amount');
-          if (!web3.utils.isAddress(recipient)) throw new Error('Invalid recipient address');
-          const weiAmount = toUnits(web3, amount, haipDec);
-          await haipContract.methods.transfer(recipient, weiAmount.toString()).send({ from: connectedAddress });
-          walletStatus.textContent = `Transferred ${amount} HAIP to ${recipient.slice(0, 6)}...${recipient.slice(-4)}`;
-          presaleWalletStatus.textContent = `Transferred ${amount} HAIP to ${recipient.slice(0, 6)}...${recipient.slice(-4)}`;
-          const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-          walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
-          transferInput.classList.add('hidden'); transferAmountInput.value = ''; transferAddressInput.value = '';
-        } catch (error) {
-          walletStatus.textContent = `Error: ${error.message || 'Transfer failed'}`;
-          presaleWalletStatus.textContent = `Error: ${error.message || 'Transfer failed'}`;
-        } finally {
-          transferBtn.classList.remove('loading'); transferBtn.disabled = connectedAddress ? false : true;
-        }
-      } else {
-        transferInput.classList.remove('hidden');
-      }
     };
 
     // Real purchase: approve USDT (if needed) -> buy
@@ -701,15 +592,11 @@
           presaleWalletStatus.textContent = 'Submitting purchase...';
           const tx = await presaleContract.methods.buy(usdtUnits.toString()).send({ from: connectedAddress });
           presaleWalletStatus.innerHTML = `Success${haipAmountStr}! <a target="_blank" href="https://bscscan.com/tx/${tx.transactionHash}">View on BscScan</a>`;
-          walletStatus.innerHTML = presaleWalletStatus.innerHTML;
 
-          const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-          walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
           purchaseInput.classList.add('hidden'); purchaseAmountInput.value = '';
           await refreshPresaleLimits();
           await refreshStageUI();
         } catch (error) {
-          walletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
           presaleWalletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
         } finally {
           purchaseBtn.classList.remove('loading'); purchaseBtn.disabled = connectedAddress ? false : true;
@@ -720,11 +607,8 @@
     };
 
     // Event listeners
-    connectWalletBtn.addEventListener('click', connectWallet);
-    disconnectWalletBtn.addEventListener('click', disconnectWallet);
     presaleConnectWalletBtn.addEventListener('click', connectWallet);
     presaleDisconnectWalletBtn.addEventListener('click', disconnectWallet);
-    transferBtn.addEventListener('click', transferTokens);
     purchaseBtn.addEventListener('click', purchaseTokens);
 
     // Copy contract address
@@ -735,7 +619,6 @@
 
     // Inițializare widget (înainte de conectare)
     (async () => {
-      // încearcă să inițializezi web3 doar pentru a citi datele on-chain în widget
       try {
         if (window.ethereum || window.web3) {
           await initWeb3();
