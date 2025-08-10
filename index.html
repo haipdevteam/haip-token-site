@@ -76,31 +76,26 @@
     .token-details div strong { color: #66fcf1; display: block; margin-bottom: 5px; }
     .token-details div:hover { border-color: #0ff0fc; box-shadow: 0 0 15px #0ff0fc, 0 0 30px rgba(0, 255, 252, 0.5); }
     .token-details div img { max-width: 80%; height: auto; margin-top: 10px; }
-    @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 10px #0ff0fc, 0 0 20px #0ff0fc; } 50% { box-shadow: 0 0 20px #0ff0fc, 0 0 30px #0ff0fc; } }
     canvas#tokenomicsChart { display: block; max-width: 300px; width: 100%; margin: 0 auto; }
     .tokenomics-section p:last-child { margin-bottom: 5px; }
-    .roadmap-section { margin-top: 5px; }
     .tokenomics-container .chart-legend { font-size: 1rem; text-align: center; padding: 0 10px; }
     .tokenomics-container .chart-legend p { margin: 5px 0; }
 
-    .staking-dashboard, .presale-dashboard {
+    .presale-dashboard {
       background: rgba(31, 40, 51, 0.9); border-radius: 10px; padding: 15px; box-shadow: 0 0 20px rgba(0, 249, 255, 0.2);
       text-align: center; margin-bottom: 20px;
     }
-    .staking-dashboard h2, .presale-dashboard h2 { color: #66fcf1; margin-bottom: 15px; font-size: 1.5rem; }
-    .staking-status, .presale-status { font-size: 1rem; color: #f0f0f0; margin-bottom: 15px; word-break: break-word; }
-    .staking-balance, .presale-limits { font-size: 1.2rem; color: #0ff0fc; margin-bottom: 20px; text-shadow: 0 0 10px #0ff0fc; }
-    .staking-actions, .presale-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-    .staking-input, .presale-input { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-    .staking-input input, .presale-input input {
-      padding: 10px; border: 1px solid #66fcf1; border-radius: 5px; background: #1f2833; color: #f8f8f8; width: 100%; max-width: 300px; margin: 0 auto; box-sizing: border-box;
+    .presale-status { font-size: 1rem; color: #f0f0f0; margin-bottom: 15px; word-break: break-word; }
+    .presale-limits { font-size: 1.2rem; color: #0ff0fc; margin-bottom: 20px; text-shadow: 0 0 10px #0ff0fc; }
+    .presale-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+    .presale-input { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+    .presale-input input {
+      padding: 10px; border: 1px solid #66fcf1; border-radius: 5px; background: #1f2833; color: #f8f8f8; width: 100%; max-width: 300px; margin: 0 auto;
     }
-    .staking-input input::placeholder, .presale-input input::placeholder { color: #a0a0a0; }
-    .staking-input.hidden, .presale-input.hidden { display: none; }
+    .presale-input.hidden { display: none; }
 
-    /* Progress bar profesional */
     .stage-widget { text-align: left; margin-bottom: 15px; }
     .stage-title { font-size: 1.2rem; color: #0ff0fc; margin: 4px 0 10px; }
     .stage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
@@ -119,12 +114,11 @@
       .token-details { grid-template-columns: 1fr; gap: 10px; }
       .token-details div { padding: 10px; } canvas#tokenomicsChart { max-width: 250px; }
       .tokenomics-container .chart-legend { font-size: 0.9rem; }
-      .staking-dashboard, .presale-dashboard { padding: 10px; }
-      .staking-status, .presale-status { font-size: 0.9rem; }
-      .staking-balance, .presale-limits { font-size: 1rem; }
-      .staking-actions, .presale-actions { flex-direction: column; gap: 10px; }
-      .staking-actions .btn, .presale-actions .btn { width: 100%; max-width: 300px; }
-      .staking-input input, .presale-input input { width: 100%; max-width: none; }
+      .presale-dashboard { padding: 10px; }
+      .presale-status { font-size: 0.9rem; }
+      .presale-limits { font-size: 1rem; }
+      .presale-actions { flex-direction: column; gap: 10px; }
+      .presale-actions .btn { width: 100%; max-width: 300px; }
       .stage-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -143,7 +137,7 @@
       <p>HAIP is a BEP-20 token on Binance Smart Chain designed to fund and integrate artificial intelligence with decentralized finance (DeFi) and Web3 ecosystems. Leveraging smart contracts, Chainlink oracles, and IPFS storage, HAIP empowers AI-driven dApps and community governance through a decentralized DAO.</p>
       <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">Buy on PancakeSwap</a>
       <a class="btn" href="#presale">Join Presale</a>
-      <a class="btn" href="#staking">HAIP Staking</a>
+      <!-- Eliminat: butonul HAIP Staking -->
     </section>
 
     <section data-aos="fade-up">
@@ -190,7 +184,7 @@
       <ul>
         <li><strong>Q3 2025:</strong> Initiation of private presale, token deployment, smart contract audits</li>
         <li><strong>Q4 2025:</strong> Public presale, TrustWallet integration, open-source code release on GitHub</li>
-        <li><strong>Q1 2026:</strong> Community DAO setup, staking mechanism launch, strategic partnerships with AI and DeFi projects</li>
+        <li><strong>Q1 2026:</strong> Community DAO setup, strategic partnerships with AI and DeFi projects</li>
         <li><strong>Q2 2026:</strong> AI dApp beta launch, Chainlink oracles integration</li>
         <li><strong>Q3 2026:</strong> Enhanced DAO features, pilot launch of AI model bounty marketplace</li>
         <li><strong>Q4 2026:</strong> Launchpad for AI startups funded in HAIP</li>
@@ -309,23 +303,6 @@
       </div>
     </section>
 
-    <section id="staking" data-aos="fade-up" data-aos-delay="200">
-      <h2>HAIP Staking (Dashboard)</h2>
-      <div class="staking-dashboard">
-        <div class="staking-status" id="walletStatus">Wallet not connected</div>
-        <div class="staking-balance" id="walletBalance">Balance: -- HAIP</div>
-        <div class="staking-input" id="transferInput" class="hidden">
-          <input type="number" id="transferAmount" placeholder="Amount to transfer (HAIP)" min="0" step="0.000000000000000001">
-          <input type="text" id="transferAddress" placeholder="Recipient contract address (0x...)">
-        </div>
-        <div class="staking-actions">
-          <button class="btn" id="connectWalletBtn">Connect Wallet</button>
-          <button class="btn hidden" id="disconnectWalletBtn">Disconnect Wallet</button>
-          <button class="btn" id="transferBtn" disabled>Transfer</button>
-        </div>
-      </div>
-    </section>
-
     <section data-aos="fade-up">
       <h2>Contact Us</h2>
       <p>Join our community or reach out for inquiries and collaborations.</p>
@@ -360,7 +337,7 @@
   <script>
     AOS.init({ duration: 1000 });
 
-    // Countdown logic
+    // Countdown
     const countdown = document.getElementById('countdown');
     const launchDate = new Date('2025-08-01T00:00:00Z').getTime();
     const updateCountdown = () => {
@@ -378,8 +355,7 @@
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
       countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     };
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    setInterval(updateCountdown, 1000); updateCountdown();
 
     // Tokenomics chart
     const ctx = document.getElementById('tokenomicsChart').getContext('2d');
@@ -396,16 +372,7 @@
       }
     });
 
-    // ---------------------- Web3 & Presale Logic ----------------------
-    const walletStatus = document.getElementById('walletStatus');
-    const walletBalance = document.getElementById('walletBalance');
-    const connectWalletBtn = document.getElementById('connectWalletBtn');
-    const disconnectWalletBtn = document.getElementById('disconnectWalletBtn');
-    const transferBtn = document.getElementById('transferBtn');
-    const transferInput = document.getElementById('transferInput');
-    const transferAmountInput = document.getElementById('transferAmount');
-    const transferAddressInput = document.getElementById('transferAddress');
-
+    // -------- Web3 & Presale Logic (fără staking) --------
     const presaleWalletStatus = document.getElementById('presaleWalletStatus');
     const presaleConnectWalletBtn = document.getElementById('presaleConnectWalletBtn');
     const presaleDisconnectWalletBtn = document.getElementById('presaleDisconnectWalletBtn');
@@ -414,7 +381,7 @@
     const purchaseAmountInput = document.getElementById('purchaseAmount');
     const presaleLimits = document.getElementById('presaleLimits');
 
-    // Stage widget elements
+    // Stage widget
     const stageTitle = document.getElementById('stageTitle');
     const stagePrice = document.getElementById('stagePrice');
     const stageSold = document.getElementById('stageSold');
@@ -424,13 +391,12 @@
 
     // Contract details (BSC mainnet)
     const HAIP_ADDRESS = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
-    const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955'; // USDT
+    const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
     const PRESALE_ADDRESS = '0x07e11a90bFea0f38D203f25C26c21de1cD78bFf7';
 
     const HAIP_ABI = [
       {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-      {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},
-      {"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}
+      {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"}
     ];
     const USDT_ABI = [
       {"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
@@ -438,16 +404,15 @@
       {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
       {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"}
     ];
-    // ABI minim pentru presale
     const PRESALE_ABI = [
       {"inputs":[{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"buy","outputs":[],"stateMutability":"nonpayable","type":"function"},
       {"inputs":[],"name":"currentStage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
       {"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"}],"name":"getStage","outputs":[
-          {"internalType":"uint256","name":"priceNum","type":"uint256"},
-          {"internalType":"uint256","name":"minUsdt","type":"uint256"},
-          {"internalType":"uint256","name":"maxUsdt","type":"uint256"},
-          {"internalType":"uint256","name":"capTokens","type":"uint256"},
-          {"internalType":"uint256","name":"soldTokens","type":"uint256"}
+        {"internalType":"uint256","name":"priceNum","type":"uint256"},
+        {"internalType":"uint256","name":"minUsdt","type":"uint256"},
+        {"internalType":"uint256","name":"maxUsdt","type":"uint256"},
+        {"internalType":"uint256","name":"capTokens","type":"uint256"},
+        {"internalType":"uint256","name":"soldTokens","type":"uint256"}
       ],"stateMutability":"view","type":"function"},
       {"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"},{"internalType":"address","name":"user","type":"address"}],"name":"maxUsdtUserCanBuy","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
       {"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"},{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"quoteTokens","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
@@ -455,6 +420,7 @@
 
     let web3, haipContract, usdtContract, presaleContract;
     let connectedAddress = null, haipDec = 18, usdtDec = 18;
+
     const fmt = (n,d=2)=>Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
     const toUnits = (web3, val, dec) => {
       const bn = web3.utils.toBN(Math.floor((+val) * 1e6));
@@ -462,7 +428,6 @@
       return bn.mul(scale);
     };
     const fromUnits = (web3, bn, dec) => {
-      const scale = web3.utils.toBN(10).pow(web3.utils.toBN(dec));
       const s = bn.toString();
       const pad = s.padStart(dec+1, '0');
       const intPart = pad.slice(0, -dec);
@@ -494,7 +459,7 @@
         } else { attempts++; await new Promise(r=>setTimeout(r, retryDelay)); }
       }
       const msg = 'No wallet provider detected. Please install <a href="https://metamask.io/download" target="_blank">MetaMask</a> or <a href="https://trustwallet.com/download" target="_blank">Trust Wallet</a>.';
-      walletStatus.innerHTML = msg; presaleWalletStatus.innerHTML = msg; return false;
+      presaleWalletStatus.innerHTML = msg; return false;
     };
 
     const checkNetwork = async () => {
@@ -513,43 +478,31 @@
               });
               return true;
             }
-            walletStatus.textContent = 'Failed to switch to Binance Smart Chain.';
             presaleWalletStatus.textContent = 'Failed to switch to Binance Smart Chain.';
             return false;
           }
         }
         return true;
       } catch {
-        walletStatus.textContent = 'Error checking network.'; presaleWalletStatus.textContent = 'Error checking network.'; return false;
+        presaleWalletStatus.textContent = 'Error checking network.'; return false;
       }
     };
 
-    const detectWalletType = () => {
-      if (window.ethereum?.isMetaMask) return 'MetaMask';
-      if (window.ethereum?.isTrust) return 'Trust Wallet';
-      if (window.ethereum?.isCoinbaseWallet) return 'Coinbase Wallet';
-      if (window.ethereum) return 'Web3 Wallet';
-      if (window.web3) return 'Legacy Web3 Wallet';
-      return 'Unknown Wallet';
-    };
-
     const connectWallet = async () => {
-      connectWalletBtn.classList.add('loading'); presaleConnectWalletBtn.classList.add('loading');
-      connectWalletBtn.disabled = true; presaleConnectWalletBtn.disabled = true;
+      presaleConnectWalletBtn.classList.add('loading');
+      presaleConnectWalletBtn.disabled = true;
       try {
         if (!await initWeb3()) throw new Error('No wallet provider detected.');
         if (!await checkNetwork()) throw new Error('Wrong network');
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         if (accounts.length === 0) throw new Error('No accounts authorized.');
         connectedAddress = accounts[0];
-        const walletType = detectWalletType();
-        const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-        walletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
-        presaleWalletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
-        walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
-        connectWalletBtn.classList.add('hidden'); presaleConnectWalletBtn.classList.add('hidden');
-        disconnectWalletBtn.classList.remove('hidden'); presaleDisconnectWalletBtn.classList.remove('hidden');
-        transferBtn.disabled = false; purchaseBtn.disabled = false;
+
+        const balance = await haipContract.methods.balanceOf(connectedAddress).call().catch(()=>0);
+        presaleWalletStatus.textContent = `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)} · Balance ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
+        presaleConnectWalletBtn.classList.add('hidden');
+        presaleDisconnectWalletBtn.classList.remove('hidden');
+        purchaseBtn.disabled = false;
         purchaseInput.classList.remove('hidden');
 
         await refreshPresaleLimits();
@@ -558,11 +511,10 @@
         window.ethereum.on('accountsChanged', ()=>location.reload());
         window.ethereum.on('chainChanged', ()=>location.reload());
       } catch (error) {
-        walletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
         presaleWalletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
       } finally {
-        connectWalletBtn.classList.remove('loading'); presaleConnectWalletBtn.classList.remove('loading');
-        connectWalletBtn.disabled = false; presaleConnectWalletBtn.disabled = false;
+        presaleConnectWalletBtn.classList.remove('loading');
+        presaleConnectWalletBtn.disabled = false;
       }
     };
 
@@ -578,7 +530,6 @@
       } catch {}
     };
 
-    // === WIDGET: Stage info live ===
     const refreshStageUI = async () => {
       try {
         const idx = await presaleContract.methods.currentStage().call();
@@ -610,67 +561,26 @@
           document.getElementById('yourLimit').textContent = `—`;
         }
       } catch (e) {
-        // fallback UI
         stageTitle.textContent = `Public Presale — Stage —`;
       }
     };
-    // auto refresh every 20s
     setInterval(()=>{ if (presaleContract) refreshStageUI(); }, 20000);
-
-    const updateWalletUI = async () => {
-      if (!connectedAddress) return;
-      const walletType = (window.ethereum?.isMetaMask && 'MetaMask') || 'Wallet';
-      const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-      walletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
-      presaleWalletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
-      walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
-    };
 
     const disconnectWallet = () => {
       connectedAddress = null;
-      walletStatus.textContent = 'Wallet not connected'; presaleWalletStatus.textContent = 'Wallet not connected';
-      walletBalance.textContent = 'Balance: -- HAIP';
-      connectWalletBtn.classList.remove('hidden'); disconnectWalletBtn.classList.add('hidden');
-      presaleConnectWalletBtn.classList.remove('hidden'); presaleDisconnectWalletBtn.classList.add('hidden');
-      transferBtn.disabled = true; purchaseBtn.disabled = true; transferInput.classList.add('hidden'); purchaseInput.classList.add('hidden');
-      transferAmountInput.value = ''; transferAddressInput.value = ''; purchaseAmountInput.value = '';
+      presaleWalletStatus.textContent = 'Wallet not connected';
+      presaleConnectWalletBtn.classList.remove('hidden');
+      presaleDisconnectWalletBtn.classList.add('hidden');
+      purchaseBtn.disabled = true; purchaseInput.classList.add('hidden');
+      purchaseAmountInput.value = '';
       refreshStageUI();
     };
 
-    const transferTokens = async () => {
-      if (!transferInput.classList.contains('hidden')) {
-        transferBtn.classList.add('loading'); transferBtn.disabled = true;
-        try {
-          if (!web3 || !haipContract || !connectedAddress) throw new Error('Wallet not connected');
-          const amount = parseFloat(transferAmountInput.value); const recipient = transferAddressInput.value;
-          if (isNaN(amount) || amount <= 0) throw new Error('Invalid amount');
-          if (!web3.utils.isAddress(recipient)) throw new Error('Invalid recipient address');
-          const weiAmount = toUnits(web3, amount, haipDec);
-          await haipContract.methods.transfer(recipient, weiAmount.toString()).send({ from: connectedAddress });
-          walletStatus.textContent = `Transferred ${amount} HAIP to ${recipient.slice(0, 6)}...${recipient.slice(-4)}`;
-          presaleWalletStatus.textContent = `Transferred ${amount} HAIP to ${recipient.slice(0, 6)}...${recipient.slice(-4)}`;
-          const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-          walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
-          transferInput.classList.add('hidden'); transferAmountInput.value = ''; transferAddressInput.value = '';
-        } catch (error) {
-          walletStatus.textContent = `Error: ${error.message || 'Transfer failed'}`;
-          presaleWalletStatus.textContent = `Error: ${error.message || 'Transfer failed'}`;
-        } finally {
-          transferBtn.classList.remove('loading'); transferBtn.disabled = connectedAddress ? false : true;
-        }
-      } else {
-        transferInput.classList.remove('hidden');
-      }
-    };
-
-    // Real purchase: approve USDT (if needed) -> buy
     const purchaseTokens = async () => {
       if (!purchaseInput.classList.contains('hidden')) {
         purchaseBtn.classList.add('loading'); purchaseBtn.disabled = true;
         try {
-          if (!web3 || !haipContract || !usdtContract || !presaleContract || !connectedAddress) {
-            throw new Error('Wallet not connected');
-          }
+          if (!web3 || !usdtContract || !presaleContract || !connectedAddress) throw new Error('Wallet not connected');
           let usdtAmount = parseFloat(purchaseAmountInput.value);
           if (isNaN(usdtAmount) || usdtAmount <= 0) throw new Error('Please enter a valid positive number');
 
@@ -701,15 +611,11 @@
           presaleWalletStatus.textContent = 'Submitting purchase...';
           const tx = await presaleContract.methods.buy(usdtUnits.toString()).send({ from: connectedAddress });
           presaleWalletStatus.innerHTML = `Success${haipAmountStr}! <a target="_blank" href="https://bscscan.com/tx/${tx.transactionHash}">View on BscScan</a>`;
-          walletStatus.innerHTML = presaleWalletStatus.innerHTML;
 
-          const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-          walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
           purchaseInput.classList.add('hidden'); purchaseAmountInput.value = '';
           await refreshPresaleLimits();
           await refreshStageUI();
         } catch (error) {
-          walletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
           presaleWalletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
         } finally {
           purchaseBtn.classList.remove('loading'); purchaseBtn.disabled = connectedAddress ? false : true;
@@ -719,12 +625,9 @@
       }
     };
 
-    // Event listeners
-    connectWalletBtn.addEventListener('click', connectWallet);
-    disconnectWalletBtn.addEventListener('click', disconnectWallet);
+    // Buttons
     presaleConnectWalletBtn.addEventListener('click', connectWallet);
     presaleDisconnectWalletBtn.addEventListener('click', disconnectWallet);
-    transferBtn.addEventListener('click', transferTokens);
     purchaseBtn.addEventListener('click', purchaseTokens);
 
     // Copy contract address
@@ -733,9 +636,8 @@
       navigator.clipboard.writeText(contractAddress).then(() => alert('Contract address copied to clipboard!'));
     }
 
-    // Ini?ializare widget (inainte de conectare)
+    // Initialize widget (read-only before connect)
     (async () => {
-      // incearca sa ini?ializezi web3 doar pentru a citi datele on-chain in widget
       try {
         if (window.ethereum || window.web3) {
           await initWeb3();
