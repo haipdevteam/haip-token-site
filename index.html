@@ -739,14 +739,17 @@
     // Contract details
     const HAIP_ADDRESS = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
     const USDT_ADDRESS = '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56';
+    // TODO: update with the deployed presale contract address
     const PRESALE_ADDRESS = '0x0000000000000000000000000000000000000000';
     const HAIP_ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[{"internalType":"address","name":"ownerAddr","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}];
-    const USDT_ABI = [{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
+    const USDT_ABI = [{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
+    const PRESALE_ABI = [{"inputs":[{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"buy","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"pricePerToken","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
 
     // Initialize Web3 with enhanced mobile support
     let web3;
     let haipContract;
     let usdtContract;
+    let presaleContract;
     let connectedAddress = null;
     const initWeb3 = async () => {
       let attempts = 0;
@@ -761,6 +764,7 @@
             web3 = new Web3(window.ethereum);
             haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
             usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+            presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
             return true;
           } catch (error) {
             console.error('Web3 initialization error:', error);
@@ -772,6 +776,7 @@
             web3 = new Web3(window.web3.currentProvider);
             haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
             usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+            presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
             return true;
           } catch (error) {
             console.error('Legacy Web3 initialization error:', error);
@@ -996,14 +1001,14 @@
       }
     };
 
-    // Purchase tokens (simulated for Stage 1)
+    // Purchase tokens through presale contract
     const purchaseTokens = async () => {
       if (!purchaseInput.classList.contains('hidden')) {
         purchaseBtn.classList.add('loading');
         purchaseBtn.disabled = true;
 
         try {
-          if (!web3 || !haipContract || !usdtContract || !connectedAddress) {
+          if (!web3 || !haipContract || !usdtContract || !presaleContract || !connectedAddress) {
             throw new Error('Wallet not connected');
           }
 
@@ -1021,7 +1026,13 @@
 
           const haipAmount = usdtAmount / pricePerHaip;
           const usdtWeiAmount = web3.utils.toWei(usdtAmount.toString(), 'mwei');
-          const haipWeiAmount = web3.utils.toWei(haipAmount.toString(), 'ether');
+
+          const allowance = await usdtContract.methods.allowance(connectedAddress, PRESALE_ADDRESS).call();
+          if (web3.utils.toBN(allowance).lt(web3.utils.toBN(usdtWeiAmount))) {
+            await usdtContract.methods.approve(PRESALE_ADDRESS, usdtWeiAmount).send({ from: connectedAddress });
+          }
+
+          await presaleContract.methods.buy(usdtWeiAmount).send({ from: connectedAddress });
 
           presaleWalletStatus.textContent = `Purchased ${haipAmount.toFixed(6)} HAIP for ${usdtAmount} USDT`;
           walletStatus.textContent = `Purchased ${haipAmount.toFixed(6)} HAIP for ${usdtAmount} USDT`;
