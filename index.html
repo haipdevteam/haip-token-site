@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="HAIP Token: Empowering AI and blockchain innovation through decentralized ecosystems." name="description"/>
-<title>HAIP Token - Official Site</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&amp;display=swap" rel="stylesheet"/>
-<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="HAIP Token: Empowering AI and blockchain innovation through decentralized ecosystems.">
+  <title>HAIP Token - Official Site</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
+  <style>
     html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
       font-family: 'Orbitron', sans-serif;
@@ -77,31 +76,26 @@
     .token-details div strong { color: #66fcf1; display: block; margin-bottom: 5px; }
     .token-details div:hover { border-color: #0ff0fc; box-shadow: 0 0 15px #0ff0fc, 0 0 30px rgba(0, 255, 252, 0.5); }
     .token-details div img { max-width: 80%; height: auto; margin-top: 10px; }
-    @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 10px #0ff0fc, 0 0 20px #0ff0fc; } 50% { box-shadow: 0 0 20px #0ff0fc, 0 0 30px #0ff0fc; } }
     canvas#tokenomicsChart { display: block; max-width: 300px; width: 100%; margin: 0 auto; }
     .tokenomics-section p:last-child { margin-bottom: 5px; }
-    .roadmap-section { margin-top: 5px; }
     .tokenomics-container .chart-legend { font-size: 1rem; text-align: center; padding: 0 10px; }
     .tokenomics-container .chart-legend p { margin: 5px 0; }
 
-    .staking-dashboard, .presale-dashboard {
+    .presale-dashboard {
       background: rgba(31, 40, 51, 0.9); border-radius: 10px; padding: 15px; box-shadow: 0 0 20px rgba(0, 249, 255, 0.2);
       text-align: center; margin-bottom: 20px;
     }
-    .staking-dashboard h2, .presale-dashboard h2 { color: #66fcf1; margin-bottom: 15px; font-size: 1.5rem; }
-    .staking-status, .presale-status { font-size: 1rem; color: #f0f0f0; margin-bottom: 15px; word-break: break-word; }
-    .staking-balance, .presale-limits { font-size: 1.2rem; color: #0ff0fc; margin-bottom: 20px; text-shadow: 0 0 10px #0ff0fc; }
-    .staking-actions, .presale-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-    .staking-input, .presale-input { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-    .staking-input input, .presale-input input {
-      padding: 10px; border: 1px solid #66fcf1; border-radius: 5px; background: #1f2833; color: #f8f8f8; width: 100%; max-width: 300px; margin: 0 auto; box-sizing: border-box;
+    .presale-status { font-size: 1rem; color: #f0f0f0; margin-bottom: 15px; word-break: break-word; }
+    .presale-limits { font-size: 1.2rem; color: #0ff0fc; margin-bottom: 20px; text-shadow: 0 0 10px #0ff0fc; }
+    .presale-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+    .presale-input { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+    .presale-input input {
+      padding: 10px; border: 1px solid #66fcf1; border-radius: 5px; background: #1f2833; color: #f8f8f8; width: 100%; max-width: 300px; margin: 0 auto;
     }
-    .staking-input input::placeholder, .presale-input input::placeholder { color: #a0a0a0; }
-    .staking-input.hidden, .presale-input.hidden { display: none; }
+    .presale-input.hidden { display: none; }
 
-    /* Progress bar profesional */
     .stage-widget { text-align: left; margin-bottom: 15px; }
     .stage-title { font-size: 1.2rem; color: #0ff0fc; margin: 4px 0 10px; }
     .stage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
@@ -120,243 +114,230 @@
       .token-details { grid-template-columns: 1fr; gap: 10px; }
       .token-details div { padding: 10px; } canvas#tokenomicsChart { max-width: 250px; }
       .tokenomics-container .chart-legend { font-size: 0.9rem; }
-      .staking-dashboard, .presale-dashboard { padding: 10px; }
-      .staking-status, .presale-status { font-size: 0.9rem; }
-      .staking-balance, .presale-limits { font-size: 1rem; }
-      .staking-actions, .presale-actions { flex-direction: column; gap: 10px; }
-      .staking-actions .btn, .presale-actions .btn { width: 100%; max-width: 300px; }
-      .staking-input input, .presale-input input { width: 100%; max-width: none; }
+      .presale-dashboard { padding: 10px; }
+      .presale-status { font-size: 0.9rem; }
+      .presale-limits { font-size: 1rem; }
+      .presale-actions { flex-direction: column; gap: 10px; }
+      .presale-actions .btn { width: 100%; max-width: 300px; }
       .stage-grid { grid-template-columns: 1fr; }
     }
   </style>
-<style>
-.subscribe-section {
-    max-width: 500px;
-    margin: 0 auto;
-    text-align: center;
-}
-.subscribe-section input,
-.subscribe-section button {
-    width: 100%;
-    box-sizing: border-box;
-}
-</style></head>
+</head>
 <body>
-<a href="#top">
-<img alt="HAIP Logo" class="logo-fixed" src="images/haip-logo-transparent.png"/>
-</a>
-<header id="top">
-<h1>Hp Artificial Intelligence Power (HAIP)</h1>
-<p>The official BEP20 token powering AI innovation on Binance Smart Chain</p>
-</header>
-<main>
-<section data-aos="fade-up">
-<h2>About HAIP</h2>
-<p>HAIP is a BEP-20 token on Binance Smart Chain designed to fund and integrate artificial intelligence with decentralized finance (DeFi) and Web3 ecosystems. Leveraging smart contracts, Chainlink oracles, and IPFS storage, HAIP empowers AI-driven dApps and community governance through a decentralized DAO.</p>
-<a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">Buy on PancakeSwap</a>
-<a class="btn" href="#presale">Join Presale</a>
-<a class="btn" href="#staking">HAIP Staking</a>
-</section>
-<section data-aos="fade-up">
-<h2>Token Details</h2>
-<div class="token-details">
-<div><strong>Token Name</strong> Hp Artificial Intelligence Power <img alt="HP Logo" src="images/logos/hp.png" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"/></div>
-<div><strong>Symbol</strong> HAIP <img alt="HAIP Logo" src="images/haip-logo-transparent.png" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"/></div>
-<div><strong>Decimals</strong> 18 <img alt="HAIP Logo" src="images/haip-logo-transparent.png" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"/></div>
-<div><strong>Total Supply</strong> 18,000,000,000 HAIP <img alt="HAIP Logo" src="images/haip-logo-transparent.png" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"/></div>
-<div><strong>Network</strong> Binance Smart Chain (BEP20) <img alt="BNB Logo" src="images/logos/bnb.png" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"/></div>
-<div>
-<strong>Contract</strong>
-<div class="contract">0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29</div>
-<button class="btn" onclick="copyContract()">Copy Contract</button>
-</div>
-</div>
-</section>
-<section class="tokenomics-section" data-aos="fade-up">
-<h2>Tokenomics</h2>
-<p><strong>Total Supply:</strong> 18,000,000,000 HAIP</p>
-<ul>
-<li><strong>Presale:</strong> 54% (9.72B HAIP, allocated across private and public stages)</li>
-<li><strong>DEX Liquidity:</strong> 27% (4.86B HAIP, for trading on PancakeSwap)</li>
-<li><strong>Development:</strong> 10% (1.8B HAIP, vested over 2 years)</li>
-<li><strong>Partners:</strong> 9% (1.62B HAIP, for strategic collaborations)</li>
-</ul>
-<p><strong>Vesting:</strong> Team and partner tokens vested over 2 years to ensure long-term commitment.</p>
-</section>
-<div class="tokenomics-container">
-<div class="chart-legend">
-<p><span style="color: #66fcf1;">¦</span> Presale (54%)</p>
-<p><span style="color: #0ff0fc;">¦</span> DEX Liquidity (27%)</p>
-<p><span style="color: #2c3e50;">¦</span> Development (10%)</p>
-<p><span style="color: #08fdd8;">¦</span> Partners (9%)</p>
-</div>
-<canvas class="tokenomics-chart" id="tokenomicsChart"></canvas>
-</div>
-<section class="roadmap-section" data-aos="fade-up">
-<h2>Roadmap</h2>
-<p>Updated June 2025 to reflect current development timeline.</p>
-<ul>
-<li><strong>Q3 2025:</strong> Initiation of private presale, token deployment, smart contract audits</li>
-<li><strong>Q4 2025:</strong> Public presale, TrustWallet integration, open-source code release on GitHub</li>
-<li><strong>Q1 2026:</strong> Community DAO setup, staking mechanism launch, strategic partnerships with AI and DeFi projects</li>
-<li><strong>Q2 2026:</strong> AI dApp beta launch, Chainlink oracles integration</li>
-<li><strong>Q3 2026:</strong> Enhanced DAO features, pilot launch of AI model bounty marketplace</li>
-<li><strong>Q4 2026:</strong> Launchpad for AI startups funded in HAIP</li>
-</ul>
-</section>
-<section data-aos="fade-up">
-<h2>Technology Partners</h2>
-<p>We are proud to collaborate with industry leaders who support innovation and decentralized technologies.</p>
-<div style="display:flex; gap:40px; flex-wrap:wrap; align-items:center; justify-content:center;">
-<a href="https://www.hp.com" target="_blank"><img alt="HP Logo" class="partner-logo" src="images/logos/hp.png" style="max-width:180px; margin-top:10px;"/></a>
-<a href="https://ailabs.tw" target="_blank"><img alt="AI Labs" class="partner-logo" src="images/logos/ai_labs.png" style="max-width:120px; margin-top:10px;"/></a>
-<a href="https://trustwallet.com" target="_blank"><img alt="Trust Wallet" class="partner-logo" src="images/logos/trustwallet.png" style="max-width:120px; margin-top:10px;"/></a>
-<a href="https://ai.google" target="_blank"><img alt="Google AI" class="partner-logo" src="images/logos/google_ai.png" style="max-width:160px; margin-top:10px;"/></a>
-<a href="https://openai.com" target="_blank"><img alt="OpenAI" class="partner-logo" src="images/logos/openai.png" style="max-width:140px; margin-top:10px;"/></a>
-<a href="https://www.mit.edu" target="_blank"><img alt="MIT" class="partner-logo" src="images/logos/mit.png" style="max-width:140px; margin-top:10px;"/></a>
-<a href="https://pancakeswap.finance" target="_blank"><img alt="PancakeSwap" class="partner-logo" src="images/logos/pancakeswap.png" style="max-width:130px; margin-top:10px;"/></a>
-<a href="https://chain.link" target="_blank"><img alt="Chainlink" class="partner-logo" src="images/logos/chainlink.png" style="max-width:140px; margin-top:10px;"/></a>
-<a href="https://metamask.io" target="_blank"><img alt="MetaMask" class="partner-logo" src="images/logos/metamask.png" style="max-width:140px; margin-top:10px;"/></a>
-</div>
-</section>
-<section data-aos="fade-up">
-<h2 style="text-align: center; color: #66fcf1;">Future Collaboration Plan</h2>
-<p style="text-align: center;">We are excited to explore future collaborations with leading crypto exchanges to expand our ecosystem.</p>
-<div class="logo-section">
-<a href="https://www.kucoin.com" target="_blank"><img alt="KuCoin" class="future-partner-logo" src="images/logos/kucoin.png"/></a>
-<a href="https://www.kraken.com" target="_blank"><img alt="Kraken" class="future-partner-logo" src="images/logos/kraken.png"/></a>
-<a href="https://www.uphold.com" target="_blank"><img alt="Uphold" class="future-partner-logo" src="images/logos/uphold.png"/></a>
-<a href="https://www.gate.io" target="_blank"><img alt="Gate.io" class="future-partner-logo" src="images/logos/gateio.png"/></a>
-<a href="https://www.revolut.com" target="_blank"><img alt="Revolut" class="future-partner-logo" src="images/logos/revolut.png"/></a>
-<a href="https://www.bitunix.com" target="_blank"><img alt="Bitunix" class="future-partner-logo" src="images/logos/bitunix.png"/></a>
-<a href="https://www.bitfinex.com" target="_blank"><img alt="Bitfinex" class="future-partner-logo" src="images/logos/bitfinex.png"/></a>
-<a href="https://www.bybit.com" target="_blank"><img alt="Bybit" class="future-partner-logo bybit" src="images/logos/bybit.png"/></a>
-<a href="https://www.crypto.com" target="_blank"><img alt="Crypto.com" class="future-partner-logo crypto-com" src="images/logos/crypto_com.png"/></a>
-<a href="https://whitebit.com" target="_blank"><img alt="WhiteBIT" class="future-partner-logo" src="images/logos/whitebit.png"/></a>
-<a href="https://www.okx.com" target="_blank"><img alt="OKX" class="future-partner-logo okx" src="images/logos/okx.png"/></a>
-<a href="https://www.binance.com" target="_blank"><img alt="Binance" class="future-partner-logo" src="images/logos/binance.png"/></a>
-</div>
-</section>
-<section data-aos="fade-up">
-<h2>Presale Countdown</h2>
-<div class="countdown" id="countdown"></div>
-</section>
-<section data-aos="fade-up">
-<h2>Presale Stages</h2>
-<div class="presale-stage" style="animation-delay: 0.2s">
-<h3>Private Presale</h3>
-<p>Allocation: <strong>2% (360M HAIP)</strong></p>
-<p>Price: <strong>XXX USDT</strong> per HAIP</p>
-<p>Min per user: <strong>XXX USDT</strong> (XXX HAIP)</p>
-<p>Max per user: <strong>XXX USDT</strong> (XXX HAIP)</p>
-</div>
-<div class="presale-stage" style="animation-delay: 0.4s">
-<h3>Public Presale - Stage 1</h3>
-<p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
-<p>Price: <strong>0.0036 USDT</strong> per HAIP</p>
-<p>Min per user: <strong>9.72 USDT</strong> (2,700 HAIP)</p>
-<p>Max per user: <strong>194.4 USDT</strong> (54,000 HAIP)</p>
-</div>
-<div class="presale-stage" style="animation-delay: 0.6s">
-<h3>Public Presale - Stage 2</h3>
-<p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
-<p>Price: <strong>0.0108 USDT</strong> per HAIP</p>
-<p>Min per user: <strong>19.44 USDT</strong> (1,800 HAIP)</p>
-<p>Max per user: <strong>388.8 USDT</strong> (36,000 HAIP)</p>
-</div>
-<div class="presale-stage" style="animation-delay: 0.8s">
-<h3>Public Presale - Stage 3</h3>
-<p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
-<p>Price: <strong>0.0324 USDT</strong> per HAIP</p>
-<p>Min per user: <strong>29.16 USDT</strong> (900 HAIP)</p>
-<p>Max per user: <strong>874.8 USDT</strong> (27,000 HAIP)</p>
-</div>
-<div class="presale-stage" style="animation-delay: 1s">
-<h3>Public Presale - Stage 4</h3>
-<p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
-<p>Price: <strong>0.0972 USDT</strong> per HAIP</p>
-<p>Min per user: <strong>32.36 USDT</strong> (333 HAIP)</p>
-<p>Max per user: <strong>2,361.96 USDT</strong> (24,300 HAIP)</p>
-</div>
-</section>
-<section data-aos="fade-up" data-aos-delay="100" id="presale">
-<h2>Join Presale Now</h2>
-<!-- WIDGET LIVE STAGE -->
-<div class="presale-dashboard" id="stageWidget">
-<div class="stage-widget">
-<div class="stage-title" id="stageTitle">Stage —</div>
-<div class="stage-grid">
-<div class="stage-kv"><b>Price</b><div id="stagePrice">—</div></div>
-<div class="stage-kv"><b>Your Limit (USDT)</b><div id="yourLimit">—</div></div>
-<div class="stage-kv"><b>Sold</b><div id="stageSold">—</div></div>
-<div class="stage-kv"><b>Remaining</b><div id="stageRemaining">—</div></div>
-</div>
-<div class="progress-wrap"><div class="progress-fill" id="stageProgress"></div></div>
-<div class="muted" id="stageHint" style="margin-top:8px;">Connect your wallet to see your current limit.</div>
-</div>
-</div>
-<!-- /WIDGET -->
-<div class="presale-dashboard">
-<div class="presale-status" id="presaleWalletStatus">Wallet not connected</div>
-<div class="presale-limits" id="presaleLimits">Public Presale - Stage 1 Limits: Min 9.72 USDT (2,700 HAIP), Max 194.4 USDT (54,000 HAIP)</div>
-<div class="hidden" id="purchaseInput">
-<input id="purchaseAmount" max="194.4" min="9.72" placeholder="Amount to spend (USDT)" step="0.01" type="number"/>
-</div>
-<div class="presale-actions">
-<button class="btn" id="presaleConnectWalletBtn">Connect Wallet</button>
-<button class="btn hidden" id="presaleDisconnectWalletBtn">Disconnect Wallet</button>
-<button class="btn" disabled="" id="purchaseBtn">Purchase</button>
-</div>
-</div>
-</section>
-<section data-aos="fade-up" data-aos-delay="200" id="staking">
-<h2>HAIP Staking (Dashboard)</h2>
-<div class="staking-dashboard">
-<div class="staking-status" id="walletStatus">Wallet not connected</div>
-<div class="staking-balance" id="walletBalance">Balance: -- HAIP</div>
-<div class="hidden" id="transferInput">
-<input id="transferAmount" min="0" placeholder="Amount to transfer (HAIP)" step="0.000000000000000001" type="number"/>
-<input id="transferAddress" placeholder="Recipient contract address (0x...)" type="text"/>
-</div>
-<div class="staking-actions">
-<button class="btn" id="connectWalletBtn">Connect Wallet</button>
-<button class="btn hidden" id="disconnectWalletBtn">Disconnect Wallet</button>
-<button class="btn" disabled="" id="transferBtn">Transfer</button>
-</div>
-</div>
-</section>
-<section class="subscribe-section" data-aos="fade-up">
-<h2>Contact Us</h2>
-<p>Join our community or reach out for inquiries and collaborations.</p>
-<ul>
-<li>Email: <a href="mailto:contact@haip-token.org">contact@haip-token.org</a></li>
-<li>Telegram: <a href="https://t.me/haipcommunity" target="_blank">@haipcommunity</a></li>
-<li>Twitter: <a href="https://twitter.com/haiptoken" target="_blank">@haiptoken</a></li>
-<li>Discord: <a href="https://discord.gg/haip" target="_blank">HAIP Community</a></li>
-</ul>
-<div class="newsletter-form">
-<input placeholder="Enter your email for updates" required="" type="email"/>
-<button type="submit">Subscribe</button>
-</div>
-</section>
-<section data-aos="fade-up">
-<h2>Resources</h2>
-<ul>
-<li><a href="https://bscscan.com/token/0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">View on BscScan</a></li>
-<li><a href="https://github.com/Darck120579/assets" target="_blank">GitHub Repository (Coming Q4 2025)</a></li>
-</ul>
-</section>
-<section data-aos="fade-up">
-<h2>Legal Disclaimer</h2>
-<p>HAIP Token is a utility token, not a security or equity in any entity. Participants must comply with local regulations before acquiring or transacting with HAIP. All smart contracts undergo independent public audits prior to deployment (Q3 2025). KYC and AML procedures are enforced for presale participants and regulated partner platforms to ensure compliance with international regulatory standards.</p>
-</section>
-</main>
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+  <a href="#top">
+    <img src="images/haip-logo-transparent.png" alt="HAIP Logo" class="logo-fixed">
+  </a>
+  <header id="top">
+    <h1>Hp Artificial Intelligence Power (HAIP)</h1>
+    <p>The official BEP20 token powering AI innovation on Binance Smart Chain</p>
+  </header>
+  <main>
+    <section data-aos="fade-up">
+      <h2>About HAIP</h2>
+      <p>HAIP is a BEP-20 token on Binance Smart Chain designed to fund and integrate artificial intelligence with decentralized finance (DeFi) and Web3 ecosystems. Leveraging smart contracts, Chainlink oracles, and IPFS storage, HAIP empowers AI-driven dApps and community governance through a decentralized DAO.</p>
+      <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">Buy on PancakeSwap</a>
+      <a class="btn" href="#presale">Join Presale</a>
+      <!-- Eliminat: butonul HAIP Staking -->
+    </section>
+
+    <section data-aos="fade-up">
+      <h2>Token Details</h2>
+      <div class="token-details">
+        <div><strong>Token Name</strong> Hp Artificial Intelligence Power <img src="images/logos/hp.png" alt="HP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div><strong>Symbol</strong> HAIP <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div><strong>Decimals</strong> 18 <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div><strong>Total Supply</strong> 18,000,000,000 HAIP <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div><strong>Network</strong> Binance Smart Chain (BEP20) <img src="images/logos/bnb.png" alt="BNB Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div>
+          <strong>Contract</strong>
+          <div class="contract">0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29</div>
+          <button class="btn" onclick="copyContract()">Copy Contract</button>
+        </div>
+      </div>
+    </section>
+
+    <section data-aos="fade-up" class="tokenomics-section">
+      <h2>Tokenomics</h2>
+      <p><strong>Total Supply:</strong> 18,000,000,000 HAIP</p>
+      <ul>
+        <li><strong>Presale:</strong> 54% (9.72B HAIP, allocated across private and public stages)</li>
+        <li><strong>DEX Liquidity:</strong> 27% (4.86B HAIP, for trading on PancakeSwap)</li>
+        <li><strong>Development:</strong> 10% (1.8B HAIP, vested over 2 years)</li>
+        <li><strong>Partners:</strong> 9% (1.62B HAIP, for strategic collaborations)</li>
+      </ul>
+      <p><strong>Vesting:</strong> Team and partner tokens vested over 2 years to ensure long-term commitment.</p>
+    </section>
+
+    <div class="tokenomics-container">
+      <div class="chart-legend">
+        <p><span style="color: #66fcf1;">¦</span> Presale (54%)</p>
+        <p><span style="color: #0ff0fc;">¦</span> DEX Liquidity (27%)</p>
+        <p><span style="color: #2c3e50;">¦</span> Development (10%)</p>
+        <p><span style="color: #08fdd8;">¦</span> Partners (9%)</p>
+      </div>
+      <canvas id="tokenomicsChart" class="tokenomics-chart"></canvas>
+    </div>
+
+    <section data-aos="fade-up" class="roadmap-section">
+      <h2>Roadmap</h2>
+      <p>Updated June 2025 to reflect current development timeline.</p>
+      <ul>
+        <li><strong>Q3 2025:</strong> Initiation of private presale, token deployment, smart contract audits</li>
+        <li><strong>Q4 2025:</strong> Public presale, TrustWallet integration, open-source code release on GitHub</li>
+        <li><strong>Q1 2026:</strong> Community DAO setup, strategic partnerships with AI and DeFi projects</li>
+        <li><strong>Q2 2026:</strong> AI dApp beta launch, Chainlink oracles integration</li>
+        <li><strong>Q3 2026:</strong> Enhanced DAO features, pilot launch of AI model bounty marketplace</li>
+        <li><strong>Q4 2026:</strong> Launchpad for AI startups funded in HAIP</li>
+      </ul>
+    </section>
+
+    <section data-aos="fade-up">
+      <h2>Technology Partners</h2>
+      <p>We are proud to collaborate with industry leaders who support innovation and decentralized technologies.</p>
+      <div style="display:flex; gap:40px; flex-wrap:wrap; align-items:center; justify-content:center;">
+        <a href="https://www.hp.com" target="_blank"><img src="images/logos/hp.png" alt="HP Logo" class="partner-logo" style="max-width:180px; margin-top:10px;"></a>
+        <a href="https://ailabs.tw" target="_blank"><img src="images/logos/ai_labs.png" alt="AI Labs" class="partner-logo" style="max-width:120px; margin-top:10px;"></a>
+        <a href="https://trustwallet.com" target="_blank"><img src="images/logos/trustwallet.png" alt="Trust Wallet" class="partner-logo" style="max-width:120px; margin-top:10px;"></a>
+        <a href="https://ai.google" target="_blank"><img src="images/logos/google_ai.png" alt="Google AI" class="partner-logo" style="max-width:160px; margin-top:10px;"></a>
+        <a href="https://openai.com" target="_blank"><img src="images/logos/openai.png" alt="OpenAI" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
+        <a href="https://www.mit.edu" target="_blank"><img src="images/logos/mit.png" alt="MIT" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
+        <a href="https://pancakeswap.finance" target="_blank"><img src="images/logos/pancakeswap.png" alt="PancakeSwap" class="partner-logo" style="max-width:130px; margin-top:10px;"></a>
+        <a href="https://chain.link" target="_blank"><img src="images/logos/chainlink.png" alt="Chainlink" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
+        <a href="https://metamask.io" target="_blank"><img src="images/logos/metamask.png" alt="MetaMask" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
+      </div>
+    </section>
+
+    <section data-aos="fade-up">
+      <h2 style="text-align: center; color: #66fcf1;">Future Collaboration Plan</h2>
+      <p style="text-align: center;">We are excited to explore future collaborations with leading crypto exchanges to expand our ecosystem.</p>
+      <div class="logo-section">
+        <a href="https://www.kucoin.com" target="_blank"><img src="images/logos/kucoin.png" alt="KuCoin" class="future-partner-logo"></a>
+        <a href="https://www.kraken.com" target="_blank"><img src="images/logos/kraken.png" alt="Kraken" class="future-partner-logo"></a>
+        <a href="https://www.uphold.com" target="_blank"><img src="images/logos/uphold.png" alt="Uphold" class="future-partner-logo"></a>
+        <a href="https://www.gate.io" target="_blank"><img src="images/logos/gateio.png" alt="Gate.io" class="future-partner-logo"></a>
+        <a href="https://www.revolut.com" target="_blank"><img src="images/logos/revolut.png" alt="Revolut" class="future-partner-logo"></a>
+        <a href="https://www.bitunix.com" target="_blank"><img src="images/logos/bitunix.png" alt="Bitunix" class="future-partner-logo"></a>
+        <a href="https://www.bitfinex.com" target="_blank"><img src="images/logos/bitfinex.png" alt="Bitfinex" class="future-partner-logo"></a>
+        <a href="https://www.bybit.com" target="_blank"><img src="images/logos/bybit.png" alt="Bybit" class="future-partner-logo bybit"></a>
+        <a href="https://www.crypto.com" target="_blank"><img src="images/logos/crypto_com.png" alt="Crypto.com" class="future-partner-logo crypto-com"></a>
+        <a href="https://whitebit.com" target="_blank"><img src="images/logos/whitebit.png" alt="WhiteBIT" class="future-partner-logo"></a>
+        <a href="https://www.okx.com" target="_blank"><img src="images/logos/okx.png" alt="OKX" class="future-partner-logo okx"></a>
+        <a href="https://www.binance.com" target="_blank"><img src="images/logos/binance.png" alt="Binance" class="future-partner-logo"></a>
+      </div>
+    </section>
+
+    <section data-aos="fade-up">
+      <h2>Presale Countdown</h2>
+      <div class="countdown" id="countdown"></div>
+    </section>
+
+    <section data-aos="fade-up">
+      <h2>Presale Stages</h2>
+      <div class="presale-stage" style="animation-delay: 0.2s">
+        <h3>Private Presale</h3>
+        <p>Allocation: <strong>2% (360M HAIP)</strong></p>
+        <p>Price: <strong>XXX USDT</strong> per HAIP</p>
+        <p>Min per user: <strong>XXX USDT</strong> (XXX HAIP)</p>
+        <p>Max per user: <strong>XXX USDT</strong> (XXX HAIP)</p>
+      </div>
+      <div class="presale-stage" style="animation-delay: 0.4s">
+        <h3>Public Presale - Stage 1</h3>
+        <p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
+        <p>Price: <strong>0.0036 USDT</strong> per HAIP</p>
+        <p>Min per user: <strong>9.72 USDT</strong> (2,700 HAIP)</p>
+        <p>Max per user: <strong>194.4 USDT</strong> (54,000 HAIP)</p>
+      </div>
+      <div class="presale-stage" style="animation-delay: 0.6s">
+        <h3>Public Presale - Stage 2</h3>
+        <p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
+        <p>Price: <strong>0.0108 USDT</strong> per HAIP</p>
+        <p>Min per user: <strong>19.44 USDT</strong> (1,800 HAIP)</p>
+        <p>Max per user: <strong>388.8 USDT</strong> (36,000 HAIP)</p>
+      </div>
+      <div class="presale-stage" style="animation-delay: 0.8s">
+        <h3>Public Presale - Stage 3</h3>
+        <p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
+        <p>Price: <strong>0.0324 USDT</strong> per HAIP</p>
+        <p>Min per user: <strong>29.16 USDT</strong> (900 HAIP)</p>
+        <p>Max per user: <strong>874.8 USDT</strong> (27,000 HAIP)</p>
+      </div>
+      <div class="presale-stage" style="animation-delay: 1s">
+        <h3>Public Presale - Stage 4</h3>
+        <p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
+        <p>Price: <strong>0.0972 USDT</strong> per HAIP</p>
+        <p>Min per user: <strong>32.36 USDT</strong> (333 HAIP)</p>
+        <p>Max per user: <strong>2,361.96 USDT</strong> (24,300 HAIP)</p>
+      </div>
+    </section>
+
+    <section id="presale" data-aos="fade-up" data-aos-delay="100">
+      <h2>Join Presale Now</h2>
+
+      <!-- WIDGET LIVE STAGE -->
+      <div class="presale-dashboard" id="stageWidget">
+        <div class="stage-widget">
+          <div class="stage-title" id="stageTitle">Stage —</div>
+          <div class="stage-grid">
+            <div class="stage-kv"><b>Price</b><div id="stagePrice">—</div></div>
+            <div class="stage-kv"><b>Your Limit (USDT)</b><div id="yourLimit">—</div></div>
+            <div class="stage-kv"><b>Sold</b><div id="stageSold">—</div></div>
+            <div class="stage-kv"><b>Remaining</b><div id="stageRemaining">—</div></div>
+          </div>
+          <div class="progress-wrap"><div class="progress-fill" id="stageProgress"></div></div>
+          <div class="muted" id="stageHint" style="margin-top:8px;">Connect your wallet to see your current limit.</div>
+        </div>
+      </div>
+      <!-- /WIDGET -->
+
+      <div class="presale-dashboard">
+        <div class="presale-status" id="presaleWalletStatus">Wallet not connected</div>
+        <div class="presale-limits" id="presaleLimits">Public Presale - Stage 1 Limits: Min 9.72 USDT (2,700 HAIP), Max 194.4 USDT (54,000 HAIP)</div>
+        <div class="presale-input" id="purchaseInput" class="hidden">
+          <input type="number" id="purchaseAmount" placeholder="Amount to spend (USDT)" min="9.72" max="194.4" step="0.01">
+        </div>
+        <div class="presale-actions">
+          <button class="btn" id="presaleConnectWalletBtn">Connect Wallet</button>
+          <button class="btn hidden" id="presaleDisconnectWalletBtn">Disconnect Wallet</button>
+          <button class="btn" id="purchaseBtn" disabled>Purchase</button>
+        </div>
+      </div>
+    </section>
+
+    <section data-aos="fade-up">
+      <h2>Contact Us</h2>
+      <p>Join our community or reach out for inquiries and collaborations.</p>
+      <ul>
+        <li>Email: <a href="mailto:contact@haip-token.org">contact@haip-token.org</a></li>
+        <li>Telegram: <a href="https://t.me/haipcommunity" target="_blank">@haipcommunity</a></li>
+        <li>Twitter: <a href="https://twitter.com/haiptoken" target="_blank">@haiptoken</a></li>
+        <li>Discord: <a href="https://discord.gg/haip" target="_blank">HAIP Community</a></li>
+      </ul>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Enter your email for updates" required>
+        <button type="submit">Subscribe</button>
+      </div>
+    </section>
+
+    <section data-aos="fade-up">
+      <h2>Resources</h2>
+      <ul>
+        <li><a href="https://bscscan.com/token/0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">View on BscScan</a></li>
+        <li><a href="https://github.com/Darck120579/assets" target="_blank">GitHub Repository (Coming Q4 2025)</a></li>
+      </ul>
+    </section>
+
+    <section data-aos="fade-up">
+      <h2>Legal Disclaimer</h2>
+      <p>HAIP Token is a utility token, not a security or equity in any entity. Participants must comply with local regulations before acquiring or transacting with HAIP. All smart contracts undergo independent public audits prior to deployment (Q3 2025). KYC and AML procedures are enforced for presale participants and regulated partner platforms to ensure compliance with international regulatory standards.</p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
     AOS.init({ duration: 1000 });
 
-    // Countdown logic
+    // Countdown
     const countdown = document.getElementById('countdown');
     const launchDate = new Date('2025-08-01T00:00:00Z').getTime();
     const updateCountdown = () => {
@@ -374,8 +355,7 @@
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
       countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     };
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    setInterval(updateCountdown, 1000); updateCountdown();
 
     // Tokenomics chart
     const ctx = document.getElementById('tokenomicsChart').getContext('2d');
@@ -392,16 +372,7 @@
       }
     });
 
-    // ---------------------- Web3 & Presale Logic ----------------------
-    const walletStatus = document.getElementById('walletStatus');
-    const walletBalance = document.getElementById('walletBalance');
-    const connectWalletBtn = document.getElementById('connectWalletBtn');
-    const disconnectWalletBtn = document.getElementById('disconnectWalletBtn');
-    const transferBtn = document.getElementById('transferBtn');
-    const transferInput = document.getElementById('transferInput');
-    const transferAmountInput = document.getElementById('transferAmount');
-    const transferAddressInput = document.getElementById('transferAddress');
-
+    // -------- Web3 & Presale Logic (fără staking) --------
     const presaleWalletStatus = document.getElementById('presaleWalletStatus');
     const presaleConnectWalletBtn = document.getElementById('presaleConnectWalletBtn');
     const presaleDisconnectWalletBtn = document.getElementById('presaleDisconnectWalletBtn');
@@ -410,7 +381,7 @@
     const purchaseAmountInput = document.getElementById('purchaseAmount');
     const presaleLimits = document.getElementById('presaleLimits');
 
-    // Stage widget elements
+    // Stage widget
     const stageTitle = document.getElementById('stageTitle');
     const stagePrice = document.getElementById('stagePrice');
     const stageSold = document.getElementById('stageSold');
@@ -420,13 +391,12 @@
 
     // Contract details (BSC mainnet)
     const HAIP_ADDRESS = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
-    const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955'; // USDT
+    const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
     const PRESALE_ADDRESS = '0x07e11a90bFea0f38D203f25C26c21de1cD78bFf7';
 
     const HAIP_ABI = [
       {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-      {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},
-      {"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}
+      {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"}
     ];
     const USDT_ABI = [
       {"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
@@ -434,16 +404,15 @@
       {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
       {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"}
     ];
-    // ABI minim pentru presale
     const PRESALE_ABI = [
       {"inputs":[{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"buy","outputs":[],"stateMutability":"nonpayable","type":"function"},
       {"inputs":[],"name":"currentStage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
       {"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"}],"name":"getStage","outputs":[
-          {"internalType":"uint256","name":"priceNum","type":"uint256"},
-          {"internalType":"uint256","name":"minUsdt","type":"uint256"},
-          {"internalType":"uint256","name":"maxUsdt","type":"uint256"},
-          {"internalType":"uint256","name":"capTokens","type":"uint256"},
-          {"internalType":"uint256","name":"soldTokens","type":"uint256"}
+        {"internalType":"uint256","name":"priceNum","type":"uint256"},
+        {"internalType":"uint256","name":"minUsdt","type":"uint256"},
+        {"internalType":"uint256","name":"maxUsdt","type":"uint256"},
+        {"internalType":"uint256","name":"capTokens","type":"uint256"},
+        {"internalType":"uint256","name":"soldTokens","type":"uint256"}
       ],"stateMutability":"view","type":"function"},
       {"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"},{"internalType":"address","name":"user","type":"address"}],"name":"maxUsdtUserCanBuy","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
       {"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"},{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"quoteTokens","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
@@ -451,6 +420,7 @@
 
     let web3, haipContract, usdtContract, presaleContract;
     let connectedAddress = null, haipDec = 18, usdtDec = 18;
+
     const fmt = (n,d=2)=>Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
     const toUnits = (web3, val, dec) => {
       const bn = web3.utils.toBN(Math.floor((+val) * 1e6));
@@ -458,7 +428,6 @@
       return bn.mul(scale);
     };
     const fromUnits = (web3, bn, dec) => {
-      const scale = web3.utils.toBN(10).pow(web3.utils.toBN(dec));
       const s = bn.toString();
       const pad = s.padStart(dec+1, '0');
       const intPart = pad.slice(0, -dec);
@@ -490,7 +459,7 @@
         } else { attempts++; await new Promise(r=>setTimeout(r, retryDelay)); }
       }
       const msg = 'No wallet provider detected. Please install <a href="https://metamask.io/download" target="_blank">MetaMask</a> or <a href="https://trustwallet.com/download" target="_blank">Trust Wallet</a>.';
-      walletStatus.innerHTML = msg; presaleWalletStatus.innerHTML = msg; return false;
+      presaleWalletStatus.innerHTML = msg; return false;
     };
 
     const checkNetwork = async () => {
@@ -509,43 +478,31 @@
               });
               return true;
             }
-            walletStatus.textContent = 'Failed to switch to Binance Smart Chain.';
             presaleWalletStatus.textContent = 'Failed to switch to Binance Smart Chain.';
             return false;
           }
         }
         return true;
       } catch {
-        walletStatus.textContent = 'Error checking network.'; presaleWalletStatus.textContent = 'Error checking network.'; return false;
+        presaleWalletStatus.textContent = 'Error checking network.'; return false;
       }
     };
 
-    const detectWalletType = () => {
-      if (window.ethereum?.isMetaMask) return 'MetaMask';
-      if (window.ethereum?.isTrust) return 'Trust Wallet';
-      if (window.ethereum?.isCoinbaseWallet) return 'Coinbase Wallet';
-      if (window.ethereum) return 'Web3 Wallet';
-      if (window.web3) return 'Legacy Web3 Wallet';
-      return 'Unknown Wallet';
-    };
-
     const connectWallet = async () => {
-      connectWalletBtn.classList.add('loading'); presaleConnectWalletBtn.classList.add('loading');
-      connectWalletBtn.disabled = true; presaleConnectWalletBtn.disabled = true;
+      presaleConnectWalletBtn.classList.add('loading');
+      presaleConnectWalletBtn.disabled = true;
       try {
         if (!await initWeb3()) throw new Error('No wallet provider detected.');
         if (!await checkNetwork()) throw new Error('Wrong network');
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         if (accounts.length === 0) throw new Error('No accounts authorized.');
         connectedAddress = accounts[0];
-        const walletType = detectWalletType();
-        const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-        walletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
-        presaleWalletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
-        walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
-        connectWalletBtn.classList.add('hidden'); presaleConnectWalletBtn.classList.add('hidden');
-        disconnectWalletBtn.classList.remove('hidden'); presaleDisconnectWalletBtn.classList.remove('hidden');
-        transferBtn.disabled = false; purchaseBtn.disabled = false;
+
+        const balance = await haipContract.methods.balanceOf(connectedAddress).call().catch(()=>0);
+        presaleWalletStatus.textContent = `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)} · Balance ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
+        presaleConnectWalletBtn.classList.add('hidden');
+        presaleDisconnectWalletBtn.classList.remove('hidden');
+        purchaseBtn.disabled = false;
         purchaseInput.classList.remove('hidden');
 
         await refreshPresaleLimits();
@@ -554,11 +511,10 @@
         window.ethereum.on('accountsChanged', ()=>location.reload());
         window.ethereum.on('chainChanged', ()=>location.reload());
       } catch (error) {
-        walletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
         presaleWalletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
       } finally {
-        connectWalletBtn.classList.remove('loading'); presaleConnectWalletBtn.classList.remove('loading');
-        connectWalletBtn.disabled = false; presaleConnectWalletBtn.disabled = false;
+        presaleConnectWalletBtn.classList.remove('loading');
+        presaleConnectWalletBtn.disabled = false;
       }
     };
 
@@ -574,7 +530,6 @@
       } catch {}
     };
 
-    // === WIDGET: Stage info live ===
     const refreshStageUI = async () => {
       try {
         const idx = await presaleContract.methods.currentStage().call();
@@ -606,67 +561,26 @@
           document.getElementById('yourLimit').textContent = `—`;
         }
       } catch (e) {
-        // fallback UI
         stageTitle.textContent = `Public Presale — Stage —`;
       }
     };
-    // auto refresh every 20s
     setInterval(()=>{ if (presaleContract) refreshStageUI(); }, 20000);
-
-    const updateWalletUI = async () => {
-      if (!connectedAddress) return;
-      const walletType = (window.ethereum?.isMetaMask && 'MetaMask') || 'Wallet';
-      const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-      walletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
-      presaleWalletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
-      walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
-    };
 
     const disconnectWallet = () => {
       connectedAddress = null;
-      walletStatus.textContent = 'Wallet not connected'; presaleWalletStatus.textContent = 'Wallet not connected';
-      walletBalance.textContent = 'Balance: -- HAIP';
-      connectWalletBtn.classList.remove('hidden'); disconnectWalletBtn.classList.add('hidden');
-      presaleConnectWalletBtn.classList.remove('hidden'); presaleDisconnectWalletBtn.classList.add('hidden');
-      transferBtn.disabled = true; purchaseBtn.disabled = true; transferInput.classList.add('hidden'); purchaseInput.classList.add('hidden');
-      transferAmountInput.value = ''; transferAddressInput.value = ''; purchaseAmountInput.value = '';
+      presaleWalletStatus.textContent = 'Wallet not connected';
+      presaleConnectWalletBtn.classList.remove('hidden');
+      presaleDisconnectWalletBtn.classList.add('hidden');
+      purchaseBtn.disabled = true; purchaseInput.classList.add('hidden');
+      purchaseAmountInput.value = '';
       refreshStageUI();
     };
 
-    const transferTokens = async () => {
-      if (!transferInput.classList.contains('hidden')) {
-        transferBtn.classList.add('loading'); transferBtn.disabled = true;
-        try {
-          if (!web3 || !haipContract || !connectedAddress) throw new Error('Wallet not connected');
-          const amount = parseFloat(transferAmountInput.value); const recipient = transferAddressInput.value;
-          if (isNaN(amount) || amount <= 0) throw new Error('Invalid amount');
-          if (!web3.utils.isAddress(recipient)) throw new Error('Invalid recipient address');
-          const weiAmount = toUnits(web3, amount, haipDec);
-          await haipContract.methods.transfer(recipient, weiAmount.toString()).send({ from: connectedAddress });
-          walletStatus.textContent = `Transferred ${amount} HAIP to ${recipient.slice(0, 6)}...${recipient.slice(-4)}`;
-          presaleWalletStatus.textContent = `Transferred ${amount} HAIP to ${recipient.slice(0, 6)}...${recipient.slice(-4)}`;
-          const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-          walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
-          transferInput.classList.add('hidden'); transferAmountInput.value = ''; transferAddressInput.value = '';
-        } catch (error) {
-          walletStatus.textContent = `Error: ${error.message || 'Transfer failed'}`;
-          presaleWalletStatus.textContent = `Error: ${error.message || 'Transfer failed'}`;
-        } finally {
-          transferBtn.classList.remove('loading'); transferBtn.disabled = connectedAddress ? false : true;
-        }
-      } else {
-        transferInput.classList.remove('hidden');
-      }
-    };
-
-    // Real purchase: approve USDT (if needed) -> buy
     const purchaseTokens = async () => {
       if (!purchaseInput.classList.contains('hidden')) {
         purchaseBtn.classList.add('loading'); purchaseBtn.disabled = true;
         try {
-          if (!web3 || !haipContract || !usdtContract || !presaleContract || !connectedAddress) {
-            throw new Error('Wallet not connected');
-          }
+          if (!web3 || !usdtContract || !presaleContract || !connectedAddress) throw new Error('Wallet not connected');
           let usdtAmount = parseFloat(purchaseAmountInput.value);
           if (isNaN(usdtAmount) || usdtAmount <= 0) throw new Error('Please enter a valid positive number');
 
@@ -697,15 +611,11 @@
           presaleWalletStatus.textContent = 'Submitting purchase...';
           const tx = await presaleContract.methods.buy(usdtUnits.toString()).send({ from: connectedAddress });
           presaleWalletStatus.innerHTML = `Success${haipAmountStr}! <a target="_blank" href="https://bscscan.com/tx/${tx.transactionHash}">View on BscScan</a>`;
-          walletStatus.innerHTML = presaleWalletStatus.innerHTML;
 
-          const balance = await haipContract.methods.balanceOf(connectedAddress).call();
-          walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
           purchaseInput.classList.add('hidden'); purchaseAmountInput.value = '';
           await refreshPresaleLimits();
           await refreshStageUI();
         } catch (error) {
-          walletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
           presaleWalletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
         } finally {
           purchaseBtn.classList.remove('loading'); purchaseBtn.disabled = connectedAddress ? false : true;
@@ -715,12 +625,9 @@
       }
     };
 
-    // Event listeners
-    connectWalletBtn.addEventListener('click', connectWallet);
-    disconnectWalletBtn.addEventListener('click', disconnectWallet);
+    // Buttons
     presaleConnectWalletBtn.addEventListener('click', connectWallet);
     presaleDisconnectWalletBtn.addEventListener('click', disconnectWallet);
-    transferBtn.addEventListener('click', transferTokens);
     purchaseBtn.addEventListener('click', purchaseTokens);
 
     // Copy contract address
@@ -729,9 +636,8 @@
       navigator.clipboard.writeText(contractAddress).then(() => alert('Contract address copied to clipboard!'));
     }
 
-    // Ini?ializare widget (inainte de conectare)
+    // Initialize widget (read-only before connect)
     (async () => {
-      // incearca sa ini?ializezi web3 doar pentru a citi datele on-chain in widget
       try {
         if (window.ethereum || window.web3) {
           await initWeb3();
