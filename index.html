@@ -121,7 +121,42 @@
       .presale-actions .btn { width: 100%; max-width: 300px; }
       .stage-grid { grid-template-columns: 1fr; }
     }
-  </style>
+  
+/* === Presale v3 (mobile-first) === */
+:root{
+  --haip-teal:#66fcf1;
+  --haip-cyan:#0ff0fc;
+  --haip-bg:#0b0c10;
+  --haip-card:#1f2833;
+}
+.presale-v3{display:grid; gap:14px;}
+.presale-card{background:rgba(31,40,51,.92); border:1px solid #0ff0fc22; border-radius:14px; padding:14px; box-shadow:0 6px 24px rgba(0,249,255,.15); backdrop-filter: blur(4px);}
+.presale-head{display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap}
+.presale-title{font-size:1.2rem; color:var(--haip-teal); margin:0}
+.badge-stage{font-size:.85rem; border:1px solid #0ff0fc44; color:#bff; padding:4px 10px; border-radius:999px}
+.kv{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.kv .box{background:#152028; border:1px solid #0b2a31; border-radius:10px; padding:10px; text-align:center}
+.kv .box b{display:block; color:var(--haip-teal); margin-bottom:2px}
+.progress{height:12px; background:#132029; border:1px solid #0ff0fc33; border-radius:999px; overflow:hidden}
+.progress>i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--haip-teal),var(--haip-cyan)); box-shadow:0 0 14px #0ff0fc66 inset; transition:width .6s ease}
+.quote{font-size:.95rem; color:#d9ffff; opacity:.9; text-align:center}
+.amount-chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center}
+.chip{padding:8px 12px; border:1px solid #0ff0fc44; background:#142129; color:#eaffff; border-radius:999px; cursor:pointer; transition:transform .15s ease, border-color .2s ease}
+.chip:hover{transform:translateY(-1px); border-color:#0ff0fc99}
+.chip.active{background:#122; border-color:#0ff0fc; box-shadow:0 0 10px #0ff0fc55 inset}
+.presale-actions .btn{min-width:140px}
+.sticky-cta{position:fixed; left:0; right:0; bottom:12px; display:none; justify-content:center; z-index:1000; padding:0 12px}
+.sticky-cta .btn{width:100%; max-width:460px; border-radius:999px; box-shadow:0 10px 30px rgba(0,249,255,.25)}
+.toast{position:fixed; bottom:70px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; background:#12242c; color:#eaffff; padding:10px 14px; border:1px solid #0ff0fc55; border-radius:10px; z-index:1100; transition:all .25s ease}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+@media(min-width: 740px){
+  .kv{grid-template-columns:repeat(4,1fr)}
+  .presale-title{font-size:1.35rem}
+}
+/* Input better spacing on mobile */
+.presale-v3 input[type="number"]{width:100%; max-width:320px; margin:0 auto; display:block}
+
+</style>
 </head>
 <body>
   <a href="#top">
@@ -270,38 +305,55 @@
       </div>
     </section>
 
-    <section id="presale" data-aos="fade-up" data-aos-delay="100">
-      <h2>Join Presale Now</h2>
+    
+<section id="presale" class="presale-v3" data-aos="fade-up" data-aos-delay="60">
+  <h2>Join Presale Now</h2>
 
-      <!-- WIDGET LIVE STAGE -->
-      <div class="presale-dashboard" id="stageWidget">
-        <div class="stage-widget">
-          <div class="stage-title" id="stageTitle">Stage —</div>
-          <div class="stage-grid">
-            <div class="stage-kv"><b>Price</b><div id="stagePrice">—</div></div>
-            <div class="stage-kv"><b>Your Limit (USDT)</b><div id="yourLimit">—</div></div>
-            <div class="stage-kv"><b>Sold</b><div id="stageSold">—</div></div>
-            <div class="stage-kv"><b>Remaining</b><div id="stageRemaining">—</div></div>
-          </div>
-          <div class="progress-wrap"><div class="progress-fill" id="stageProgress"></div></div>
-          <div class="muted" id="stageHint" style="margin-top:8px;">Connect your wallet to see your current limit.</div>
-        </div>
-      </div>
-      <!-- /WIDGET -->
+  <div class="presale-card">
+    <div class="presale-head">
+      <h3 class="presale-title">Public Presale</h3>
+      <span class="badge-stage" id="v3StageTitle">Stage —</span>
+    </div>
 
-      <div class="presale-dashboard">
-        <div class="presale-status" id="presaleWalletStatus">Wallet not connected</div>
-        <div class="presale-limits" id="presaleLimits">Public Presale - Stage 1 Limits: Min 9.72 USDT (2,700 HAIP), Max 194.4 USDT (54,000 HAIP)</div>
-        <div class="presale-input" id="purchaseInput" class="hidden">
-          <input type="number" id="purchaseAmount" placeholder="Amount to spend (USDT)" min="9.72" max="194.4" step="0.01">
-        </div>
-        <div class="presale-actions">
-          <button class="btn" id="presaleConnectWalletBtn">Connect Wallet</button>
-          <button class="btn hidden" id="presaleDisconnectWalletBtn">Disconnect Wallet</button>
-          <button class="btn" id="purchaseBtn" disabled>Purchase</button>
-        </div>
-      </div>
-    </section>
+    <div class="kv" style="margin:10px 0">
+      <div class="box"><b>Price</b><div id="v3StagePrice">—</div></div>
+      <div class="box"><b>Your Limit (USDT)</b><div id="v3YourLimit">—</div></div>
+      <div class="box"><b>Sold</b><div id="v3StageSold">—</div></div>
+      <div class="box"><b>Remaining</b><div id="v3StageRemaining">—</div></div>
+    </div>
+
+    <div class="progress"><i id="v3StageProgress"></i></div>
+    <p class="quote" id="v3Quote">Connect your wallet to see your personalized limit.</p>
+  </div>
+
+  <div class="presale-card">
+    <div class="presale-status" id="presaleWalletStatus">Wallet not connected</div>
+    <div class="presale-limits" id="presaleLimits">Stage limits will appear after connect.</div>
+
+    <div class="amount-chips" id="chipsRow" style="margin:8px 0 6px">
+      <button class="chip" data-usdt="25">+25</button>
+      <button class="chip" data-usdt="50">+50</button>
+      <button class="chip" data-usdt="75">+75</button>
+      <button class="chip" data-usdt="0" data-max="1">Max</button>
+    </div>
+
+    <div class="presale-input" id="purchaseInput">
+      <input type="number" id="purchaseAmount" placeholder="Amount to spend (USDT)" min="0" step="0.01">
+    </div>
+
+    <div class="presale-actions" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
+      <button class="btn" id="presaleConnectWalletBtn">Connect Wallet</button>
+      <button class="btn hidden" id="presaleDisconnectWalletBtn">Disconnect Wallet</button>
+      <button class="btn" id="purchaseBtn" disabled>Purchase</button>
+    </div>
+  </div>
+
+  <div class="sticky-cta" id="stickyCta">
+    <button class="btn" id="stickyBuyBtn">Buy HAIP</button>
+  </div>
+  <div class="toast" id="toast">Copied!</div>
+</section>
+
 
     <section data-aos="fade-up">
       <h2>Contact Us</h2>
@@ -646,5 +698,107 @@
       } catch {}
     })();
   </script>
+<script>
+
+// === Presale v3 UX enhancements ===
+(function(){
+  const chips = Array.from(document.querySelectorAll('.chip'));
+  const amountInput = document.getElementById('purchaseAmount');
+  const toast = document.getElementById('toast');
+  const sticky = document.getElementById('stickyCta');
+  const stickyBtn = document.getElementById('stickyBuyBtn');
+
+  function showToast(msg){
+    if(!toast) return;
+    toast.textContent = msg || 'Done';
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'), 1600);
+  }
+
+  // chips logic
+  chips.forEach(ch=>{
+    ch.addEventListener('click', ()=>{
+      chips.forEach(c=>c.classList.remove('active'));
+      ch.classList.add('active');
+      const isMax = ch.dataset.max === '1';
+      let current = parseFloat(amountInput.value || '0');
+      if(isNaN(current)) current = 0;
+      if(isMax){
+        // use yourLimit when available
+        const limEl = document.getElementById('v3YourLimit');
+        const max = limEl && parseFloat((limEl.textContent||'0').replace(/[^0-9.]/g,'')) || 0;
+        if(max>0){ amountInput.value = max.toFixed(2); }
+      } else {
+        const inc = parseFloat(ch.dataset.usdt || '0');
+        amountInput.value = (current + inc).toFixed(2);
+      }
+      amountInput.dispatchEvent(new Event('input'));
+    });
+  });
+
+  // sticky CTA visibility on small screens
+  function updateSticky(){
+    const mq = window.matchMedia('(max-width: 740px)');
+    sticky.style.display = mq.matches ? 'flex' : 'none';
+  }
+  updateSticky();
+  window.addEventListener('resize', updateSticky);
+
+  if(stickyBtn){
+    stickyBtn.addEventListener('click', ()=>{
+      document.getElementById('purchaseBtn')?.click();
+    });
+  }
+
+  // Copy contract when clicked (toast)
+  window.copyContract = function(){
+    const contractAddress = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
+    navigator.clipboard.writeText(contractAddress).then(()=>showToast('Contract copied'));
+  }
+
+  // Hook into existing refresh UI (if presaleContract present)
+  async function v3Refresh(){
+    try{
+      if(!presaleContract || !web3) return;
+      const idx = await presaleContract.methods.currentStage().call();
+      const st = await presaleContract.methods.getStage(idx).call();
+      const price = (Number(st.priceNum || st[0]) / 10000).toFixed(4);
+      const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
+      const cap  = fromUnits(web3, web3.utils.toBN(st.capTokens  || st[3]), haipDec);
+      const remaining = Math.max(cap - sold, 0);
+      const pct = cap > 0 ? Math.min((sold / cap) * 100, 100) : 0;
+
+      document.getElementById('v3StageTitle').textContent = `Stage ${Number(idx)+1}`;
+      document.getElementById('v3StagePrice').textContent = `${price} USDT / HAIP`;
+      document.getElementById('v3StageSold').textContent = `${fmt(sold,2)} / ${fmt(cap,2)} HAIP`;
+      document.getElementById('v3StageRemaining').textContent = `${fmt(remaining,2)} HAIP`;
+      document.getElementById('v3StageProgress').style.width = `${pct.toFixed(2)}%`;
+
+      if(connectedAddress){
+        try{
+          const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
+          const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
+          document.getElementById('v3YourLimit').textContent = `${maxUserFloat.toFixed(2)}`;
+          document.getElementById('v3Quote').textContent = `You can still buy up to ${maxUserFloat.toFixed(2)} USDT in this stage.`;
+        }catch{}
+      }
+    }catch(e){}
+  }
+
+  // run periodically
+  setInterval(v3Refresh, 20000);
+  setTimeout(v3Refresh, 800);
+
+  // Keep purchase button enabled state synced
+  const purchaseBtnEl = document.getElementById('purchaseBtn');
+  if(amountInput && purchaseBtnEl){
+    amountInput.addEventListener('input', ()=>{
+      purchaseBtnEl.disabled = !amountInput.value || parseFloat(amountInput.value) <= 0;
+    });
+  }
+
+})(); 
+
+</script>
 </body>
 </html>
