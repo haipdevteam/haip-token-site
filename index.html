@@ -43,6 +43,14 @@
       border: 2px solid #0b0c10; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite;
     }
     @keyframes spin { 0% { transform: translateY(-50%) rotate(0deg);} 100% { transform: translateY(-50%) rotate(360deg);} }
+    .partner-logo { transition: transform 0.5s ease, filter 0.5s ease; background-color: transparent; filter: drop-shadow(0 0 5px rgba(102, 252, 241, 0.4)); max-width: 140px; }
+    .partner-logo:hover { transform: scale(1.1); filter: drop-shadow(0 0 25px #00f9ff); }
+    .future-partner-logo { height: 50px; margin: 10px 20px; object-fit: contain; filter: drop-shadow(0 0 5px rgba(102, 252, 241, 0.3)); transition: transform 0.3s ease, filter 0.3s ease; }
+    .future-partner-logo:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px #00f9ff); }
+    .future-partner-logo.bybit { height: 150px; }
+    .future-partner-logo.crypto-com { height: 100px; max-width: 100px; }
+    .future-partner-logo.okx { height: 100px; max-width: 100px; }
+    .logo-section { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; padding: 20px; }
     .presale-stage {
       background: rgba(31, 40, 51, 0.7); border-left: 4px solid #66fcf1; padding: 15px; margin-bottom: 10px; border-radius: 8px;
       box-shadow: 0 0 15px rgba(0, 249, 255, 0.1); animation: fadeInUp 1s ease both; transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; cursor: pointer;
@@ -67,6 +75,7 @@
     }
     .token-details div strong { color: #66fcf1; display: block; margin-bottom: 5px; }
     .token-details div:hover { border-color: #0ff0fc; box-shadow: 0 0 15px #0ff0fc, 0 0 30px rgba(0, 255, 252, 0.5); }
+    .token-details div img { max-width: 80%; height: auto; margin-top: 10px; }
     @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 10px #0ff0fc, 0 0 20px #0ff0fc; } 50% { box-shadow: 0 0 20px #0ff0fc, 0 0 30px #0ff0fc; } }
@@ -75,6 +84,7 @@
     .roadmap-section { margin-top: 5px; }
     .tokenomics-container .chart-legend { font-size: 1rem; text-align: center; padding: 0 10px; }
     .tokenomics-container .chart-legend p { margin: 5px 0; }
+
     .staking-dashboard, .presale-dashboard {
       background: rgba(31, 40, 51, 0.9); border-radius: 10px; padding: 15px; box-shadow: 0 0 20px rgba(0, 249, 255, 0.2);
       text-align: center; margin-bottom: 20px;
@@ -89,6 +99,7 @@
     }
     .staking-input input::placeholder, .presale-input input::placeholder { color: #a0a0a0; }
     .staking-input.hidden, .presale-input.hidden { display: none; }
+
     /* Progress bar profesional */
     .stage-widget { text-align: left; margin-bottom: 15px; }
     .stage-title { font-size: 1.2rem; color: #0ff0fc; margin: 4px 0 10px; }
@@ -98,6 +109,7 @@
     .progress-wrap { background:#132029; border:1px solid #0ff0fc33; border-radius:999px; height:14px; overflow:hidden; }
     .progress-fill { height:100%; width:0%; background:linear-gradient(90deg,#66fcf1,#0ff0fc); box-shadow:0 0 15px #0ff0fc66 inset; transition:width .6s ease; }
     .muted { opacity:.85; font-size:.95rem; }
+
     @media (max-width: 600px) {
       header h1 { font-size: 1.5rem; } h2 { font-size: 1.2rem; }
       .logo-fixed { height: 80px; top: 15px; left: 15px; }
@@ -119,7 +131,7 @@
 </head>
 <body>
   <a href="#top">
-    <div class="logo-fixed"></div>
+    <img src="images/haip-logo-transparent.png" alt="HAIP Logo" class="logo-fixed">
   </a>
   <header id="top">
     <h1>Hp Artificial Intelligence Power (HAIP)</h1>
@@ -133,14 +145,15 @@
       <a class="btn" href="#presale">Join Presale</a>
       <a class="btn" href="#staking">HAIP Staking</a>
     </section>
+
     <section data-aos="fade-up">
       <h2>Token Details</h2>
       <div class="token-details">
-        <div><strong>Token Name</strong> Hp Artificial Intelligence Power</div>
-        <div><strong>Symbol</strong> HAIP</div>
-        <div><strong>Decimals</strong> 18</div>
-        <div><strong>Total Supply</strong> 18,000,000,000 HAIP</div>
-        <div><strong>Network</strong> Binance Smart Chain (BEP20)</div>
+        <div><strong>Token Name</strong> Hp Artificial Intelligence Power <img src="images/logos/hp.png" alt="HP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div><strong>Symbol</strong> HAIP <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div><strong>Decimals</strong> 18 <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div><strong>Total Supply</strong> 18,000,000,000 HAIP <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div><strong>Network</strong> Binance Smart Chain (BEP20) <img src="images/logos/bnb.png" alt="BNB Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
         <div>
           <strong>Contract</strong>
           <div class="contract">0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29</div>
@@ -148,6 +161,7 @@
         </div>
       </div>
     </section>
+
     <section data-aos="fade-up" class="tokenomics-section">
       <h2>Tokenomics</h2>
       <p><strong>Total Supply:</strong> 18,000,000,000 HAIP</p>
@@ -159,6 +173,7 @@
       </ul>
       <p><strong>Vesting:</strong> Team and partner tokens vested over 2 years to ensure long-term commitment.</p>
     </section>
+
     <div class="tokenomics-container">
       <div class="chart-legend">
         <p><span style="color: #66fcf1;">¦</span> Presale (54%)</p>
@@ -168,6 +183,7 @@
       </div>
       <canvas id="tokenomicsChart" class="tokenomics-chart"></canvas>
     </div>
+
     <section data-aos="fade-up" class="roadmap-section">
       <h2>Roadmap</h2>
       <p>Updated June 2025 to reflect current development timeline.</p>
@@ -180,18 +196,55 @@
         <li><strong>Q4 2026:</strong> Launchpad for AI startups funded in HAIP</li>
       </ul>
     </section>
+
+    <section data-aos="fade-up">
+      <h2>Technology Partners</h2>
+      <p>We are proud to collaborate with industry leaders who support innovation and decentralized technologies.</p>
+      <div style="display:flex; gap:40px; flex-wrap:wrap; align-items:center; justify-content:center;">
+        <a href="https://www.hp.com" target="_blank"><img src="images/logos/hp.png" alt="HP Logo" class="partner-logo" style="max-width:180px; margin-top:10px;"></a>
+        <a href="https://ailabs.tw" target="_blank"><img src="images/logos/ai_labs.png" alt="AI Labs" class="partner-logo" style="max-width:120px; margin-top:10px;"></a>
+        <a href="https://trustwallet.com" target="_blank"><img src="images/logos/trustwallet.png" alt="Trust Wallet" class="partner-logo" style="max-width:120px; margin-top:10px;"></a>
+        <a href="https://ai.google" target="_blank"><img src="images/logos/google_ai.png" alt="Google AI" class="partner-logo" style="max-width:160px; margin-top:10px;"></a>
+        <a href="https://openai.com" target="_blank"><img src="images/logos/openai.png" alt="OpenAI" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
+        <a href="https://www.mit.edu" target="_blank"><img src="images/logos/mit.png" alt="MIT" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
+        <a href="https://pancakeswap.finance" target="_blank"><img src="images/logos/pancakeswap.png" alt="PancakeSwap" class="partner-logo" style="max-width:130px; margin-top:10px;"></a>
+        <a href="https://chain.link" target="_blank"><img src="images/logos/chainlink.png" alt="Chainlink" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
+        <a href="https://metamask.io" target="_blank"><img src="images/logos/metamask.png" alt="MetaMask" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
+      </div>
+    </section>
+
+    <section data-aos="fade-up">
+      <h2 style="text-align: center; color: #66fcf1;">Future Collaboration Plan</h2>
+      <p style="text-align: center;">We are excited to explore future collaborations with leading crypto exchanges to expand our ecosystem.</p>
+      <div class="logo-section">
+        <a href="https://www.kucoin.com" target="_blank"><img src="images/logos/kucoin.png" alt="KuCoin" class="future-partner-logo"></a>
+        <a href="https://www.kraken.com" target="_blank"><img src="images/logos/kraken.png" alt="Kraken" class="future-partner-logo"></a>
+        <a href="https://www.uphold.com" target="_blank"><img src="images/logos/uphold.png" alt="Uphold" class="future-partner-logo"></a>
+        <a href="https://www.gate.io" target="_blank"><img src="images/logos/gateio.png" alt="Gate.io" class="future-partner-logo"></a>
+        <a href="https://www.revolut.com" target="_blank"><img src="images/logos/revolut.png" alt="Revolut" class="future-partner-logo"></a>
+        <a href="https://www.bitunix.com" target="_blank"><img src="images/logos/bitunix.png" alt="Bitunix" class="future-partner-logo"></a>
+        <a href="https://www.bitfinex.com" target="_blank"><img src="images/logos/bitfinex.png" alt="Bitfinex" class="future-partner-logo"></a>
+        <a href="https://www.bybit.com" target="_blank"><img src="images/logos/bybit.png" alt="Bybit" class="future-partner-logo bybit"></a>
+        <a href="https://www.crypto.com" target="_blank"><img src="images/logos/crypto_com.png" alt="Crypto.com" class="future-partner-logo crypto-com"></a>
+        <a href="https://whitebit.com" target="_blank"><img src="images/logos/whitebit.png" alt="WhiteBIT" class="future-partner-logo"></a>
+        <a href="https://www.okx.com" target="_blank"><img src="images/logos/okx.png" alt="OKX" class="future-partner-logo okx"></a>
+        <a href="https://www.binance.com" target="_blank"><img src="images/logos/binance.png" alt="Binance" class="future-partner-logo"></a>
+      </div>
+    </section>
+
     <section data-aos="fade-up">
       <h2>Presale Countdown</h2>
       <div class="countdown" id="countdown"></div>
     </section>
+
     <section data-aos="fade-up">
       <h2>Presale Stages</h2>
       <div class="presale-stage" style="animation-delay: 0.2s">
         <h3>Private Presale</h3>
         <p>Allocation: <strong>2% (360M HAIP)</strong></p>
-        <p>Price: <strong>0.0018 USDT</strong> per HAIP</p>
-        <p>Min per user: <strong>5.4 USDT</strong> (3,000 HAIP)</p>
-        <p>Max per user: <strong>108 USDT</strong> (60,000 HAIP)</p>
+        <p>Price: <strong>XXX USDT</strong> per HAIP</p>
+        <p>Min per user: <strong>XXX USDT</strong> (XXX HAIP)</p>
+        <p>Max per user: <strong>XXX USDT</strong> (XXX HAIP)</p>
       </div>
       <div class="presale-stage" style="animation-delay: 0.4s">
         <h3>Public Presale - Stage 1</h3>
@@ -222,8 +275,10 @@
         <p>Max per user: <strong>2,361.96 USDT</strong> (24,300 HAIP)</p>
       </div>
     </section>
+
     <section id="presale" data-aos="fade-up" data-aos-delay="100">
       <h2>Join Presale Now</h2>
+
       <!-- WIDGET LIVE STAGE -->
       <div class="presale-dashboard" id="stageWidget">
         <div class="stage-widget">
@@ -239,6 +294,7 @@
         </div>
       </div>
       <!-- /WIDGET -->
+
       <div class="presale-dashboard">
         <div class="presale-status" id="presaleWalletStatus">Wallet not connected</div>
         <div class="presale-limits" id="presaleLimits">Public Presale - Stage 1 Limits: Min 9.72 USDT (2,700 HAIP), Max 194.4 USDT (54,000 HAIP)</div>
@@ -252,6 +308,7 @@
         </div>
       </div>
     </section>
+
     <section id="staking" data-aos="fade-up" data-aos-delay="200">
       <h2>HAIP Staking (Dashboard)</h2>
       <div class="staking-dashboard">
@@ -268,6 +325,7 @@
         </div>
       </div>
     </section>
+
     <section data-aos="fade-up">
       <h2>Contact Us</h2>
       <p>Join our community or reach out for inquiries and collaborations.</p>
@@ -282,6 +340,7 @@
         <button type="submit">Subscribe</button>
       </div>
     </section>
+
     <section data-aos="fade-up">
       <h2>Resources</h2>
       <ul>
@@ -289,23 +348,26 @@
         <li><a href="https://github.com/Darck120579/assets" target="_blank">GitHub Repository (Coming Q4 2025)</a></li>
       </ul>
     </section>
+
     <section data-aos="fade-up">
       <h2>Legal Disclaimer</h2>
       <p>HAIP Token is a utility token, not a security or equity in any entity. Participants must comply with local regulations before acquiring or transacting with HAIP. All smart contracts undergo independent public audits prior to deployment (Q3 2025). KYC and AML procedures are enforced for presale participants and regulated partner platforms to ensure compliance with international regulatory standards.</p>
     </section>
   </main>
+
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     AOS.init({ duration: 1000 });
+
     // Countdown logic
     const countdown = document.getElementById('countdown');
-    const launchDate = new Date('2025-09-01T00:00:00Z').getTime(); // Set to September 1, 2025, 00:00 UTC
+    const launchDate = new Date('2025-08-01T00:00:00Z').getTime();
     const updateCountdown = () => {
       const now = new Date().getTime();
       const distance = launchDate - now;
       if (distance <= 0) {
-        countdown.innerHTML = "Presale is Live!";
+        countdown.innerHTML = "Private Presale is Live!";
         countdown.style.animation = 'none';
         countdown.style.border = '2px solid #66fcf1';
         return;
@@ -318,6 +380,7 @@
     };
     setInterval(updateCountdown, 1000);
     updateCountdown();
+
     // Tokenomics chart
     const ctx = document.getElementById('tokenomicsChart').getContext('2d');
     new Chart(ctx, {
@@ -332,6 +395,7 @@
         plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1f2833', titleColor: '#fff', bodyColor: '#fff', borderColor: '#66fcf1', borderWidth: 1, cornerRadius: 6, padding: 10 } }
       }
     });
+
     // ---------------------- Web3 & Presale Logic ----------------------
     const walletStatus = document.getElementById('walletStatus');
     const walletBalance = document.getElementById('walletBalance');
@@ -341,6 +405,7 @@
     const transferInput = document.getElementById('transferInput');
     const transferAmountInput = document.getElementById('transferAmount');
     const transferAddressInput = document.getElementById('transferAddress');
+
     const presaleWalletStatus = document.getElementById('presaleWalletStatus');
     const presaleConnectWalletBtn = document.getElementById('presaleConnectWalletBtn');
     const presaleDisconnectWalletBtn = document.getElementById('presaleDisconnectWalletBtn');
@@ -348,6 +413,7 @@
     const purchaseInput = document.getElementById('purchaseInput');
     const purchaseAmountInput = document.getElementById('purchaseAmount');
     const presaleLimits = document.getElementById('presaleLimits');
+
     // Stage widget elements
     const stageTitle = document.getElementById('stageTitle');
     const stagePrice = document.getElementById('stagePrice');
@@ -355,10 +421,12 @@
     const stageRemaining = document.getElementById('stageRemaining');
     const stageProgress = document.getElementById('stageProgress');
     const stageHint = document.getElementById('stageHint');
+
     // Contract details (BSC mainnet)
     const HAIP_ADDRESS = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
     const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955'; // USDT
     const PRESALE_ADDRESS = '0x07e11a90bFea0f38D203f25C26c21de1cD78bFf7';
+
     const HAIP_ABI = [
       {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
       {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},
@@ -384,6 +452,7 @@
       {"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"},{"internalType":"address","name":"user","type":"address"}],"name":"maxUsdtUserCanBuy","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
       {"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"},{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"quoteTokens","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
     ];
+
     let web3, haipContract, usdtContract, presaleContract;
     let connectedAddress = null, haipDec = 18, usdtDec = 18;
     const fmt = (n,d=2)=>Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
@@ -400,6 +469,7 @@
       const fracPart = pad.slice(-dec, -dec+6);
       return Number(`${intPart}.${fracPart}`);
     };
+
     const initWeb3 = async () => {
       let attempts = 0; const maxAttempts = 15; const retryDelay = 2000;
       while (attempts < maxAttempts) {
@@ -426,6 +496,7 @@
       const msg = 'No wallet provider detected. Please install <a href="https://metamask.io/download" target="_blank">MetaMask</a> or <a href="https://trustwallet.com/download" target="_blank">Trust Wallet</a>.';
       walletStatus.innerHTML = msg; presaleWalletStatus.innerHTML = msg; return false;
     };
+
     const checkNetwork = async () => {
       try {
         const chainId = await web3.eth.getChainId();
@@ -452,6 +523,7 @@
         walletStatus.textContent = 'Error checking network.'; presaleWalletStatus.textContent = 'Error checking network.'; return false;
       }
     };
+
     const detectWalletType = () => {
       if (window.ethereum?.isMetaMask) return 'MetaMask';
       if (window.ethereum?.isTrust) return 'Trust Wallet';
@@ -460,6 +532,7 @@
       if (window.web3) return 'Legacy Web3 Wallet';
       return 'Unknown Wallet';
     };
+
     const connectWallet = async () => {
       connectWalletBtn.classList.add('loading'); presaleConnectWalletBtn.classList.add('loading');
       connectWalletBtn.disabled = true; presaleConnectWalletBtn.disabled = true;
@@ -478,8 +551,10 @@
         disconnectWalletBtn.classList.remove('hidden'); presaleDisconnectWalletBtn.classList.remove('hidden');
         transferBtn.disabled = false; purchaseBtn.disabled = false;
         purchaseInput.classList.remove('hidden');
+
         await refreshPresaleLimits();
         await refreshStageUI();
+
         window.ethereum.on('accountsChanged', ()=>location.reload());
         window.ethereum.on('chainChanged', ()=>location.reload());
       } catch (error) {
@@ -490,6 +565,7 @@
         connectWalletBtn.disabled = false; presaleConnectWalletBtn.disabled = false;
       }
     };
+
     const refreshPresaleLimits = async () => {
       try {
         const idx = await presaleContract.methods.currentStage().call();
@@ -501,6 +577,7 @@
         purchaseAmountInput.min = minU; purchaseAmountInput.max = maxU;
       } catch {}
     };
+
     // === WIDGET: Stage info live ===
     const refreshStageUI = async () => {
       try {
@@ -508,14 +585,16 @@
         const st = await presaleContract.methods.getStage(idx).call();
         const price = (Number(st.priceNum || st[0]) / 10000).toFixed(4);
         const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
-        const cap = fromUnits(web3, web3.utils.toBN(st.capTokens || st[3]), haipDec);
+        const cap  = fromUnits(web3, web3.utils.toBN(st.capTokens  || st[3]), haipDec);
         const remaining = Math.max(cap - sold, 0);
         const pct = cap > 0 ? Math.min((sold / cap) * 100, 100) : 0;
+
         stageTitle.textContent = `Public Presale — Stage ${Number(idx)+1}`;
         stagePrice.textContent = `${price} USDT / HAIP`;
         stageSold.textContent = `${fmt(sold, 2)} / ${fmt(cap, 2)} HAIP`;
         stageRemaining.textContent = `${fmt(remaining, 2)} HAIP`;
         stageProgress.style.width = `${pct.toFixed(2)}%`;
+
         if (connectedAddress) {
           try {
             const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
@@ -537,6 +616,7 @@
     };
     // auto refresh every 20s
     setInterval(()=>{ if (presaleContract) refreshStageUI(); }, 20000);
+
     const updateWalletUI = async () => {
       if (!connectedAddress) return;
       const walletType = (window.ethereum?.isMetaMask && 'MetaMask') || 'Wallet';
@@ -545,6 +625,7 @@
       presaleWalletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
       walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
     };
+
     const disconnectWallet = () => {
       connectedAddress = null;
       walletStatus.textContent = 'Wallet not connected'; presaleWalletStatus.textContent = 'Wallet not connected';
@@ -555,6 +636,7 @@
       transferAmountInput.value = ''; transferAddressInput.value = ''; purchaseAmountInput.value = '';
       refreshStageUI();
     };
+
     const transferTokens = async () => {
       if (!transferInput.classList.contains('hidden')) {
         transferBtn.classList.add('loading'); transferBtn.disabled = true;
@@ -580,6 +662,7 @@
         transferInput.classList.remove('hidden');
       }
     };
+
     // Real purchase: approve USDT (if needed) -> buy
     const purchaseTokens = async () => {
       if (!purchaseInput.classList.contains('hidden')) {
@@ -590,6 +673,7 @@
           }
           let usdtAmount = parseFloat(purchaseAmountInput.value);
           if (isNaN(usdtAmount) || usdtAmount <= 0) throw new Error('Please enter a valid positive number');
+
           const idx = await presaleContract.methods.currentStage().call();
           const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
           const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
@@ -600,21 +684,25 @@
             presaleWalletStatus.textContent = `Amount reduced to your current limit: ${usdtAmount.toFixed(2)} USDT.`;
           }
           const usdtUnits = toUnits(web3, usdtAmount, usdtDec);
+
           const allowance = await usdtContract.methods.allowance(connectedAddress, PRESALE_ADDRESS).call();
           if (web3.utils.toBN(allowance).lt(usdtUnits)) {
             presaleWalletStatus.textContent = 'Approving USDT...';
             await usdtContract.methods.approve(PRESALE_ADDRESS, usdtUnits.toString()).send({ from: connectedAddress });
           }
+
           let haipAmountStr = '';
           try {
             const tokens = await presaleContract.methods.quoteTokens(idx, usdtUnits.toString()).call();
             const haipFloat = fromUnits(web3, web3.utils.toBN(tokens), haipDec);
             haipAmountStr = ` (~${haipFloat.toFixed(6)} HAIP)`;
           } catch {}
+
           presaleWalletStatus.textContent = 'Submitting purchase...';
           const tx = await presaleContract.methods.buy(usdtUnits.toString()).send({ from: connectedAddress });
           presaleWalletStatus.innerHTML = `Success${haipAmountStr}! <a target="_blank" href="https://bscscan.com/tx/${tx.transactionHash}">View on BscScan</a>`;
           walletStatus.innerHTML = presaleWalletStatus.innerHTML;
+
           const balance = await haipContract.methods.balanceOf(connectedAddress).call();
           walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
           purchaseInput.classList.add('hidden'); purchaseAmountInput.value = '';
@@ -630,6 +718,7 @@
         purchaseInput.classList.remove('hidden');
       }
     };
+
     // Event listeners
     connectWalletBtn.addEventListener('click', connectWallet);
     disconnectWalletBtn.addEventListener('click', disconnectWallet);
@@ -637,13 +726,16 @@
     presaleDisconnectWalletBtn.addEventListener('click', disconnectWallet);
     transferBtn.addEventListener('click', transferTokens);
     purchaseBtn.addEventListener('click', purchaseTokens);
+
     // Copy contract address
     function copyContract() {
       const contractAddress = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
       navigator.clipboard.writeText(contractAddress).then(() => alert('Contract address copied to clipboard!'));
     }
-    // Inițializare widget (înainte de conectare)
+
+    // Ini?ializare widget (inainte de conectare)
     (async () => {
+      // incearca sa ini?ializezi web3 doar pentru a citi datele on-chain in widget
       try {
         if (window.ethereum || window.web3) {
           await initWeb3();
