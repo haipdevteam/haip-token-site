@@ -84,6 +84,7 @@
     .roadmap-section { margin-top: 5px; }
     .tokenomics-container .chart-legend { font-size: 1rem; text-align: center; padding: 0 10px; }
     .tokenomics-container .chart-legend p { margin: 5px 0; }
+
     .staking-dashboard, .presale-dashboard {
       background: rgba(31, 40, 51, 0.9); border-radius: 10px; padding: 15px; box-shadow: 0 0 20px rgba(0, 249, 255, 0.2);
       text-align: center; margin-bottom: 20px;
@@ -98,6 +99,17 @@
     }
     .staking-input input::placeholder, .presale-input input::placeholder { color: #a0a0a0; }
     .staking-input.hidden, .presale-input.hidden { display: none; }
+
+    /* Progress bar profesional */
+    .stage-widget { text-align: left; margin-bottom: 15px; }
+    .stage-title { font-size: 1.2rem; color: #0ff0fc; margin: 4px 0 10px; }
+    .stage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .stage-kv { background:#1f2833; border:1px solid #0b2a31; border-radius:8px; padding:10px; }
+    .stage-kv b { color:#66fcf1; }
+    .progress-wrap { background:#132029; border:1px solid #0ff0fc33; border-radius:999px; height:14px; overflow:hidden; }
+    .progress-fill { height:100%; width:0%; background:linear-gradient(90deg,#66fcf1,#0ff0fc); box-shadow:0 0 15px #0ff0fc66 inset; transition:width .6s ease; }
+    .muted { opacity:.85; font-size:.95rem; }
+
     @media (max-width: 600px) {
       header h1 { font-size: 1.5rem; } h2 { font-size: 1.2rem; }
       .logo-fixed { height: 80px; top: 15px; left: 15px; }
@@ -113,6 +125,7 @@
       .staking-actions, .presale-actions { flex-direction: column; gap: 10px; }
       .staking-actions .btn, .presale-actions .btn { width: 100%; max-width: 300px; }
       .staking-input input, .presale-input input { width: 100%; max-width: none; }
+      .stage-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -132,34 +145,15 @@
       <a class="btn" href="#presale">Join Presale</a>
       <a class="btn" href="#staking">HAIP Staking</a>
     </section>
+
     <section data-aos="fade-up">
       <h2>Token Details</h2>
       <div class="token-details">
-        <div>
-          <strong>Token Name</strong>
-          Hp Artificial Intelligence Power
-          <img src="images/logos/hp.png" alt="HP Logo" style="display: block; max-width: 80%; height: auto; margin: 10px auto 0;">
-        </div>
-        <div>
-          <strong>Symbol</strong>
-          HAIP
-          <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display: block; max-width: 80%; height: auto; margin: 10px auto 0;">
-        </div>
-        <div>
-          <strong>Decimals</strong>
-          18
-          <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display: block; max-width: 80%; height: auto; margin: 10px auto 0;">
-        </div>
-        <div>
-          <strong>Total Supply</strong>
-          18,000,000,000 HAIP
-          <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display: block; max-width: 80%; height: auto; margin: 10px auto 0;">
-        </div>
-        <div>
-          <strong>Network</strong>
-          Binance Smart Chain (BEP20)
-          <img src="images/logos/bnb.png" alt="BNB Logo" style="display: block; max-width: 80%; height: auto; margin: 10px auto 0;">
-        </div>
+        <div><strong>Token Name</strong> Hp Artificial Intelligence Power <img src="images/logos/hp.png" alt="HP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div><strong>Symbol</strong> HAIP <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div><strong>Decimals</strong> 18 <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div><strong>Total Supply</strong> 18,000,000,000 HAIP <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+        <div><strong>Network</strong> Binance Smart Chain (BEP20) <img src="images/logos/bnb.png" alt="BNB Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
         <div>
           <strong>Contract</strong>
           <div class="contract">0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29</div>
@@ -167,6 +161,7 @@
         </div>
       </div>
     </section>
+
     <section data-aos="fade-up" class="tokenomics-section">
       <h2>Tokenomics</h2>
       <p><strong>Total Supply:</strong> 18,000,000,000 HAIP</p>
@@ -178,6 +173,7 @@
       </ul>
       <p><strong>Vesting:</strong> Team and partner tokens vested over 2 years to ensure long-term commitment.</p>
     </section>
+
     <div class="tokenomics-container">
       <div class="chart-legend">
         <p><span style="color: #66fcf1;">¦</span> Presale (54%)</p>
@@ -187,6 +183,7 @@
       </div>
       <canvas id="tokenomicsChart" class="tokenomics-chart"></canvas>
     </div>
+
     <section data-aos="fade-up" class="roadmap-section">
       <h2>Roadmap</h2>
       <p>Updated June 2025 to reflect current development timeline.</p>
@@ -195,10 +192,11 @@
         <li><strong>Q4 2025:</strong> Public presale, TrustWallet integration, open-source code release on GitHub</li>
         <li><strong>Q1 2026:</strong> Community DAO setup, staking mechanism launch, strategic partnerships with AI and DeFi projects</li>
         <li><strong>Q2 2026:</strong> AI dApp beta launch, Chainlink oracles integration</li>
-        <li><strong>Q3 2026:</strong> Enhanced DAO features (e.g., tiered voting, task force scaling), pilot launch of AI model bounty marketplace</li>
-        <li><strong>Q4 2026:</strong> Launchpad for AI startups funded in HAIP, pilot program for AI education grants</li>
+        <li><strong>Q3 2026:</strong> Enhanced DAO features, pilot launch of AI model bounty marketplace</li>
+        <li><strong>Q4 2026:</strong> Launchpad for AI startups funded in HAIP</li>
       </ul>
     </section>
+
     <section data-aos="fade-up">
       <h2>Technology Partners</h2>
       <p>We are proud to collaborate with industry leaders who support innovation and decentralized technologies.</p>
@@ -214,6 +212,7 @@
         <a href="https://metamask.io" target="_blank"><img src="images/logos/metamask.png" alt="MetaMask" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
       </div>
     </section>
+
     <section data-aos="fade-up">
       <h2 style="text-align: center; color: #66fcf1;">Future Collaboration Plan</h2>
       <p style="text-align: center;">We are excited to explore future collaborations with leading crypto exchanges to expand our ecosystem.</p>
@@ -232,10 +231,12 @@
         <a href="https://www.binance.com" target="_blank"><img src="images/logos/binance.png" alt="Binance" class="future-partner-logo"></a>
       </div>
     </section>
+
     <section data-aos="fade-up">
       <h2>Presale Countdown</h2>
       <div class="countdown" id="countdown"></div>
     </section>
+
     <section data-aos="fade-up">
       <h2>Presale Stages</h2>
       <div class="presale-stage" style="animation-delay: 0.2s">
@@ -274,8 +275,26 @@
         <p>Max per user: <strong>2,361.96 USDT</strong> (24,300 HAIP)</p>
       </div>
     </section>
+
     <section id="presale" data-aos="fade-up" data-aos-delay="100">
       <h2>Join Presale Now</h2>
+
+      <!-- WIDGET LIVE STAGE -->
+      <div class="presale-dashboard" id="stageWidget">
+        <div class="stage-widget">
+          <div class="stage-title" id="stageTitle">Stage —</div>
+          <div class="stage-grid">
+            <div class="stage-kv"><b>Price</b><div id="stagePrice">—</div></div>
+            <div class="stage-kv"><b>Your Limit (USDT)</b><div id="yourLimit">—</div></div>
+            <div class="stage-kv"><b>Sold</b><div id="stageSold">—</div></div>
+            <div class="stage-kv"><b>Remaining</b><div id="stageRemaining">—</div></div>
+          </div>
+          <div class="progress-wrap"><div class="progress-fill" id="stageProgress"></div></div>
+          <div class="muted" id="stageHint" style="margin-top:8px;">Connect your wallet to see your current limit.</div>
+        </div>
+      </div>
+      <!-- /WIDGET -->
+
       <div class="presale-dashboard">
         <div class="presale-status" id="presaleWalletStatus">Wallet not connected</div>
         <div class="presale-limits" id="presaleLimits">Public Presale - Stage 1 Limits: Min 9.72 USDT (2,700 HAIP), Max 194.4 USDT (54,000 HAIP)</div>
@@ -289,6 +308,7 @@
         </div>
       </div>
     </section>
+
     <section id="staking" data-aos="fade-up" data-aos-delay="200">
       <h2>HAIP Staking (Dashboard)</h2>
       <div class="staking-dashboard">
@@ -305,6 +325,7 @@
         </div>
       </div>
     </section>
+
     <section data-aos="fade-up">
       <h2>Contact Us</h2>
       <p>Join our community or reach out for inquiries and collaborations.</p>
@@ -319,6 +340,7 @@
         <button type="submit">Subscribe</button>
       </div>
     </section>
+
     <section data-aos="fade-up">
       <h2>Resources</h2>
       <ul>
@@ -326,11 +348,13 @@
         <li><a href="https://github.com/Darck120579/assets" target="_blank">GitHub Repository (Coming Q4 2025)</a></li>
       </ul>
     </section>
+
     <section data-aos="fade-up">
       <h2>Legal Disclaimer</h2>
       <p>HAIP Token is a utility token, not a security or equity in any entity. Participants must comply with local regulations before acquiring or transacting with HAIP. All smart contracts undergo independent public audits prior to deployment (Q3 2025). KYC and AML procedures are enforced for presale participants and regulated partner platforms to ensure compliance with international regulatory standards.</p>
     </section>
   </main>
+
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
@@ -363,24 +387,12 @@
       type: 'doughnut',
       data: {
         labels: ['Presale (54%)', 'DEX Liquidity (27%)', 'Development (10%)', 'Partners (9%)'],
-        datasets: [{
-          data: [54, 27, 10, 9],
-          backgroundColor: ['#66fcf1', '#0ff0fc', '#2c3e50', '#08fdd8'],
-          borderColor: '#0b0c10',
-          borderWidth: 2,
-          hoverOffset: 20
-        }]
+        datasets: [{ data: [54, 27, 10, 9], backgroundColor: ['#66fcf1', '#0ff0fc', '#2c3e50', '#08fdd8'], borderColor: '#0b0c10', borderWidth: 2, hoverOffset: 20 }]
       },
       options: {
         responsive: true, maintainAspectRatio: true,
         animation: { animateScale: true, animateRotate: true },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: '#1f2833', titleColor: '#fff', bodyColor: '#fff',
-            borderColor: '#66fcf1', borderWidth: 1, cornerRadius: 6, padding: 10
-          }
-        }
+        plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1f2833', titleColor: '#fff', bodyColor: '#fff', borderColor: '#66fcf1', borderWidth: 1, cornerRadius: 6, padding: 10 } }
       }
     });
 
@@ -402,9 +414,17 @@
     const purchaseAmountInput = document.getElementById('purchaseAmount');
     const presaleLimits = document.getElementById('presaleLimits');
 
-    // Contract details (corecte pe BSC mainnet)
+    // Stage widget elements
+    const stageTitle = document.getElementById('stageTitle');
+    const stagePrice = document.getElementById('stagePrice');
+    const stageSold = document.getElementById('stageSold');
+    const stageRemaining = document.getElementById('stageRemaining');
+    const stageProgress = document.getElementById('stageProgress');
+    const stageHint = document.getElementById('stageHint');
+
+    // Contract details (BSC mainnet)
     const HAIP_ADDRESS = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
-    const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955'; // USDT (18 decimals on BSC)
+    const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955'; // USDT
     const PRESALE_ADDRESS = '0x07e11a90bFea0f38D203f25C26c21de1cD78bFf7';
 
     const HAIP_ABI = [
@@ -418,7 +438,7 @@
       {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
       {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"}
     ];
-    // ABI minim pentru presale (versiunea multi-stage)
+    // ABI minim pentru presale
     const PRESALE_ABI = [
       {"inputs":[{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"buy","outputs":[],"stateMutability":"nonpayable","type":"function"},
       {"inputs":[],"name":"currentStage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
@@ -435,11 +455,9 @@
 
     let web3, haipContract, usdtContract, presaleContract;
     let connectedAddress = null, haipDec = 18, usdtDec = 18;
-
-    // Utils
     const fmt = (n,d=2)=>Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
     const toUnits = (web3, val, dec) => {
-      const bn = web3.utils.toBN(Math.floor((+val) * 1e6)); // lucrăm cu 6 zecimale temporar
+      const bn = web3.utils.toBN(Math.floor((+val) * 1e6));
       const scale = web3.utils.toBN(10).pow(web3.utils.toBN(dec - 6));
       return bn.mul(scale);
     };
@@ -448,7 +466,7 @@
       const s = bn.toString();
       const pad = s.padStart(dec+1, '0');
       const intPart = pad.slice(0, -dec);
-      const fracPart = pad.slice(-dec, -dec+6); // până la 6 dec.
+      const fracPart = pad.slice(-dec, -dec+6);
       return Number(`${intPart}.${fracPart}`);
     };
 
@@ -490,8 +508,7 @@
             if (switchError.code === 4902) {
               await window.ethereum.request({
                 method: 'wallet_addEthereumChain',
-                params: [{ chainId:'0x38', chainName:'Binance Smart Chain',
-                  nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18},
+                params: [{ chainId:'0x38', chainName:'Binance Smart Chain', nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18},
                   rpcUrls:['https://bsc-dataseed.binance.org/'], blockExplorerUrls:['https://bscscan.com']}]
               });
               return true;
@@ -516,7 +533,6 @@
       return 'Unknown Wallet';
     };
 
-    // Connect wallet
     const connectWallet = async () => {
       connectWalletBtn.classList.add('loading'); presaleConnectWalletBtn.classList.add('loading');
       connectWalletBtn.disabled = true; presaleConnectWalletBtn.disabled = true;
@@ -527,7 +543,6 @@
         if (accounts.length === 0) throw new Error('No accounts authorized.');
         connectedAddress = accounts[0];
         const walletType = detectWalletType();
-
         const balance = await haipContract.methods.balanceOf(connectedAddress).call();
         walletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
         presaleWalletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
@@ -538,6 +553,8 @@
         purchaseInput.classList.remove('hidden');
 
         await refreshPresaleLimits();
+        await refreshStageUI();
+
         window.ethereum.on('accountsChanged', ()=>location.reload());
         window.ethereum.on('chainChanged', ()=>location.reload());
       } catch (error) {
@@ -557,14 +574,52 @@
         const maxU = fromUnits(web3, web3.utils.toBN(st.maxUsdt || st[2]), usdtDec);
         const priceNum = Number(st.priceNum || st[0]) / 10000;
         presaleLimits.textContent = `Public Presale - Stage ${Number(idx)+1} Limits: Min ${minU.toFixed(2)} USDT, Max ${maxU.toFixed(2)} USDT · Price ${priceNum.toFixed(4)} USDT/HAIP`;
-        // set min/max on input for UX
         purchaseAmountInput.min = minU; purchaseAmountInput.max = maxU;
       } catch {}
     };
 
+    // === WIDGET: Stage info live ===
+    const refreshStageUI = async () => {
+      try {
+        const idx = await presaleContract.methods.currentStage().call();
+        const st = await presaleContract.methods.getStage(idx).call();
+        const price = (Number(st.priceNum || st[0]) / 10000).toFixed(4);
+        const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
+        const cap  = fromUnits(web3, web3.utils.toBN(st.capTokens  || st[3]), haipDec);
+        const remaining = Math.max(cap - sold, 0);
+        const pct = cap > 0 ? Math.min((sold / cap) * 100, 100) : 0;
+
+        stageTitle.textContent = `Public Presale — Stage ${Number(idx)+1}`;
+        stagePrice.textContent = `${price} USDT / HAIP`;
+        stageSold.textContent = `${fmt(sold, 2)} / ${fmt(cap, 2)} HAIP`;
+        stageRemaining.textContent = `${fmt(remaining, 2)} HAIP`;
+        stageProgress.style.width = `${pct.toFixed(2)}%`;
+
+        if (connectedAddress) {
+          try {
+            const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
+            const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
+            stageHint.textContent = `You can still buy up to ${maxUserFloat.toFixed(2)} USDT in this stage.`;
+            document.getElementById('yourLimit').textContent = `${maxUserFloat.toFixed(2)}`;
+          } catch {
+            stageHint.textContent = `Connect your wallet to see your current limit.`;
+            document.getElementById('yourLimit').textContent = `—`;
+          }
+        } else {
+          stageHint.textContent = `Connect your wallet to see your current limit.`;
+          document.getElementById('yourLimit').textContent = `—`;
+        }
+      } catch (e) {
+        // fallback UI
+        stageTitle.textContent = `Public Presale — Stage —`;
+      }
+    };
+    // auto refresh every 20s
+    setInterval(()=>{ if (presaleContract) refreshStageUI(); }, 20000);
+
     const updateWalletUI = async () => {
       if (!connectedAddress) return;
-      const walletType = detectWalletType();
+      const walletType = (window.ethereum?.isMetaMask && 'MetaMask') || 'Wallet';
       const balance = await haipContract.methods.balanceOf(connectedAddress).call();
       walletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
       presaleWalletStatus.textContent = `Connected with ${walletType}: ${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}`;
@@ -579,9 +634,9 @@
       presaleConnectWalletBtn.classList.remove('hidden'); presaleDisconnectWalletBtn.classList.add('hidden');
       transferBtn.disabled = true; purchaseBtn.disabled = true; transferInput.classList.add('hidden'); purchaseInput.classList.add('hidden');
       transferAmountInput.value = ''; transferAddressInput.value = ''; purchaseAmountInput.value = '';
+      refreshStageUI();
     };
 
-    // Transfer tokens section (left as-is)
     const transferTokens = async () => {
       if (!transferInput.classList.contains('hidden')) {
         transferBtn.classList.add('loading'); transferBtn.disabled = true;
@@ -616,31 +671,26 @@
           if (!web3 || !haipContract || !usdtContract || !presaleContract || !connectedAddress) {
             throw new Error('Wallet not connected');
           }
-          // amount in USDT (human)
           let usdtAmount = parseFloat(purchaseAmountInput.value);
           if (isNaN(usdtAmount) || usdtAmount <= 0) throw new Error('Please enter a valid positive number');
 
-          // enforce on-chain max per user for this stage
           const idx = await presaleContract.methods.currentStage().call();
           const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
           const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
           if (maxUserFloat <= 0) throw new Error('Your current limit is 0 USDT for this stage.');
           if (usdtAmount > maxUserFloat) {
-            usdtAmount = Math.floor(maxUserFloat * 100) / 100; // 2 decimals cap
+            usdtAmount = Math.floor(maxUserFloat * 100) / 100;
             purchaseAmountInput.value = usdtAmount.toFixed(2);
             presaleWalletStatus.textContent = `Amount reduced to your current limit: ${usdtAmount.toFixed(2)} USDT.`;
           }
-
           const usdtUnits = toUnits(web3, usdtAmount, usdtDec);
 
-          // allowance check
           const allowance = await usdtContract.methods.allowance(connectedAddress, PRESALE_ADDRESS).call();
           if (web3.utils.toBN(allowance).lt(usdtUnits)) {
             presaleWalletStatus.textContent = 'Approving USDT...';
             await usdtContract.methods.approve(PRESALE_ADDRESS, usdtUnits.toString()).send({ from: connectedAddress });
           }
 
-          // (optional) quote HAIP for UI
           let haipAmountStr = '';
           try {
             const tokens = await presaleContract.methods.quoteTokens(idx, usdtUnits.toString()).call();
@@ -648,7 +698,6 @@
             haipAmountStr = ` (~${haipFloat.toFixed(6)} HAIP)`;
           } catch {}
 
-          // buy
           presaleWalletStatus.textContent = 'Submitting purchase...';
           const tx = await presaleContract.methods.buy(usdtUnits.toString()).send({ from: connectedAddress });
           presaleWalletStatus.innerHTML = `Success${haipAmountStr}! <a target="_blank" href="https://bscscan.com/tx/${tx.transactionHash}">View on BscScan</a>`;
@@ -658,6 +707,7 @@
           walletBalance.textContent = `Balance: ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
           purchaseInput.classList.add('hidden'); purchaseAmountInput.value = '';
           await refreshPresaleLimits();
+          await refreshStageUI();
         } catch (error) {
           walletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
           presaleWalletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
@@ -682,6 +732,17 @@
       const contractAddress = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
       navigator.clipboard.writeText(contractAddress).then(() => alert('Contract address copied to clipboard!'));
     }
+
+    // Inițializare widget (înainte de conectare)
+    (async () => {
+      // încearcă să inițializezi web3 doar pentru a citi datele on-chain în widget
+      try {
+        if (window.ethereum || window.web3) {
+          await initWeb3();
+          await refreshStageUI();
+        }
+      } catch {}
+    })();
   </script>
 </body>
 </html>
