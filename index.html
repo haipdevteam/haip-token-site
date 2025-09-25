@@ -243,39 +243,23 @@
     </div>
   </section>
 
+  <!-- Stage 0 Countdown (72h) -->
   <section data-aos="fade-up">
-    <h2 style="text-align:center; color:#66fcf1;">Future Collaboration Plan</h2>
-    <p style="text-align:center;">We are excited to explore future collaborations with leading crypto exchanges to expand our ecosystem.</p>
-    <div class="logo-section">
-      <a href="https://www.kucoin.com" target="_blank"><img src="images/logos/kucoin.png" alt="KuCoin" class="future-partner-logo"></a>
-      <a href="https://www.kraken.com" target="_blank"><img src="images/logos/kraken.png" alt="Kraken" class="future-partner-logo"></a>
-      <a href="https://www.uphold.com" target="_blank"><img src="images/logos/uphold.png" alt="Uphold" class="future-partner-logo"></a>
-      <a href="https://www.gate.io" target="_blank"><img src="images/logos/gateio.png" alt="Gate.io" class="future-partner-logo"></a>
-      <a href="https://www.revolut.com" target="_blank"><img src="images/logos/revolut.png" alt="Revolut" class="future-partner-logo"></a>
-      <a href="https://www.bitunix.com" target="_blank"><img src="images/logos/bitunix.png" alt="Bitunix" class="future-partner-logo"></a>
-      <a href="https://www.bitfinex.com" target="_blank"><img src="images/logos/bitfinex.png" alt="Bitfinex" class="future-partner-logo"></a>
-      <a href="https://www.bybit.com" target="_blank"><img src="images/logos/bybit.png" alt="Bybit" class="future-partner-logo bybit"></a>
-      <a href="https://www.crypto.com" target="_blank"><img src="images/logos/crypto_com.png" alt="Crypto.com" class="future-partner-logo crypto-com"></a>
-      <a href="https://whitebit.com" target="_blank"><img src="images/logos/whitebit.png" alt="WhiteBIT" class="future-partner-logo"></a>
-      <a href="https://www.okx.com" target="_blank"><img src="images/logos/okx.png" alt="OKX" class="future-partner-logo okx"></a>
-      <a href="https://www.binance.com" target="_blank"><img src="images/logos/binance.png" alt="Binance" class="future-partner-logo"></a>
-    </div>
-  </section>
-
-  <section data-aos="fade-up">
-    <h2>Presale Countdown</h2>
-    <div class="countdown" id="countdown"></div>
+    <h2>Stage 0 Countdown</h2>
+    <div class="countdown" id="countdownStage0"></div>
   </section>
 
   <section data-aos="fade-up">
     <h2>Presale Stages</h2>
+    <!-- STAGE 0 (Private) -->
     <div class="presale-stage" style="animation-delay:.2s">
-      <h3>Private Presale</h3>
+      <h3>Stage 0 (Private)</h3>
       <p>Allocation: <strong>2% (360M HAIP)</strong></p>
-      <p>Price: <strong>XXX USDT</strong> per HAIP</p>
-      <p>Min per user: <strong>XXX USDT</strong> (XXX HAIP)</p>
-      <p>Max per user: <strong>XXX USDT</strong> (XXX HAIP)</p>
+      <p>Price: <strong>0.00009 USDT</strong> per HAIP</p>
+      <p>Min per user: <strong>3.24 USDT</strong> (36,000 HAIP)</p>
+      <p>Max per user: <strong>90 USDT</strong> (1,000,000 HAIP)</p>
     </div>
+    <!-- Public stages (neatinse) -->
     <div class="presale-stage" style="animation-delay:.4s">
       <h3>Public Presale - Stage 1</h3>
       <p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
@@ -311,7 +295,7 @@
 
     <div class="presale-card">
       <div class="presale-head">
-        <h3 class="presale-title">Public Presale</h3>
+        <h3 class="presale-title">Presale</h3>
         <span class="badge-stage" id="v3StageTitle">Stage —</span>
       </div>
       <div class="kv" style="margin:10px 0">
@@ -387,22 +371,33 @@
 <script>
 AOS.init({ duration: 1000 });
 
-// Countdown
-const countdown = document.getElementById('countdown');
-const launchDate = new Date('2025-08-01T00:00:00Z').getTime();
-const updateCountdown = () => {
-  const now = new Date().getTime();
-  const d = launchDate - now;
-  if (d <= 0) { countdown.innerHTML = "Private Presale is Live!"; countdown.style.animation='none'; countdown.style.border='2px solid #66fcf1'; return; }
-  const days = Math.floor(d / (1000*60*60*24));
-  const hours = Math.floor((d % (1000*60*60*24)) / (1000*60*60));
-  const minutes = Math.floor((d % (1000*60*60)) / (1000*60));
-  const seconds = Math.floor((d % (1000*60)) / 1000);
-  countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-};
-setInterval(updateCountdown, 1000); updateCountdown();
+/* ===== Stage 0 — Countdown 72h (persisted) ===== */
+const countdownStage0 = document.getElementById('countdownStage0');
+const STAGE0_KEY = 'haip_stage0_start_ms';
+const D72_MS = 72 * 60 * 60 * 1000;
+let startMs = parseInt(localStorage.getItem(STAGE0_KEY) || '0', 10);
+if (!startMs || Number.isNaN(startMs)) {
+  startMs = Date.now();
+  localStorage.setItem(STAGE0_KEY, String(startMs));
+}
+const endMs = startMs + D72_MS;
+function renderStage0() {
+  const d = endMs - Date.now();
+  if (d <= 0) {
+    countdownStage0.textContent = 'Stage 0 ended!';
+    countdownStage0.style.animation = 'none';
+    countdownStage0.style.border = '2px solid #66fcf1';
+    return;
+  }
+  const days = Math.floor(d / 86400000);
+  const hours = Math.floor((d % 86400000) / 3600000);
+  const minutes = Math.floor((d % 3600000) / 60000);
+  const seconds = Math.floor((d % 60000) / 1000);
+  countdownStage0.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+setInterval(renderStage0, 1000); renderStage0();
 
-// Tokenomics chart
+/* ===== Tokenomics chart ===== */
 const ctx = document.getElementById('tokenomicsChart').getContext('2d');
 new Chart(ctx, {
   type: 'doughnut',
@@ -413,7 +408,7 @@ new Chart(ctx, {
   options: { responsive:true, maintainAspectRatio:true, animation:{animateScale:true, animateRotate:true}, plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'#1f2833', titleColor:'#fff', bodyColor:'#fff', borderColor:'#66fcf1', borderWidth:1, cornerRadius:6, padding:10 } } }
 });
 
-// -------- Web3 & Presale Logic (no staking) --------
+/* ===== Web3 & Presale Logic (same contract) ===== */
 const presaleWalletStatus = document.getElementById('presaleWalletStatus');
 const presaleConnectWalletBtn = document.getElementById('presaleConnectWalletBtn');
 const presaleDisconnectWalletBtn = document.getElementById('presaleDisconnectWalletBtn');
@@ -423,7 +418,7 @@ const purchaseAmountInput = document.getElementById('purchaseAmount');
 const presaleLimits = document.getElementById('presaleLimits');
 const gasStatus = document.getElementById('gasStatus');
 
-// Stage widget (legacy IDs still used by refreshStageUI)
+// Legacy hooks (safe fallbacks)
 const stageTitle = document.getElementById('stageTitle') || {textContent:''};
 const stagePrice = document.getElementById('stagePrice') || {textContent:''};
 const stageSold = document.getElementById('stageSold') || {textContent:''};
@@ -477,7 +472,7 @@ const fromUnits = (web3, bn, dec) => {
   return Number(`${intPart}.${fracPart}`);
 };
 
-// ---------- PATCH: healthy RPC fallback + robust sending ----------
+// Healthy RPC fallback
 const GOOD_BSC_RPCS = [
   'https://bsc-dataseed.binance.org',
   'https://bsc-dataseed1.ninicoin.io',
@@ -521,7 +516,6 @@ async function checkNetwork() {
     }
     return true;
   } catch (switchError) {
-    // add BSC with healthy RPCs or recover from bad rpc
     if (switchError.code === 4902 || String(switchError.message||'').toLowerCase().includes('missing trie node')) {
       await window.ethereum.request({
         method:'wallet_addEthereumChain',
@@ -561,7 +555,6 @@ function isTrieError(err){
 
 async function sendWithLowFee(call, { from, valueWei='0x0', cap, label }){
   let gasPriceGwei = await pickGasPriceGwei();
-  // try 1: with capped gas limit
   try{
     const gasLimit = await estimateGasCapped(call, from, valueWei, cap);
     setGasStatus(`${label}… ${gasPriceGwei.toFixed(2)} gwei · gas ≈ ${gasLimit}`);
@@ -571,7 +564,6 @@ async function sendWithLowFee(call, { from, valueWei='0x0', cap, label }){
       setGasStatus('RPC node error. Switching to a healthy BSC RPC…');
       try{ await checkNetwork(); }catch{}
     }
-    // try 2: let wallet estimate fully
     try{
       setGasStatus(`${label} retry via wallet estimator…`);
       return await call.send({ from, value: valueWei });
@@ -587,7 +579,13 @@ async function sendWithLowFee(call, { from, valueWei='0x0', cap, label }){
   }
 }
 
-// -------- Connect / UI --------
+/* Label helper: Stage 0 -> "Stage 0 (Private)", altfel "Stage N" */
+function stageLabel(idx){
+  const n = Number(idx);
+  return n===0 ? 'Stage 0 (Private)' : `Stage ${n}`;
+}
+
+/* Connect */
 async function connectWallet(){
   presaleConnectWalletBtn.classList.add('loading'); presaleConnectWalletBtn.disabled = true;
   try{
@@ -622,7 +620,7 @@ async function refreshPresaleLimits(){
     const minU = fromUnits(web3, web3.utils.toBN(st.minUsdt || st[1]), usdtDec);
     const maxU = fromUnits(web3, web3.utils.toBN(st.maxUsdt || st[2]), usdtDec);
     const priceNum = Number(st.priceNum || st[0]) / 10000;
-    presaleLimits.textContent = `Public Presale - Stage ${Number(idx)+1} Limits: Min ${minU.toFixed(2)} USDT, Max ${maxU.toFixed(2)} USDT · Price ${priceNum.toFixed(4)} USDT/HAIP`;
+    presaleLimits.textContent = `Presale — ${stageLabel(idx)}: Min ${minU.toFixed(2)} USDT, Max ${maxU.toFixed(2)} USDT · Price ${priceNum.toFixed(5)} USDT/HAIP`;
     purchaseAmountInput.min = minU; purchaseAmountInput.max = maxU;
   }catch{}
 }
@@ -631,17 +629,25 @@ async function refreshStageUI(){
   try{
     const idx = await presaleContract.methods.currentStage().call();
     const st = await presaleContract.methods.getStage(idx).call();
-    const price = (Number(st.priceNum || st[0]) / 10000).toFixed(4);
+    const price = (Number(st.priceNum || st[0]) / 10000).toFixed(5);
     const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
     const cap  = fromUnits(web3, web3.utils.toBN(st.capTokens  || st[3]), haipDec);
     const remaining = Math.max(cap - sold, 0);
     const pct = cap > 0 ? Math.min((sold / cap) * 100, 100) : 0;
 
-    stageTitle.textContent = `Public Presale — Stage ${Number(idx)+1}`;
+    stageTitle.textContent = `Presale — ${stageLabel(idx)}`;
     stagePrice.textContent = `${price} USDT / HAIP`;
     stageSold.textContent = `${fmt(sold, 2)} / ${fmt(cap, 2)} HAIP`;
     stageRemaining.textContent = `${fmt(remaining, 2)} HAIP`;
     stageProgress.style.width = `${pct.toFixed(2)}%`;
+
+    const badge = document.getElementById('v3StageTitle');
+    if (badge) badge.textContent = stageLabel(idx);
+
+    document.getElementById('v3StagePrice').textContent = `${price} USDT / HAIP`;
+    document.getElementById('v3StageSold').textContent = `${fmt(sold,2)} / ${fmt(cap,2)} HAIP`;
+    document.getElementById('v3StageRemaining').textContent = `${fmt(remaining,2)} HAIP`;
+    document.getElementById('v3StageProgress').style.width = `${pct.toFixed(2)}%`;
 
     if (connectedAddress) {
       try {
@@ -649,13 +655,14 @@ async function refreshStageUI(){
         const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
         stageHint.textContent = `You can still buy up to ${maxUserFloat.toFixed(2)} USDT in this stage.`;
         const limEl = document.getElementById('v3YourLimit'); if(limEl) limEl.textContent = `${maxUserFloat.toFixed(2)}`;
+        const q = document.getElementById('v3Quote'); if(q) q.textContent = `You can still buy up to ${maxUserFloat.toFixed(2)} USDT in this stage.`;
       } catch {
         stageHint.textContent = `Connect your wallet to see your current limit.`;
       }
     } else {
       stageHint.textContent = `Connect your wallet to see your current limit.`;
     }
-  }catch(e){ stageTitle.textContent = `Public Presale — Stage —`; }
+  }catch(e){ stageTitle.textContent = `Presale — Stage —`; }
 }
 setInterval(()=>{ if (presaleContract) refreshStageUI(); }, 20000);
 
@@ -786,13 +793,13 @@ function copyContract() {
       if(!presaleContract || !web3) return;
       const idx = await presaleContract.methods.currentStage().call();
       const st = await presaleContract.methods.getStage(idx).call();
-      const price = (Number(st.priceNum || st[0]) / 10000).toFixed(4);
+      const price = (Number(st.priceNum || st[0]) / 10000).toFixed(5);
       const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
       const cap  = fromUnits(web3, web3.utils.toBN(st.capTokens  || st[3]), haipDec);
       const remaining = Math.max(cap - sold, 0);
       const pct = cap > 0 ? Math.min((sold / cap) * 100, 100) : 0;
 
-      document.getElementById('v3StageTitle').textContent = `Stage ${Number(idx)+1}`;
+      document.getElementById('v3StageTitle').textContent = stageLabel(idx);
       document.getElementById('v3StagePrice').textContent = `${price} USDT / HAIP`;
       document.getElementById('v3StageSold').textContent = `${fmt(sold,2)} / ${fmt(cap,2)} HAIP`;
       document.getElementById('v3StageRemaining').textContent = `${fmt(remaining,2)} HAIP`;
