@@ -384,9 +384,12 @@ const endMs = startMs + D72_MS;
 function renderStage0() {
   const d = endMs - Date.now();
   if (d <= 0) {
-    countdownStage0.textContent = 'Stage 0 ended!';
-    countdownStage0.style.animation = 'none';
+    // LIVE acum pentru Stage 0
+    countdownStage0.textContent = 'Stage 0 — LIVE now!';
+    countdownStage0.style.animation = 'glowPulse 2s ease-in-out infinite';
     countdownStage0.style.border = '2px solid #66fcf1';
+    countdownStage0.style.color = '#66fcf1';
+    countdownStage0.style.textShadow = '0 0 18px #0ff0fc';
     return;
   }
   const days = Math.floor(d / 86400000);
@@ -480,6 +483,9 @@ const GOOD_BSC_RPCS = [
   'https://rpc.ankr.com/bsc'
 ];
 
+/* === UI: force Stage 0 in widgets === */
+const ACTIVE_STAGE_IDX = 0; // folosim Stage 0 pentru afisare (Min/Max/Price)
+
 async function initWeb3() {
   let attempts = 0; const maxAttempts = 15; const retryDelay = 1500;
   while (attempts < maxAttempts) {
@@ -562,7 +568,7 @@ async function sendWithLowFee(call, { from, valueWei='0x0', cap, label }){
   }catch(e1){
     if (isTrieError(e1)) {
       setGasStatus('RPC node error. Switching to a healthy BSC RPC…');
-      try{ await checkNetwork(); }catch{}
+      try{ await checkNetwork(); }catch(){}
     }
     try{
       setGasStatus(`${label} retry via wallet estimator…`);
@@ -615,7 +621,7 @@ async function connectWallet(){
 
 async function refreshPresaleLimits(){
   try{
-    const idx = await presaleContract.methods.currentStage().call();
+    const idx = ACTIVE_STAGE_IDX; // Stage 0 forțat în UI
     const st = await presaleContract.methods.getStage(idx).call();
     const minU = fromUnits(web3, web3.utils.toBN(st.minUsdt || st[1]), usdtDec);
     const maxU = fromUnits(web3, web3.utils.toBN(st.maxUsdt || st[2]), usdtDec);
@@ -627,7 +633,7 @@ async function refreshPresaleLimits(){
 
 async function refreshStageUI(){
   try{
-    const idx = await presaleContract.methods.currentStage().call();
+    const idx = ACTIVE_STAGE_IDX; // Stage 0 forțat în UI
     const st = await presaleContract.methods.getStage(idx).call();
     const price = (Number(st.priceNum || st[0]) / 10000).toFixed(5);
     const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
@@ -685,6 +691,7 @@ async function purchaseTokens(){
     let usdtAmount = parseFloat(purchaseAmountInput.value);
     if (isNaN(usdtAmount) || usdtAmount <= 0) throw new Error('Enter a valid positive number');
 
+    // Pentru tranzacție folosim stage-ul real din contract
     const idx = await presaleContract.methods.currentStage().call();
     const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
     const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
@@ -791,7 +798,7 @@ function copyContract() {
   async function v3Refresh(){
     try{
       if(!presaleContract || !web3) return;
-      const idx = await presaleContract.methods.currentStage().call();
+      const idx = ACTIVE_STAGE_IDX; // Stage 0 forțat în UI
       const st = await presaleContract.methods.getStage(idx).call();
       const price = (Number(st.priceNum || st[0]) / 10000).toFixed(5);
       const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
