@@ -129,10 +129,7 @@
       .stage-grid { grid-template-columns: 1fr; }
     }
 
-    /* === Presale v3 (mobile-first) === */
-    :root{
-      --haip-teal:#66fcf1; --haip-cyan:#0ff0fc; --haip-bg:#0b0c10; --haip-card:#1f2833;
-    }
+    :root{ --haip-teal:#66fcf1; --haip-cyan:#0ff0fc; --haip-bg:#0b0c10; --haip-card:#1f2833; }
     .presale-v3{display:grid; gap:14px;}
     .presale-card{background:rgba(31,40,51,.92); border:1px solid #0ff0fc22; border-radius:14px; padding:14px; box-shadow:0 6px 24px rgba(0,249,255,.15); backdrop-filter: blur(4px);}
     .presale-head{display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap}
@@ -243,15 +240,14 @@
     </div>
   </section>
 
-  <!-- Stage 0 Countdown (72h) -->
+  <!-- Stage 0 Countdown -->
   <section data-aos="fade-up">
     <h2>Stage 0 Countdown</h2>
-    <div class="countdown" id="countdownStage0"></div>
+    <div class="countdown" id="countdownStage0">Stage 0 — LIVE now!</div>
   </section>
 
   <section data-aos="fade-up">
     <h2>Presale Stages</h2>
-    <!-- STAGE 0 (Private) -->
     <div class="presale-stage" style="animation-delay:.2s">
       <h3>Stage 0 (Private)</h3>
       <p>Allocation: <strong>2% (360M HAIP)</strong></p>
@@ -259,7 +255,6 @@
       <p>Min per user: <strong>3.24 USDT</strong> (36,000 HAIP)</p>
       <p>Max per user: <strong>90 USDT</strong> (1,000,000 HAIP)</p>
     </div>
-    <!-- Public stages (neatinse) -->
     <div class="presale-stage" style="animation-delay:.4s">
       <h3>Public Presale - Stage 1</h3>
       <p>Allocation: <strong>13% (2.34B HAIP)</strong></p>
@@ -296,7 +291,7 @@
     <div class="presale-card">
       <div class="presale-head">
         <h3 class="presale-title">Presale</h3>
-        <span class="badge-stage" id="v3StageTitle">Stage —</span>
+        <span class="badge-stage" id="v3StageTitle">Stage 0 (Private)</span>
       </div>
       <div class="kv" style="margin:10px 0">
         <div class="box"><b>Price</b><div id="v3StagePrice">—</div></div>
@@ -369,59 +364,66 @@
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-AOS.init({ duration: 1000 });
+/* Safe init for AOS & Chart */
+try { AOS.init({ duration: 1000 }); } catch(e){ console.warn('AOS init failed', e); }
 
-/* ===== Stage 0 — Countdown 72h (persisted) ===== */
-const countdownStage0 = document.getElementById('countdownStage0');
-const STAGE0_KEY = 'haip_stage0_start_ms';
-const D72_MS = 72 * 60 * 60 * 1000;
-let startMs = parseInt(localStorage.getItem(STAGE0_KEY) || '0', 10);
-if (!startMs || Number.isNaN(startMs)) {
-  startMs = Date.now();
-  localStorage.setItem(STAGE0_KEY, String(startMs));
-}
-const endMs = startMs + D72_MS;
-function renderStage0() {
-  const d = endMs - Date.now();
-  if (d <= 0) {
-    // LIVE acum pentru Stage 0
-    countdownStage0.textContent = 'Stage 0 — LIVE now!';
-    countdownStage0.style.animation = 'glowPulse 2s ease-in-out infinite';
-    countdownStage0.style.border = '2px solid #66fcf1';
-    countdownStage0.style.color = '#66fcf1';
-    countdownStage0.style.textShadow = '0 0 18px #0ff0fc';
-    return;
+/* Stage 0 LIVE text + optional countdown (nu mai ascunde nimic) */
+(function(){
+  const el = document.getElementById('countdownStage0');
+  if(!el) return;
+  const STAGE0_KEY = 'haip_stage0_start_ms';
+  const D72_MS = 72 * 60 * 60 * 1000;
+  let startMs = parseInt(localStorage.getItem(STAGE0_KEY) || '0', 10);
+  if (!startMs || Number.isNaN(startMs)) {
+    startMs = Date.now();
+    localStorage.setItem(STAGE0_KEY, String(startMs));
   }
-  const days = Math.floor(d / 86400000);
-  const hours = Math.floor((d % 86400000) / 3600000);
-  const minutes = Math.floor((d % 3600000) / 60000);
-  const seconds = Math.floor((d % 60000) / 1000);
-  countdownStage0.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-}
-setInterval(renderStage0, 1000); renderStage0();
+  const endMs = startMs + D72_MS;
 
-/* ===== Tokenomics chart ===== */
-const ctx = document.getElementById('tokenomicsChart').getContext('2d');
-new Chart(ctx, {
-  type: 'doughnut',
-  data: {
-    labels: ['Presale (54%)', 'DEX Liquidity (27%)', 'Development (10%)', 'Partners (9%)'],
-    datasets: [{ data: [54, 27, 10, 9], backgroundColor: ['#66fcf1', '#0ff0fc', '#2c3e50', '#08fdd8'], borderColor: '#0b0c10', borderWidth: 2, hoverOffset: 20 }]
-  },
-  options: { responsive:true, maintainAspectRatio:true, animation:{animateScale:true, animateRotate:true}, plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'#1f2833', titleColor:'#fff', bodyColor:'#fff', borderColor:'#66fcf1', borderWidth:1, cornerRadius:6, padding:10 } } }
-});
+  const paint = ()=>{
+    const d = endMs - Date.now();
+    if(d <= 0){
+      el.textContent = 'Stage 0 — LIVE now!';
+      return;
+    }
+    const days = Math.floor(d / 86400000);
+    const hours = Math.floor((d % 86400000) / 3600000);
+    const minutes = Math.floor((d % 3600000) / 60000);
+    const seconds = Math.floor((d % 60000) / 1000);
+    el.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  };
+  paint(); setInterval(paint, 1000);
+})();
 
-/* ===== Web3 & Presale Logic (same contract) ===== */
-const presaleWalletStatus = document.getElementById('presaleWalletStatus');
-const presaleConnectWalletBtn = document.getElementById('presaleConnectWalletBtn');
-const presaleDisconnectWalletBtn = document.getElementById('presaleDisconnectWalletBtn');
-const purchaseBtn = document.getElementById('purchaseBtn');
-const purchaseInput = document.getElementById('purchaseInput');
-const purchaseAmountInput = document.getElementById('purchaseAmount');
-const presaleLimits = document.getElementById('presaleLimits');
-const gasStatus = document.getElementById('gasStatus');
+/* Tokenomics chart (tolerant la erori) */
+(function(){
+  try{
+    const c = document.getElementById('tokenomicsChart');
+    if(!c) return;
+    const ctx = c.getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Presale (54%)', 'DEX Liquidity (27%)', 'Development (10%)', 'Partners (9%)'],
+        datasets: [{ data: [54, 27, 10, 9], backgroundColor: ['#66fcf1', '#0ff0fc', '#2c3e50', '#08fdd8'], borderColor: '#0b0c10', borderWidth: 2, hoverOffset: 20 }]
+      },
+      options: { responsive:true, maintainAspectRatio:true, plugins:{ legend:{display:false} } }
+    });
+  }catch(e){ console.warn('Chart init failed', e); }
+})();
+</script>
 
-// Legacy hooks (safe fallbacks)
+<script>
+/* ===== Web3 & Presale Logic (safe-guarded) ===== */
+const presaleWalletStatus = document.getElementById('presaleWalletStatus') || {textContent:''};
+const presaleConnectWalletBtn = document.getElementById('presaleConnectWalletBtn') || {addEventListener:()=>{},classList:{add:()=>{},remove:()=>{}},disabled:false};
+const presaleDisconnectWalletBtn = document.getElementById('presaleDisconnectWalletBtn') || {classList:{add:()=>{},remove:()=>{}}};
+const purchaseBtn = document.getElementById('purchaseBtn') || {addEventListener:()=>{},classList:{add:()=>{},remove:()=>{}},disabled:true};
+const purchaseInput = document.getElementById('purchaseInput') || {classList:{add:()=>{},remove:()=>{},contains:()=>false}};
+const purchaseAmountInput = document.getElementById('purchaseAmount') || {value:'',min:0,max:0};
+const presaleLimits = document.getElementById('presaleLimits') || {textContent:''};
+const gasStatus = document.getElementById('gasStatus') || {textContent:''};
+
 const stageTitle = document.getElementById('stageTitle') || {textContent:''};
 const stagePrice = document.getElementById('stagePrice') || {textContent:''};
 const stageSold = document.getElementById('stageSold') || {textContent:''};
@@ -429,7 +431,6 @@ const stageRemaining = document.getElementById('stageRemaining') || {textContent
 const stageProgress = document.getElementById('stageProgress') || {style:{width:''}};
 const stageHint = document.getElementById('stageHint') || {textContent:''};
 
-// Contract details (BSC mainnet)
 const HAIP_ADDRESS = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
 const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
 const PRESALE_ADDRESS = '0x07e11a90bFea0f38D203f25C26c21de1cD78bFf7';
@@ -463,11 +464,13 @@ let connectedAddress = null, haipDec = 18, usdtDec = 18;
 
 const fmt = (n,d=2)=>Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
 const toUnits = (web3, val, dec) => {
-  const bn = web3.utils.toBN(Math.floor((+val) * 1e6));
+  const bn = web3?.utils?.toBN ? web3.utils.toBN(Math.floor((+val) * 1e6)) : null;
+  if(!bn) return '0';
   const scale = web3.utils.toBN(10).pow(web3.utils.toBN(dec - 6));
   return bn.mul(scale);
 };
 const fromUnits = (web3, bn, dec) => {
+  if(!bn) return 0;
   const s = bn.toString();
   const pad = s.padStart(dec+1, '0');
   const intPart = pad.slice(0, -dec);
@@ -475,7 +478,6 @@ const fromUnits = (web3, bn, dec) => {
   return Number(`${intPart}.${fracPart}`);
 };
 
-// Healthy RPC fallback
 const GOOD_BSC_RPCS = [
   'https://bsc-dataseed.binance.org',
   'https://bsc-dataseed1.ninicoin.io',
@@ -483,34 +485,26 @@ const GOOD_BSC_RPCS = [
   'https://rpc.ankr.com/bsc'
 ];
 
-/* === UI: force Stage 0 in widgets === */
-const ACTIVE_STAGE_IDX = 0; // folosim Stage 0 pentru afisare (Min/Max/Price)
+const ACTIVE_STAGE_IDX = 0;
 
 async function initWeb3() {
-  let attempts = 0; const maxAttempts = 15; const retryDelay = 1500;
-  while (attempts < maxAttempts) {
+  try{
     if (window.ethereum) {
-      try {
-        web3 = new Web3(window.ethereum);
-        haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
-        usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-        presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
-        try { haipDec = await haipContract.methods.decimals().call(); } catch {}
-        try { usdtDec = await usdtContract.methods.decimals().call(); } catch {}
-        return true;
-      } catch (e) { attempts++; await new Promise(r=>setTimeout(r, retryDelay)); }
+      web3 = new Web3(window.ethereum);
     } else if (window.web3) {
-      try {
-        web3 = new Web3(window.web3.currentProvider);
-        haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
-        usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-        presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
-        return true;
-      } catch (e) { attempts++; await new Promise(r=>setTimeout(r, retryDelay)); }
-    } else { attempts++; await new Promise(r=>setTimeout(r, retryDelay)); }
+      web3 = new Web3(window.web3.currentProvider);
+    } else {
+      return false;
+    }
+    haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
+    usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+    presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
+    try { haipDec = await haipContract.methods.decimals().call(); } catch {}
+    try { usdtDec = await usdtContract.methods.decimals().call(); } catch {}
+    return true;
+  }catch(e){
+    console.warn('initWeb3 failed', e); return false;
   }
-  presaleWalletStatus.innerHTML = 'No wallet provider detected. Please install <a href="https://metamask.io/download" target="_blank">MetaMask</a> or <a href="https://trustwallet.com/download" target="_blank">Trust Wallet</a>.';
-  return false;
 }
 
 async function checkNetwork() {
@@ -518,18 +512,11 @@ async function checkNetwork() {
     const chainId = await web3.eth.getChainId();
     if (chainId !== 56) {
       await window.ethereum.request({ method:'wallet_switchEthereumChain', params:[{ chainId:'0x38' }] });
-      return true;
     }
     return true;
-  } catch (switchError) {
-    if (switchError.code === 4902 || String(switchError.message||'').toLowerCase().includes('missing trie node')) {
-      await window.ethereum.request({
-        method:'wallet_addEthereumChain',
-        params:[{ chainId:'0x38', chainName:'Binance Smart Chain', nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18}, rpcUrls:GOOD_BSC_RPCS, blockExplorerUrls:['https://bscscan.com'] }]
-      });
-      return true;
-    }
-    presaleWalletStatus.textContent = 'Failed to switch to Binance Smart Chain.'; return false;
+  } catch (e) {
+    console.warn('switch chain failed', e);
+    return false;
   }
 }
 
@@ -561,79 +548,55 @@ function isTrieError(err){
 
 async function sendWithLowFee(call, { from, valueWei='0x0', cap, label }){
   let gasPriceGwei = await pickGasPriceGwei();
-  try{
-    const gasLimit = await estimateGasCapped(call, from, valueWei, cap);
-    setGasStatus(`${label}… ${gasPriceGwei.toFixed(2)} gwei · gas ≈ ${gasLimit}`);
-    return await call.send({ from, gas: gasLimit, gasPrice: g(gasPriceGwei), value: valueWei });
-  }catch(e1){
-    if (isTrieError(e1)) {
-      setGasStatus('RPC node error. Switching to a healthy BSC RPC…');
-      try{ await checkNetwork(); }catch(){}
-    }
-    try{
-      setGasStatus(`${label} retry via wallet estimator…`);
-      return await call.send({ from, value: valueWei });
-    }catch(e2){
-      const msg = String(e2?.message||'').toLowerCase();
-      if ((msg.includes('underpriced') || msg.includes('replacement') || msg.includes('price too low'))) {
-        gasPriceGwei = Math.min(gasPriceGwei + 1.0, GAS_CONF.maxGwei);
-        const gasLimit = await estimateGasCapped(call, from, valueWei, cap);
-        return await call.send({ from, gas: gasLimit, gasPrice: g(gasPriceGwei), value: valueWei });
-      }
-      throw e2;
-    }
-  }
+  const gasLimit = await estimateGasCapped(call, from, valueWei, cap);
+  return await call.send({ from, gas: gasLimit, gasPrice: g(gasPriceGwei), value: valueWei });
 }
 
-/* Label helper: Stage 0 -> "Stage 0 (Private)", altfel "Stage N" */
-function stageLabel(idx){
-  const n = Number(idx);
-  return n===0 ? 'Stage 0 (Private)' : `Stage ${n}`;
-}
+function stageLabel(idx){ return Number(idx)===0 ? 'Stage 0 (Private)' : `Stage ${idx}`; }
 
-/* Connect */
 async function connectWallet(){
-  presaleConnectWalletBtn.classList.add('loading'); presaleConnectWalletBtn.disabled = true;
+  presaleConnectWalletBtn.classList.add?.('loading'); presaleConnectWalletBtn.disabled = true;
   try{
     if (!await initWeb3()) throw new Error('No wallet provider detected.');
-    if (!await checkNetwork()) throw new Error('Wrong network');
+    await checkNetwork();
     const accounts = await window.ethereum.request({ method:'eth_requestAccounts' });
-    if (accounts.length === 0) throw new Error('No accounts authorized.');
+    if (!accounts?.length) throw new Error('No accounts authorized.');
     connectedAddress = accounts[0];
 
     const balance = await haipContract.methods.balanceOf(connectedAddress).call().catch(()=>0);
     presaleWalletStatus.textContent = `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)} · Balance ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
-    presaleConnectWalletBtn.classList.add('hidden');
-    presaleDisconnectWalletBtn.classList.remove('hidden');
-    purchaseBtn.disabled = false; purchaseInput.classList.remove('hidden');
+    presaleConnectWalletBtn.classList.add?.('hidden');
+    presaleDisconnectWalletBtn.classList.remove?.('hidden');
+    purchaseBtn.disabled = false; purchaseInput.classList.remove?.('hidden');
 
-    await refreshPresaleLimits();
-    await refreshStageUI();
+    await refreshPresaleLimits(); await refreshStageUI();
 
     window.ethereum.on('accountsChanged', ()=>location.reload());
     window.ethereum.on('chainChanged', ()=>location.reload());
   }catch(error){
     presaleWalletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
   }finally{
-    presaleConnectWalletBtn.classList.remove('loading'); presaleConnectWalletBtn.disabled = false;
+    presaleConnectWalletBtn.classList.remove?.('loading'); presaleConnectWalletBtn.disabled = false;
   }
 }
 
 async function refreshPresaleLimits(){
   try{
-    const idx = ACTIVE_STAGE_IDX; // Stage 0 forțat în UI
+    if(!presaleContract || !web3) return;
+    const idx = ACTIVE_STAGE_IDX;
     const st = await presaleContract.methods.getStage(idx).call();
     const minU = fromUnits(web3, web3.utils.toBN(st.minUsdt || st[1]), usdtDec);
     const maxU = fromUnits(web3, web3.utils.toBN(st.maxUsdt || st[2]), usdtDec);
     const priceNum = Number(st.priceNum || st[0]) / 10000;
     presaleLimits.textContent = `Presale — ${stageLabel(idx)}: Min ${minU.toFixed(2)} USDT, Max ${maxU.toFixed(2)} USDT · Price ${priceNum.toFixed(5)} USDT/HAIP`;
     purchaseAmountInput.min = minU; purchaseAmountInput.max = maxU;
-  }catch{}
+  }catch(e){ console.warn('refreshPresaleLimits', e); }
 }
 
 async function refreshStageUI(){
   try{
-    const idx = ACTIVE_STAGE_IDX; // Stage 0 forțat în UI
+    if(!presaleContract || !web3) return;
+    const idx = ACTIVE_STAGE_IDX;
     const st = await presaleContract.methods.getStage(idx).call();
     const price = (Number(st.priceNum || st[0]) / 10000).toFixed(5);
     const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
@@ -668,7 +631,7 @@ async function refreshStageUI(){
     } else {
       stageHint.textContent = `Connect your wallet to see your current limit.`;
     }
-  }catch(e){ stageTitle.textContent = `Presale — Stage —`; }
+  }catch(e){ console.warn('refreshStageUI', e); }
 }
 setInterval(()=>{ if (presaleContract) refreshStageUI(); }, 20000);
 
@@ -676,22 +639,21 @@ function disconnectWallet(){
   connectedAddress = null;
   presaleWalletStatus.textContent = 'Wallet not connected';
   setGasStatus('');
-  presaleConnectWalletBtn.classList.remove('hidden');
-  presaleDisconnectWalletBtn.classList.add('hidden');
-  purchaseBtn.disabled = true; purchaseInput.classList.add('hidden');
+  presaleConnectWalletBtn.classList.remove?.('hidden');
+  presaleDisconnectWalletBtn.classList.add?.('hidden');
+  purchaseBtn.disabled = true; purchaseInput.classList.add?.('hidden');
   purchaseAmountInput.value = '';
   refreshStageUI();
 }
 
 async function purchaseTokens(){
-  if (purchaseInput.classList.contains('hidden')) { purchaseInput.classList.remove('hidden'); return; }
-  purchaseBtn.classList.add('loading'); purchaseBtn.disabled = true;
+  if (purchaseInput.classList.contains?.('hidden')) { purchaseInput.classList.remove?.('hidden'); return; }
+  purchaseBtn.classList.add?.('loading'); purchaseBtn.disabled = true;
   try{
     if (!web3 || !usdtContract || !presaleContract || !connectedAddress) throw new Error('Wallet not connected');
     let usdtAmount = parseFloat(purchaseAmountInput.value);
     if (isNaN(usdtAmount) || usdtAmount <= 0) throw new Error('Enter a valid positive number');
 
-    // Pentru tranzacție folosim stage-ul real din contract
     const idx = await presaleContract.methods.currentStage().call();
     const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
     const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
@@ -703,7 +665,6 @@ async function purchaseTokens(){
     }
     const usdtUnits = toUnits(web3, usdtAmount, usdtDec);
 
-    // Allowance
     const allowance = await usdtContract.methods.allowance(connectedAddress, PRESALE_ADDRESS).call();
     if (web3.utils.toBN(allowance).lt(usdtUnits)) {
       setGasStatus('Approving USDT…');
@@ -713,7 +674,6 @@ async function purchaseTokens(){
       );
     }
 
-    // Optional quote for UI
     let haipAmountStr = '';
     try {
       const tokens = await presaleContract.methods.quoteTokens(idx, usdtUnits.toString()).call();
@@ -729,35 +689,34 @@ async function purchaseTokens(){
 
     presaleWalletStatus.innerHTML = `Success${haipAmountStr}! <a target="_blank" href="https://bscscan.com/tx/${tx.transactionHash}">View on BscScan</a>`;
     setGasStatus('Done.');
-    purchaseInput.classList.add('hidden'); purchaseAmountInput.value = '';
+    purchaseInput.classList.add?.('hidden'); purchaseAmountInput.value = '';
     await refreshPresaleLimits(); await refreshStageUI();
   }catch(error){
     presaleWalletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
-    if (isTrieError?.(error)) setGasStatus('Your RPC may be pruned/unstable. Switch RPC in MetaMask to: bsc-dataseed.binance.org / ankr / ninicoin.');
   }finally{
-    purchaseBtn.classList.remove('loading'); purchaseBtn.disabled = connectedAddress ? false : true;
+    purchaseBtn.classList.remove?.('loading'); purchaseBtn.disabled = connectedAddress ? false : true;
   }
 }
 
-// Buttons
-presaleConnectWalletBtn.addEventListener('click', connectWallet);
-presaleDisconnectWalletBtn.addEventListener('click', disconnectWallet);
-purchaseBtn.addEventListener('click', purchaseTokens);
+presaleConnectWalletBtn.addEventListener?.('click', connectWallet);
+presaleDisconnectWalletBtn.addEventListener?.('click', disconnectWallet);
+purchaseBtn.addEventListener?.('click', purchaseTokens);
 
-// Copy contract address
 function copyContract() {
   const contractAddress = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
   navigator.clipboard.writeText(contractAddress).then(() => alert('Contract address copied to clipboard!'));
 }
 
-// Initialize widget (read-only before connect)
 (async () => {
-  try { if (window.ethereum || window.web3) { await initWeb3(); await refreshStageUI(); } } catch {}
+  try {
+    await initWeb3();
+    await refreshStageUI();
+    await refreshPresaleLimits();
+  } catch {}
 })();
 </script>
 
 <script>
-// === Presale v3 UX enhancements ===
 (function(){
   const chips = Array.from(document.querySelectorAll('.chip'));
   const amountInput = document.getElementById('purchaseAmount');
@@ -785,7 +744,7 @@ function copyContract() {
     });
   });
 
-  function updateSticky(){ const mq = window.matchMedia('(max-width: 740px)'); sticky.style.display = mq.matches ? 'flex' : 'none'; }
+  function updateSticky(){ const mq = window.matchMedia('(max-width: 740px)'); if(sticky) sticky.style.display = mq.matches ? 'flex' : 'none'; }
   updateSticky(); window.addEventListener('resize', updateSticky);
 
   if(stickyBtn){ stickyBtn.addEventListener('click', ()=>{ document.getElementById('purchaseBtn')?.click(); }); }
@@ -798,7 +757,7 @@ function copyContract() {
   async function v3Refresh(){
     try{
       if(!presaleContract || !web3) return;
-      const idx = ACTIVE_STAGE_IDX; // Stage 0 forțat în UI
+      const idx = ACTIVE_STAGE_IDX;
       const st = await presaleContract.methods.getStage(idx).call();
       const price = (Number(st.priceNum || st[0]) / 10000).toFixed(5);
       const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
