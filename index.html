@@ -272,9 +272,9 @@
     <div class="presale-stage" style="animation-delay:.2s">
       <h3>Private Presale</h3>
       <p>Allocation: <strong>2% (360M HAIP)</strong></p>
-      <p>Price: <strong>XXX USDT</strong> per HAIP</p>
-      <p>Min per user: <strong>XXX USDT</strong> (XXX HAIP)</p>
-      <p>Max per user: <strong>XXX USDT</strong> (XXX HAIP)</p>
+      <p>Price: <strong>0.00009 USDT</strong> per HAIP</p>
+      <p>Min per user: <strong>3.24 USDT</strong> (36,000 HAIP)</p>
+      <p>Max per user: <strong>90 USDT</strong> (1,000,000 HAIP)</p>
     </div>
     <div class="presale-stage" style="animation-delay:.4s">
       <h3>Public Presale - Stage 1</h3>
@@ -311,23 +311,23 @@
 
     <div class="presale-card">
       <div class="presale-head">
-        <h3 class="presale-title">Public Presale</h3>
-        <span class="badge-stage" id="v3StageTitle">Stage —</span>
+        <h3 class="presale-title">Private Presale</h3>
+        <span class="badge-stage" id="v3StageTitle">Private</span>
       </div>
       <div class="kv" style="margin:10px 0">
-        <div class="box"><b>Price</b><div id="v3StagePrice">—</div></div>
-        <div class="box"><b>Your Limit (USDT)</b><div id="v3YourLimit">—</div></div>
+        <div class="box"><b>Price</b><div id="v3StagePrice">0.00009 USDT / HAIP</div></div>
+        <div class="box"><b>Your Limit (USDT)</b><div id="v3YourLimit">3.24–90.00</div></div>
         <div class="box"><b>Sold</b><div id="v3StageSold">—</div></div>
         <div class="box"><b>Remaining</b><div id="v3StageRemaining">—</div></div>
       </div>
       <div class="progress"><i id="v3StageProgress"></i></div>
-      <p class="quote" id="v3Quote">Connect your wallet to see your personalized limit.</p>
+      <p class="quote" id="v3Quote">Private Presale is live. Connect your wallet to see your personalized remaining limit.</p>
     </div>
 
     <div class="presale-card">
       <div class="presale-status" id="presaleWalletStatus">Wallet not connected</div>
       <div class="live-status" id="gasStatus"></div>
-      <div class="presale-limits" id="presaleLimits">Stage limits will appear after connect.</div>
+      <div class="presale-limits" id="presaleLimits">Private Presale Limits: Min 3.24 USDT, Max 90.00 USDT · Price 0.00009 USDT/HAIP</div>
 
       <div class="amount-chips" id="chipsRow" style="margin:8px 0 6px">
         <button class="chip" data-usdt="25">+25</button>
@@ -603,11 +603,8 @@ async function connectWallet(){
     presaleDisconnectWalletBtn.classList.remove('hidden');
     purchaseBtn.disabled = false; purchaseInput.classList.remove('hidden');
 
-    await refreshPresaleLimits();
-    await refreshStageUI();
-
-    window.ethereum.on('accountsChanged', ()=>location.reload());
-    window.ethereum.on('chainChanged', ()=>location.reload());
+    // Keep hardcoded Private Presale info visible, but still show personalized limit if contract supports it
+    await refreshStageUI(true); // true => private labeling
   }catch(error){
     presaleWalletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
   }finally{
@@ -615,49 +612,46 @@ async function connectWallet(){
   }
 }
 
-async function refreshPresaleLimits(){
+// Hardcoded Private Presale config (display defaults)
+const PRIVATE_PRICE = 0.00009;
+const PRIVATE_MIN = 3.24;
+const PRIVATE_MAX = 90.00;
+
+async function refreshStageUI(forcePrivate=false){
   try{
-    const idx = await presaleContract.methods.currentStage().call();
-    const st = await presaleContract.methods.getStage(idx).call();
-    const minU = fromUnits(web3, web3.utils.toBN(st.minUsdt || st[1]), usdtDec);
-    const maxU = fromUnits(web3, web3.utils.toBN(st.maxUsdt || st[2]), usdtDec);
-    const priceNum = Number(st.priceNum || st[0]) / 10000;
-    presaleLimits.textContent = `Public Presale - Stage ${Number(idx)+1} Limits: Min ${minU.toFixed(2)} USDT, Max ${maxU.toFixed(2)} USDT · Price ${priceNum.toFixed(4)} USDT/HAIP`;
-    purchaseAmountInput.min = minU; purchaseAmountInput.max = maxU;
-  }catch{}
-}
+    // Label & defaults for Private Presale (requested)
+    document.getElementById('v3StageTitle').textContent = 'Private';
+    document.getElementById('v3StagePrice').textContent = `${PRIVATE_PRICE.toFixed(5)} USDT / HAIP`;
+    document.getElementById('v3YourLimit').textContent = `3.24–90.00`;
+    document.getElementById('v3Quote').textContent = `Private Presale is live. Connect your wallet to see your personalized remaining limit.`;
+    presaleLimits.textContent = `Private Presale Limits: Min ${PRIVATE_MIN.toFixed(2)} USDT, Max ${PRIVATE_MAX.toFixed(2)} USDT · Price ${PRIVATE_PRICE.toFixed(5)} USDT/HAIP`;
 
-async function refreshStageUI(){
-  try{
-    const idx = await presaleContract.methods.currentStage().call();
-    const st = await presaleContract.methods.getStage(idx).call();
-    const price = (Number(st.priceNum || st[0]) / 10000).toFixed(4);
-    const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
-    const cap  = fromUnits(web3, web3.utils.toBN(st.capTokens  || st[3]), haipDec);
-    const remaining = Math.max(cap - sold, 0);
-    const pct = cap > 0 ? Math.min((sold / cap) * 100, 100) : 0;
+    // If contract is reachable, we still display sold/remaining/progress + personalized limit
+    if (presaleContract && web3) {
+      const idx = await presaleContract.methods.currentStage().call();
+      const st = await presaleContract.methods.getStage(idx).call();
+      const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
+      const cap  = fromUnits(web3, web3.utils.toBN(st.capTokens  || st[3]), haipDec);
+      const remaining = Math.max(cap - sold, 0);
+      const pct = cap > 0 ? Math.min((sold / cap) * 100, 100) : 0;
+      document.getElementById('v3StageSold').textContent = `${fmt(sold,2)} / ${fmt(cap,2)} HAIP`;
+      document.getElementById('v3StageRemaining').textContent = `${fmt(remaining,2)} HAIP`;
+      document.getElementById('v3StageProgress').style.width = `${pct.toFixed(2)}%`;
 
-    stageTitle.textContent = `Public Presale — Stage ${Number(idx)+1}`;
-    stagePrice.textContent = `${price} USDT / HAIP`;
-    stageSold.textContent = `${fmt(sold, 2)} / ${fmt(cap, 2)} HAIP`;
-    stageRemaining.textContent = `${fmt(remaining, 2)} HAIP`;
-    stageProgress.style.width = `${pct.toFixed(2)}%`;
-
-    if (connectedAddress) {
-      try {
-        const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
-        const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
-        stageHint.textContent = `You can still buy up to ${maxUserFloat.toFixed(2)} USDT in this stage.`;
-        const limEl = document.getElementById('v3YourLimit'); if(limEl) limEl.textContent = `${maxUserFloat.toFixed(2)}`;
-      } catch {
-        stageHint.textContent = `Connect your wallet to see your current limit.`;
+      if (connectedAddress) {
+        try {
+          const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
+          const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
+          document.getElementById('v3YourLimit').textContent = `${maxUserFloat.toFixed(2)}`;
+          document.getElementById('v3Quote').textContent = `You can still buy up to ${maxUserFloat.toFixed(2)} USDT in this stage.`;
+        } catch {}
       }
-    } else {
-      stageHint.textContent = `Connect your wallet to see your current limit.`;
     }
-  }catch(e){ stageTitle.textContent = `Public Presale — Stage —`; }
+  }catch(e){
+    // leave hardcoded defaults
+  }
 }
-setInterval(()=>{ if (presaleContract) refreshStageUI(); }, 20000);
+setInterval(()=>{ if (presaleContract) refreshStageUI(true); }, 20000);
 
 function disconnectWallet(){
   connectedAddress = null;
@@ -667,7 +661,7 @@ function disconnectWallet(){
   presaleDisconnectWalletBtn.classList.add('hidden');
   purchaseBtn.disabled = true; purchaseInput.classList.add('hidden');
   purchaseAmountInput.value = '';
-  refreshStageUI();
+  refreshStageUI(true);
 }
 
 async function purchaseTokens(){
@@ -677,6 +671,10 @@ async function purchaseTokens(){
     if (!web3 || !usdtContract || !presaleContract || !connectedAddress) throw new Error('Wallet not connected');
     let usdtAmount = parseFloat(purchaseAmountInput.value);
     if (isNaN(usdtAmount) || usdtAmount <= 0) throw new Error('Enter a valid positive number');
+
+    // Enforce Private Presale client-side bounds (UX safety)
+    if (usdtAmount < PRIVATE_MIN) { usdtAmount = PRIVATE_MIN; purchaseAmountInput.value = usdtAmount.toFixed(2); }
+    if (usdtAmount > PRIVATE_MAX) { usdtAmount = PRIVATE_MAX; purchaseAmountInput.value = usdtAmount.toFixed(2); }
 
     const idx = await presaleContract.methods.currentStage().call();
     const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
@@ -716,7 +714,7 @@ async function purchaseTokens(){
     presaleWalletStatus.innerHTML = `Success${haipAmountStr}! <a target="_blank" href="https://bscscan.com/tx/${tx.transactionHash}">View on BscScan</a>`;
     setGasStatus('Done.');
     purchaseInput.classList.add('hidden'); purchaseAmountInput.value = '';
-    await refreshPresaleLimits(); await refreshStageUI();
+    await refreshStageUI(true);
   }catch(error){
     presaleWalletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
     if (isTrieError?.(error)) setGasStatus('Your RPC may be pruned/unstable. Switch RPC in MetaMask to: bsc-dataseed.binance.org / ankr / ninicoin.');
@@ -738,7 +736,13 @@ function copyContract() {
 
 // Initialize widget (read-only before connect)
 (async () => {
-  try { if (window.ethereum || window.web3) { await initWeb3(); await refreshStageUI(); } } catch {}
+  try {
+    if (window.ethereum || window.web3) {
+      await initWeb3();
+    }
+    // Ensure Private Presale defaults are shown on load
+    await refreshStageUI(true);
+  } catch {}
 })();
 </script>
 
@@ -762,7 +766,8 @@ function copyContract() {
       let current = parseFloat(amountInput.value || '0'); if(isNaN(current)) current = 0;
       if(isMax){
         const limEl = document.getElementById('v3YourLimit');
-        const max = limEl && parseFloat((limEl.textContent||'0').replace(/[^0-9.]/g,'')) || 0;
+        // If personalized limit is available, use it; else use Private Presale max
+        const max = limEl && parseFloat((limEl.textContent||'0').replace(/[^0-9.]/g,'')) || 90.00;
         if(max>0){ amountInput.value = max.toFixed(2); }
       } else {
         const inc = parseFloat(ch.dataset.usdt || '0'); amountInput.value = (current + inc).toFixed(2);
@@ -781,41 +786,6 @@ function copyContract() {
     navigator.clipboard.writeText(contractAddress).then(()=>showToast('Contract copied'));
   };
 
-  async function v3Refresh(){
-    try{
-      if(!presaleContract || !web3) return;
-      const idx = await presaleContract.methods.currentStage().call();
-      const st = await presaleContract.methods.getStage(idx).call();
-      const price = (Number(st.priceNum || st[0]) / 10000).toFixed(4);
-      const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
-      const cap  = fromUnits(web3, web3.utils.toBN(st.capTokens  || st[3]), haipDec);
-      const remaining = Math.max(cap - sold, 0);
-      const pct = cap > 0 ? Math.min((sold / cap) * 100, 100) : 0;
-
-      document.getElementById('v3StageTitle').textContent = `Stage ${Number(idx)+1}`;
-      document.getElementById('v3StagePrice').textContent = `${price} USDT / HAIP`;
-      document.getElementById('v3StageSold').textContent = `${fmt(sold,2)} / ${fmt(cap,2)} HAIP`;
-      document.getElementById('v3StageRemaining').textContent = `${fmt(remaining,2)} HAIP`;
-      document.getElementById('v3StageProgress').style.width = `${pct.toFixed(2)}%`;
-
-      if(connectedAddress){
-        try{
-          const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
-          const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
-          document.getElementById('v3YourLimit').textContent = `${maxUserFloat.toFixed(2)}`;
-          document.getElementById('v3Quote').textContent = `You can still buy up to ${maxUserFloat.toFixed(2)} USDT in this stage.`;
-        }catch{}
-      }
-    }catch(e){}
-  }
-
-  setInterval(v3Refresh, 20000);
-  setTimeout(v3Refresh, 800);
-
-  const purchaseBtnEl = document.getElementById('purchaseBtn');
-  if(amountInput && purchaseBtnEl){
-    amountInput.addEventListener('input', ()=>{ purchaseBtnEl.disabled = !amountInput.value || parseFloat(amountInput.value) <= 0; });
-  }
 })();
 </script>
 </body>
