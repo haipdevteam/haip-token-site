@@ -2,42 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="HAIP Token: Empowering AI and blockchain innovation through decentralized ecosystems." />
   <title>HAIP Token - Official Site</title>
-
-  <!-- Perf -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap">
-  <link rel="preload" as="image" href="images/background-cyber.jpg" imagesrcset="images/background-cyber.jpg 1200w" imagesizes="100vw">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" media="print" onload="this.media='all'">
-
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
   <style>
     html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
-      font-family: 'Orbitron', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
-      background: url('images/background-cyber.jpg') no-repeat center center / cover;
-      color: #f8f8f8; margin: 0; padding: 0; min-width: 100%; overflow-x: hidden;
+      font-family: 'Orbitron', sans-serif;
+      background: url('images/background-cyber.jpg') no-repeat center center fixed;
+      background-size: cover; color: #f8f8f8; margin: 0; padding: 0; min-width: 100%; overflow-x: hidden;
     }
-    @media (max-width: 800px){ body { background-attachment: scroll; } }
-
-    /* FIX: lipsea clasa hidden */
-    .hidden{ display:none !important; }
-
     header { background: rgba(31, 40, 51, 0.85); padding: 20px; text-align: center; position: relative; }
     header h1 { color: #66fcf1; margin: 0; font-size: 1.8rem; }
     .logo-fixed { position: fixed; top: 25px; left: 25px; height: 100px; z-index: 999; cursor: pointer; transition: transform 0.3s ease; }
     .logo-fixed:hover { transform: scale(1.1); }
-
     main {
       padding: 20px; max-width: 900px; margin: auto; background-color: rgba(15, 32, 39, 0.8);
       border-radius: 15px; box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
     }
-    main > section { content-visibility: auto; contain-intrinsic-size: 600px 800px; }
-
     section { margin-bottom: 20px; }
     h2 { color: #45a29e; margin-bottom: 10px; font-size: 1.5rem; }
     a { color: #66fcf1; text-decoration: none; }
@@ -58,43 +43,60 @@
       border: 2px solid #0b0c10; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite;
     }
     @keyframes spin { 0% { transform: translateY(-50%) rotate(0deg);} 100% { transform: translateY(-50%) rotate(360deg);} }
-
-    .partner-logo, .future-partner-logo { transition: transform 0.4s ease, filter 0.4s ease; filter: drop-shadow(0 0 5px rgba(102, 252, 241, 0.3)); background-color: transparent; }
-    .partner-logo:hover, .future-partner-logo:hover { transform: scale(1.06); filter: drop-shadow(0 0 15px #00f9ff); }
-
-    .future-partner-logo { height: 50px; margin: 10px 20px; object-fit: contain; }
+    .partner-logo { transition: transform 0.5s ease, filter 0.5s ease; background-color: transparent; filter: drop-shadow(0 0 5px rgba(102, 252, 241, 0.4)); max-width: 140px; }
+    .partner-logo:hover { transform: scale(1.1); filter: drop-shadow(0 0 25px #00f9ff); }
+    .future-partner-logo { height: 50px; margin: 10px 20px; object-fit: contain; filter: drop-shadow(0 0 5px rgba(102, 252, 241, 0.3)); transition: transform 0.3s ease, filter 0.3s ease; }
+    .future-partner-logo:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px #00f9ff); }
     .future-partner-logo.bybit { height: 150px; }
     .future-partner-logo.crypto-com { height: 100px; max-width: 100px; }
     .future-partner-logo.okx { height: 100px; max-width: 100px; }
     .logo-section { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; padding: 20px; }
 
-    .presale-stage { background: rgba(31, 40, 51, 0.7); border-left: 4px solid #66fcf1; padding: 15px; margin-bottom: 10px; border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0, 249, 255, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; cursor: pointer; }
+    .presale-stage {
+      background: rgba(31, 40, 51, 0.7); border-left: 4px solid #66fcf1; padding: 15px; margin-bottom: 10px; border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 249, 255, 0.1); animation: fadeInUp 1s ease both; transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; cursor: pointer;
+    }
     .presale-stage:hover { transform: scale(1.02); box-shadow: 0 0 25px rgba(0, 249, 255, 0.3); background: rgba(31, 40, 51, 0.9); }
     .presale-stage h3 { margin-top: 0; color: #0ff0fc; font-size: 1.2rem; }
     .presale-stage p { margin: 5px 0; color: #f0f0f0; font-size: 0.9rem; }
 
-    .countdown { text-align: center; font-size: 1.5rem; color: #0ff0fc; margin: 20px auto; font-weight: bold; text-shadow: 0 0 15px #0ff0fc;
-      border: 2px solid #0ff0fc; border-radius: 10px; padding: 15px; width: fit-content; background: rgba(0, 255, 255, 0.05); }
+    .countdown {
+      text-align: center; font-size: 1.5rem; color: #0ff0fc; margin: 20px auto; font-weight: bold; text-shadow: 0 0 15px #0ff0fc;
+      border: 2px solid #0ff0fc; border-radius: 10px; padding: 15px; width: fit-content; background: rgba(0, 255, 255, 0.05);
+      animation: glowPulse 2s ease-in-out infinite;
+    }
 
     .newsletter-form { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-    .newsletter-form input { padding: 10px; border: 1px solid #66fcf1; border-radius: 5px; background: #1f2833; color: #f8f8f8; width: 100%; box-sizing: border-box; }
+    .newsletter-form input {
+      padding: 10px; border: 1px solid #66fcf1; border-radius: 5px; background: #1f2833; color: #f8f8f8; width: 100%; box-sizing: border-box;
+    }
     .newsletter-form button { background: #66fcf1; color: #0b0c10; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
 
     .token-details { display: grid; grid-template-columns: repeat(3, minmax(200px, 1fr)); gap: 15px; margin: 10px 0; }
-    .token-details div { background: #1f2833; padding: 15px; border-radius: 10px; text-align: center; color: #f8f8f8; border: 2px solid #1f2833;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; align-items: center; }
+    .token-details div {
+      background: #1f2833; padding: 15px; border-radius: 10px; text-align: center; color: #f8f8f8; border: 2px solid #1f2833;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; align-items: center;
+    }
     .token-details div strong { color: #66fcf1; display: block; margin-bottom: 5px; }
     .token-details div:hover { border-color: #0ff0fc; box-shadow: 0 0 15px #0ff0fc, 0 0 30px rgba(0, 255, 252, 0.5); }
     .token-details div img { max-width: 80%; height: auto; margin-top: 10px; }
 
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 10px #0ff0fc, 0 0 20px #0ff0fc; } 50% { box-shadow: 0 0 20px #0ff0fc, 0 0 30px #0ff0fc; } }
+
     canvas#tokenomicsChart { display: block; max-width: 300px; width: 100%; margin: 0 auto; }
+    .tokenomics-section p:last-child { margin-bottom: 5px; }
     .tokenomics-container .chart-legend { font-size: 1rem; text-align: center; padding: 0 10px; }
     .tokenomics-container .chart-legend p { margin: 5px 0; }
 
+    .presale-dashboard {
+      background: rgba(31, 40, 51, 0.9); border-radius: 10px; padding: 15px; box-shadow: 0 0 20px rgba(0, 249, 255, 0.2);
+      text-align: center; margin-bottom: 20px;
+    }
     .presale-status { font-size: 1rem; color: #f0f0f0; margin-bottom: 10px; word-break: break-word; }
     .live-status { font-size: .95rem; color: #bfefff; opacity: .9; margin-bottom: 15px; min-height: 1.2em; }
-    .presale-limits { font-size: 1.1rem; color: #0ff0fc; margin-bottom: 12px; text-shadow: 0 0 10px #0ff0fc; }
+    .presale-limits { font-size: 1.2rem; color: #0ff0fc; margin-bottom: 20px; text-shadow: 0 0 10px #0ff0fc; }
+    .presale-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
 
     .error-msg { color: #ff8e8e; font-size: .9rem; margin: 6px auto 0; text-align: center; min-height: 1.2em; }
     .input-error { border-color: #ff6b6b !important; box-shadow: 0 0 10px rgba(255, 0, 0, 0.25); }
@@ -105,32 +107,62 @@
     }
     .presale-input.hidden { display: none; }
 
-    .kv{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-    .kv .box{background:#152028; border:1px solid #0b2a31; border-radius:10px; padding:10px; text-align:center}
-    .kv .box b{display:block; color:#66fcf1; margin-bottom:2px}
-    .progress{height:12px; background:#132029; border:1px solid #0ff0fc33; border-radius:999px; overflow:hidden}
-    .progress>i{display:block; height:100%; width:0%; background:linear-gradient(90deg,#66fcf1,#0ff0fc); box-shadow:0 0 14px #0ff0fc66 inset; transition:width .6s ease}
-
-    .presale-v3{display:grid; gap:14px;}
-    .presale-card{background:rgba(31,40,51,.92); border:1px solid #0ff0fc22; border-radius:14px; padding:14px; box-shadow:0 6px 24px rgba(0,249,255,.15); backdrop-filter: blur(4px);}
+    .stage-widget { text-align: left; margin-bottom: 15px; }
+    .stage-title { font-size: 1.2rem; color: #0ff0fc; margin: 4px 0 10px; }
+    .stage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .stage-kv { background:#1f2833; border:1px solid #0b2a31; border-radius:8px; padding:10px; }
+    .stage-kv b { color:#66fcf1; }
+    .progress-wrap { background:#132029; border:1px solid #0ff0fc33; border-radius:999px; height:14px; overflow:hidden; }
+    .progress-fill { height:100%; width:0%; background:linear-gradient(90deg,#66fcf1,#0ff0fc); box-shadow:0 0 15px #0ff0fc66 inset; transition:width .6s ease; }
+    .muted { opacity:.85; font-size:.95rem; }
 
     @media (max-width: 600px) {
       header h1 { font-size: 1.5rem; } h2 { font-size: 1.2rem; }
       .logo-fixed { height: 80px; top: 15px; left: 15px; }
       main { padding: 15px; } .btn { padding: 10px 20px; font-size: 0.9rem; min-width: 100px; }
-      .kv{grid-template-columns:1fr;}
+      .presale-stage h3 { font-size: 1rem; } .presale-stage p { font-size: 0.8rem; }
+      .countdown { font-size: 1.2rem; padding: 10px; }
+      .token-details { grid-template-columns: 1fr; gap: 10px; }
+      .token-details div { padding: 10px; } canvas#tokenomicsChart { max-width: 250px; }
+      .tokenomics-container .chart-legend { font-size: 0.9rem; }
+      .presale-dashboard { padding: 10px; }
+      .presale-status { font-size: 0.9rem; }
+      .presale-limits { font-size: 1rem; }
+      .presale-actions { flex-direction: column; gap: 10px; }
+      .presale-actions .btn { width: 100%; max-width: 300px; }
+      .stage-grid { grid-template-columns: 1fr; }
     }
 
-    @media (prefers-reduced-motion: reduce){
-      *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition:none !important; }
+    :root{ --haip-teal:#66fcf1; --haip-cyan:#0ff0fc; --haip-bg:#0b0c10; --haip-card:#1f2833; }
+    .presale-v3{display:grid; gap:14px;}
+    .presale-card{background:rgba(31,40,51,.92); border:1px solid #0ff0fc22; border-radius:14px; padding:14px; box-shadow:0 6px 24px rgba(0,249,255,.15); backdrop-filter: blur(4px);}
+    .presale-head{display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap}
+    .presale-title{font-size:1.2rem; color:var(--haip-teal); margin:0}
+    .badge-stage{font-size:.85rem; border:1px solid #0ff0fc44; color:#bff; padding:4px 10px; border-radius:999px}
+    .kv{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    .kv .box{background:#152028; border:1px solid #0b2a31; border-radius:10px; padding:10px; text-align:center}
+    .kv .box b{display:block; color:var(--haip-teal); margin-bottom:2px}
+    .progress{height:12px; background:#132029; border:1px solid #0ff0fc33; border-radius:999px; overflow:hidden}
+    .progress>i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--haip-teal),var(--haip-cyan)); box-shadow:0 0 14px #0ff0fc66 inset; transition:width .6s ease}
+    .quote{font-size:.95rem; color:#d9ffff; opacity:.9; text-align:center}
+    .amount-chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center}
+    .chip{padding:8px 12px; border:1px solid #0ff0fc44; background:#142129; color:#eaffff; border-radius:999px; cursor:pointer; transition:transform .15s ease, border-color .2s ease}
+    .chip:hover{transform:translateY(-1px); border-color:#0ff0fc99}
+    .chip.active{background:#122; border-color:#0ff0fc; box-shadow:0 0 10px #0ff0fc55 inset}
+    .presale-actions .btn{min-width:140px}
+    .sticky-cta{position:fixed; left:0; right:0; bottom:12px; display:none; justify-content:center; z-index:1000; padding:0 12px}
+    .sticky-cta .btn{width:100%; max-width:460px; border-radius:999px; box-shadow:0 10px 30px rgba(0,249,255,.25)}
+    .toast{position:fixed; bottom:70px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; background:#12242c; color:#eaffff; padding:10px 14px; border:1px solid #0ff0fc55; border-radius:10px; z-index:1100; transition:all .25s ease}
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+    @media(min-width: 740px){
+      .kv{grid-template-columns:repeat(4,1fr)}
+      .presale-title{font-size:1.35rem}
     }
+    .presale-v3 input[type="number"]{width:100%; max-width:320px; margin:0 auto; display:block}
   </style>
 </head>
 <body>
-<a href="#top">
-  <img src="images/haip-logo-transparent.png" alt="HAIP Logo"
-       class="logo-fixed" width="220" height="220" decoding="async">
-</a>
+<a href="#top"><img src="images/haip-logo-transparent.png" alt="HAIP Logo" class="logo-fixed" /></a>
 
 <header id="top">
   <h1>Hp Artificial Intelligence Power (HAIP)</h1>
@@ -141,33 +173,18 @@
   <section data-aos="fade-up">
     <h2>About HAIP</h2>
     <p>HAIP is a BEP-20 token on Binance Smart Chain designed to fund and integrate artificial intelligence with decentralized finance (DeFi) and Web3 ecosystems. Leveraging smart contracts, Chainlink oracles, and IPFS storage, HAIP empowers AI-driven dApps and community governance through a decentralized DAO.</p>
-    <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank" rel="noopener noreferrer">Buy on PancakeSwap</a>
+    <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">Buy on PancakeSwap</a>
     <a class="btn" href="#presale">Join Presale</a>
   </section>
 
   <section data-aos="fade-up">
     <h2>Token Details</h2>
     <div class="token-details">
-      <div>
-        <strong>Token Name</strong> Hp Artificial Intelligence Power
-        <img src="images/logos/hp.png" alt="HP Logo" loading="lazy" decoding="async" width="200" height="80" style="display:block;max-width:80%;height:auto;margin:10px auto 0;">
-      </div>
-      <div>
-        <strong>Symbol</strong> HAIP
-        <img src="images/haip-logo-transparent.png" alt="HAIP Logo" loading="lazy" decoding="async" width="200" height="200" style="display:block;max-width:80%;height:auto;margin:10px auto 0;">
-      </div>
-      <div>
-        <strong>Decimals</strong> 18
-        <img src="images/haip-logo-transparent.png" alt="HAIP Logo" loading="lazy" decoding="async" width="200" height="200" style="display:block;max-width:80%;height:auto;margin:10px auto 0;">
-      </div>
-      <div>
-        <strong>Total Supply</strong> 18,000,000,000 HAIP
-        <img src="images/haip-logo-transparent.png" alt="HAIP Logo" loading="lazy" decoding="async" width="200" height="200" style="display:block;max-width:80%;height:auto;margin:10px auto 0;">
-      </div>
-      <div>
-        <strong>Network</strong> Binance Smart Chain (BEP20)
-        <img src="images/logos/bnb.png" alt="BNB Logo" loading="lazy" decoding="async" width="200" height="80" style="display:block;max-width:80%;height:auto;margin:10px auto 0;">
-      </div>
+      <div><strong>Token Name</strong> Hp Artificial Intelligence Power <img src="images/logos/hp.png" alt="HP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+      <div><strong>Symbol</strong> HAIP <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+      <div><strong>Decimals</strong> 18 <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+      <div><strong>Total Supply</strong> 18,000,000,000 HAIP <img src="images/haip-logo-transparent.png" alt="HAIP Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
+      <div><strong>Network</strong> Binance Smart Chain (BEP20) <img src="images/logos/bnb.png" alt="BNB Logo" style="display:block;max-width:80%;height:auto;margin:10px auto 0;"></div>
       <div>
         <strong>Contract</strong>
         <div class="contract">0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29</div>
@@ -215,15 +232,15 @@
     <h2>Technology Partners</h2>
     <p>We are proud to collaborate with industry leaders who support innovation and decentralized technologies.</p>
     <div style="display:flex; gap:40px; flex-wrap:wrap; align-items:center; justify-content:center;">
-      <a href="https://www.hp.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/hp.png" alt="HP Logo" class="partner-logo" loading="lazy" decoding="async" width="240" height="120" style="max-width:180px; margin-top:10px;"></a>
-      <a href="https://ailabs.tw" target="_blank" rel="noopener noreferrer"><img src="images/logos/ai_labs.png" alt="AI Labs" class="partner-logo" loading="lazy" decoding="async" width="180" height="80" style="max-width:120px; margin-top:10px;"></a>
-      <a href="https://trustwallet.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/trustwallet.png" alt="Trust Wallet" class="partner-logo" loading="lazy" decoding="async" width="180" height="80" style="max-width:120px; margin-top:10px;"></a>
-      <a href="https://ai.google" target="_blank" rel="noopener noreferrer"><img src="images/logos/google_ai.png" alt="Google AI" class="partner-logo" loading="lazy" decoding="async" width="220" height="100" style="max-width:160px; margin-top:10px;"></a>
-      <a href="https://openai.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/openai.png" alt="OpenAI" class="partner-logo" loading="lazy" decoding="async" width="200" height="90" style="max-width:140px; margin-top:10px;"></a>
-      <a href="https://www.mit.edu" target="_blank" rel="noopener noreferrer"><img src="images/logos/mit.png" alt="MIT" class="partner-logo" loading="lazy" decoding="async" width="200" height="90" style="max-width:140px; margin-top:10px;"></a>
-      <a href="https://pancakeswap.finance" target="_blank" rel="noopener noreferrer"><img src="images/logos/pancakeswap.png" alt="PancakeSwap" class="partner-logo" loading="lazy" decoding="async" width="190" height="90" style="max-width:130px; margin-top:10px;"></a>
-      <a href="https://chain.link" target="_blank" rel="noopener noreferrer"><img src="images/logos/chainlink.png" alt="Chainlink" class="partner-logo" loading="lazy" decoding="async" width="200" height="90" style="max-width:140px; margin-top:10px;"></a>
-      <a href="https://metamask.io" target="_blank" rel="noopener noreferrer"><img src="images/logos/metamask.png" alt="MetaMask" class="partner-logo" loading="lazy" decoding="async" width="200" height="90" style="max-width:140px; margin-top:10px;"></a>
+      <a href="https://www.hp.com" target="_blank"><img src="images/logos/hp.png" alt="HP Logo" class="partner-logo" style="max-width:180px; margin-top:10px;"></a>
+      <a href="https://ailabs.tw" target="_blank"><img src="images/logos/ai_labs.png" alt="AI Labs" class="partner-logo" style="max-width:120px; margin-top:10px;"></a>
+      <a href="https://trustwallet.com" target="_blank"><img src="images/logos/trustwallet.png" alt="Trust Wallet" class="partner-logo" style="max-width:120px; margin-top:10px;"></a>
+      <a href="https://ai.google" target="_blank"><img src="images/logos/google_ai.png" alt="Google AI" class="partner-logo" style="max-width:160px; margin-top:10px;"></a>
+      <a href="https://openai.com" target="_blank"><img src="images/logos/openai.png" alt="OpenAI" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
+      <a href="https://www.mit.edu" target="_blank"><img src="images/logos/mit.png" alt="MIT" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
+      <a href="https://pancakeswap.finance" target="_blank"><img src="images/logos/pancakeswap.png" alt="PancakeSwap" class="partner-logo" style="max-width:130px; margin-top:10px;"></a>
+      <a href="https://chain.link" target="_blank"><img src="images/logos/chainlink.png" alt="Chainlink" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
+      <a href="https://metamask.io" target="_blank"><img src="images/logos/metamask.png" alt="MetaMask" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
     </div>
   </section>
 
@@ -231,18 +248,18 @@
     <h2 style="text-align:center; color:#66fcf1;">Future Collaboration Plan</h2>
     <p style="text-align:center;">We are excited to explore future collaborations with leading crypto exchanges to expand our ecosystem.</p>
     <div class="logo-section">
-      <a href="https://www.kucoin.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/kucoin.png" alt="KuCoin" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.kraken.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/kraken.png" alt="Kraken" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.uphold.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/uphold.png" alt="Uphold" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.gate.io" target="_blank" rel="noopener noreferrer"><img src="images/logos/gateio.png" alt="Gate.io" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.revolut.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/revolut.png" alt="Revolut" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.bitunix.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/bitunix.png" alt="Bitunix" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.bitfinex.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/bitfinex.png" alt="Bitfinex" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.bybit.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/bybit.png" alt="Bybit" class="future-partner-logo bybit" loading="lazy" decoding="async" width="240" height="150"></a>
-      <a href="https://www.crypto.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/crypto_com.png" alt="Crypto.com" class="future-partner-logo crypto-com" loading="lazy" decoding="async" width="160" height="100"></a>
-      <a href="https://whitebit.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/whitebit.png" alt="WhiteBIT" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.okx.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/okx.png" alt="OKX" class="future-partner-logo okx" loading="lazy" decoding="async" width="160" height="100"></a>
-      <a href="https://www.binance.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/binance.png" alt="Binance" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
+      <a href="https://www.kucoin.com" target="_blank"><img src="images/logos/kucoin.png" alt="KuCoin" class="future-partner-logo"></a>
+      <a href="https://www.kraken.com" target="_blank"><img src="images/logos/kraken.png" alt="Kraken" class="future-partner-logo"></a>
+      <a href="https://www.uphold.com" target="_blank"><img src="images/logos/uphold.png" alt="Uphold" class="future-partner-logo"></a>
+      <a href="https://www.gate.io" target="_blank"><img src="images/logos/gateio.png" alt="Gate.io" class="future-partner-logo"></a>
+      <a href="https://www.revolut.com" target="_blank"><img src="images/logos/revolut.png" alt="Revolut" class="future-partner-logo"></a>
+      <a href="https://www.bitunix.com" target="_blank"><img src="images/logos/bitunix.png" alt="Bitunix" class="future-partner-logo"></a>
+      <a href="https://www.bitfinex.com" target="_blank"><img src="images/logos/bitfinex.png" alt="Bitfinex" class="future-partner-logo"></a>
+      <a href="https://www.bybit.com" target="_blank"><img src="images/logos/bybit.png" alt="Bybit" class="future-partner-logo bybit"></a>
+      <a href="https://www.crypto.com" target="_blank"><img src="images/logos/crypto_com.png" alt="Crypto.com" class="future-partner-logo crypto-com"></a>
+      <a href="https://whitebit.com" target="_blank"><img src="images/logos/whitebit.png" alt="WhiteBIT" class="future-partner-logo"></a>
+      <a href="https://www.okx.com" target="_blank"><img src="images/logos/okx.png" alt="OKX" class="future-partner-logo okx"></a>
+      <a href="https://www.binance.com" target="_blank"><img src="images/logos/binance.png" alt="Binance" class="future-partner-logo"></a>
     </div>
   </section>
 
@@ -343,9 +360,9 @@
     <p>Join our community or reach out for inquiries and collaborations.</p>
     <ul>
       <li>Email: <a href="mailto:contact@haip-token.org">contact@haip-token.org</a></li>
-      <li>Telegram: <a href="https://t.me/haipcommunity" target="_blank" rel="noopener noreferrer">@haipcommunity</a></li>
-      <li>Twitter: <a href="https://twitter.com/haiptoken" target="_blank" rel="noopener noreferrer">@haiptoken</a></li>
-      <li>Discord: <a href="https://discord.gg/haip" target="_blank" rel="noopener noreferrer">HAIP Community</a></li>
+      <li>Telegram: <a href="https://t.me/haipcommunity" target="_blank">@haipcommunity</a></li>
+      <li>Twitter: <a href="https://twitter.com/haiptoken" target="_blank">@haiptoken</a></li>
+      <li>Discord: <a href="https://discord.gg/haip" target="_blank">HAIP Community</a></li>
     </ul>
     <div class="newsletter-form">
       <input type="email" placeholder="Enter your email for updates" required />
@@ -356,8 +373,8 @@
   <section data-aos="fade-up">
     <h2>Resources</h2>
     <ul>
-      <li><a href="https://bscscan.com/token/0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank" rel="noopener noreferrer">View on BscScan</a></li>
-      <li><a href="https://github.com/Darck120579/assets" target="_blank" rel="noopener noreferrer">GitHub Repository (Coming Q4 2025)</a></li>
+      <li><a href="https://bscscan.com/token/0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">View on BscScan</a></li>
+      <li><a href="https://github.com/Darck120579/assets" target="_blank">GitHub Repository (Coming Q4 2025)</a></li>
     </ul>
   </section>
 
@@ -367,72 +384,38 @@
   </section>
 </main>
 
-<!-- AOS defer -->
-<script defer src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+AOS.init({ duration: 1000 });
 
-<script defer>
-/* ===== Utils & AOS ===== */
-function copyContract() {
-  const contractAddress = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
-  navigator.clipboard.writeText(contractAddress).then(() => alert('Contract address copied to clipboard!'));
-}
-(function waitAOS(){
-  if (window.AOS) { AOS.init({ duration: 700, once: true }); }
-  else { setTimeout(waitAOS, 50); }
-})();
-
-/* ===== Countdown ===== */
+// Countdown
 const countdown = document.getElementById('countdown');
 const launchDate = new Date('2025-08-01T00:00:00Z').getTime();
-function updateCountdown() {
-  if (!countdown) return;
-  const now = Date.now(), d = launchDate - now;
-  if (d <= 0) { countdown.innerHTML = "Private Presale is Live!"; return; }
-  const days = Math.floor(d / 86400000);
-  const hours = Math.floor((d % 86400000) / 3600000);
-  const minutes = Math.floor((d % 3600000) / 60000);
-  const seconds = Math.floor((d % 60000) / 1000);
+const updateCountdown = () => {
+  const now = new Date().getTime();
+  const d = launchDate - now;
+  if (d <= 0) { countdown.innerHTML = "Private Presale is Live!"; countdown.style.animation='none'; countdown.style.border='2px solid #66fcf1'; return; }
+  const days = Math.floor(d / (1000*60*60*24));
+  const hours = Math.floor((d % (1000*60*60*24)) / (1000*60*60));
+  const minutes = Math.floor((d % (1000*60*60)) / (1000*60));
+  const seconds = Math.floor((d % (1000*60)) / 1000);
   countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-}
+};
 setInterval(updateCountdown, 1000); updateCountdown();
 
-/* ===== Tokenomics: load Chart.js la vizibilitate ===== */
-const tokenomicsEl = document.getElementById('tokenomicsChart');
-let chartLoaded = false;
-function loadChartJs(){
-  return new Promise((resolve, reject)=>{
-    if (window.Chart) return resolve();
-    const s = document.createElement('script');
-    s.src = 'https://cdn.jsdelivr.net/npm/chart.js';
-    s.defer = true;
-    s.onload = resolve;
-    s.onerror = ()=>reject(new Error('Chart.js failed'));
-    document.head.appendChild(s);
-  });
-}
-async function onTokenomicsVisible(){
-  if (chartLoaded || !tokenomicsEl) return;
-  try{
-    await loadChartJs(); chartLoaded = true;
-    const ctx = tokenomicsEl.getContext('2d');
-    new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Presale (54%)', 'DEX Liquidity (27%)', 'Development (10%)', 'Partners (9%)'],
-        datasets: [{ data: [54, 27, 10, 9], backgroundColor: ['#66fcf1', '#0ff0fc', '#2c3e50', '#08fdd8'], borderColor: '#0b0c10', borderWidth: 2, hoverOffset: 20 }]
-      },
-      options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
-    });
-  }catch(e){ console.warn(e); }
-}
-if ('IntersectionObserver' in window && tokenomicsEl){
-  const io = new IntersectionObserver((en)=>{ if (en.some(e=>e.isIntersecting)){ onTokenomicsVisible(); io.disconnect(); }}, { rootMargin: '200px' });
-  io.observe(tokenomicsEl);
-} else {
-  window.addEventListener('load', onTokenomicsVisible, { once: true });
-}
+// Tokenomics chart
+const ctx = document.getElementById('tokenomicsChart').getContext('2d');
+new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Presale (54%)', 'DEX Liquidity (27%)', 'Development (10%)', 'Partners (9%)'],
+    datasets: [{ data: [54, 27, 10, 9], backgroundColor: ['#66fcf1', '#0ff0fc', '#2c3e50', '#08fdd8'], borderColor: '#0b0c10', borderWidth: 2, hoverOffset: 20 }]
+  },
+  options: { responsive:true, maintainAspectRatio:true, animation:{animateScale:true, animateRotate:true}, plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'#1f2833', titleColor:'#fff', bodyColor:'#fff', borderColor:'#66fcf1', borderWidth:1, cornerRadius:6, padding:10 } } }
+});
 
-/* ===== Presale (Private) ===== */
+// -------- Web3 & Presale Logic --------
 const presaleWalletStatus = document.getElementById('presaleWalletStatus');
 const presaleConnectWalletBtn = document.getElementById('presaleConnectWalletBtn');
 const presaleDisconnectWalletBtn = document.getElementById('presaleDisconnectWalletBtn');
@@ -443,6 +426,14 @@ const amountError = document.getElementById('amountError');
 const presaleLimits = document.getElementById('presaleLimits');
 const gasStatus = document.getElementById('gasStatus');
 
+const stageTitle = document.getElementById('stageTitle') || {textContent:''};
+const stagePrice = document.getElementById('stagePrice') || {textContent:''};
+const stageSold = document.getElementById('stageSold') || {textContent:''};
+const stageRemaining = document.getElementById('stageRemaining') || {textContent:''};
+const stageProgress = document.getElementById('stageProgress') || {style:{width:''}};
+const stageHint = document.getElementById('stageHint') || {textContent:''};
+
+// Addresses
 const HAIP_ADDRESS = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
 const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
 const PRESALE_ADDRESS = '0x07e11a90bFea0f38D203f25C26c21de1cD78bFf7';
@@ -474,191 +465,249 @@ const PRESALE_ABI = [
 let web3, haipContract, usdtContract, presaleContract;
 let connectedAddress = null, haipDec = 18, usdtDec = 18;
 
+// ---- PRIVATE MODE CONSTANTS ----
 const PRIVATE_PRICE = 0.00009;
 const PRIVATE_MIN   = 3.24;
 const PRIVATE_MAX   = 90.00;
-const PRIVATE_CAP   = 360000000;
+const PRIVATE_CAP   = 360000000; // 2% din 18B
 
 const fmt = (n,d=2)=>Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
+const toUnits = (web3, val, dec) => {
+  const bn = web3.utils.toBN(Math.floor((+val) * 1e6));
+  const scale = web3.utils.toBN(10).pow(web3.utils.toBN(dec - 6));
+  return bn.mul(scale);
+};
+const fromUnits = (web3, bn, dec) => {
+  const s = bn.toString();
+  const pad = s.padStart(dec+1, '0');
+  const intPart = pad.slice(0, -dec);
+  const fracPart = pad.slice(-dec, -dec+6);
+  return Number(`${intPart}.${fracPart}`);
+};
+
 const GOOD_BSC_RPCS = [
   'https://bsc-dataseed.binance.org',
   'https://bsc-dataseed1.ninicoin.io',
   'https://bsc.rpc.blxrbdn.com',
   'https://rpc.ankr.com/bsc'
 ];
-const GAS_CONF = { minGwei:2.5, startGwei:3.0, maxGwei:6.0, safety:1.2, capApprove:220000, capBuy:350000 };
 
-function toUnits(_web3, val, dec){ const bn=_web3.utils.toBN(Math.floor((+val)*1e6)); const scale=_web3.utils.toBN(10).pow(_web3.utils.toBN(dec-6)); return bn.mul(scale); }
-function fromUnits(_web3, bn, dec){ const s=bn.toString(); const pad=s.padStart(dec+1,'0'); const intPart=pad.slice(0,-dec); const fracPart=pad.slice(-dec,-dec+6); return Number(`${intPart}.${fracPart}`); }
-
-async function loadWeb3IfNeeded(){
-  if (!window.Web3) {
-    await new Promise((resolve, reject)=>{
-      const s=document.createElement('script');
-      s.src='https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js';
-      s.defer=true; s.onload=resolve; s.onerror=()=>reject(new Error('Failed to load web3'));
-      document.head.appendChild(s);
-    });
+async function initWeb3() {
+  let attempts = 0; const maxAttempts = 15; const retryDelay = 1500;
+  while (attempts < maxAttempts) {
+    if (window.ethereum) {
+      try {
+        web3 = new Web3(window.ethereum);
+        haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
+        usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+        presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
+        try { haipDec = await haipContract.methods.decimals().call(); } catch {}
+        try { usdtDec = await usdtContract.methods.decimals().call(); } catch {}
+        return true;
+      } catch (e) { attempts++; await new Promise(r=>setTimeout(r, retryDelay)); }
+    } else if (window.web3) {
+      try {
+        web3 = new Web3(window.web3.currentProvider);
+        haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
+        usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+        presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
+        return true;
+      } catch (e) { attempts++; await new Promise(r=>setTimeout(r, retryDelay)); }
+    } else { attempts++; await new Promise(r=>setTimeout(r, retryDelay)); }
   }
+  presaleWalletStatus.innerHTML = 'No wallet provider detected. Please install <a href="https://metamask.io/download" target="_blank">MetaMask</a> or <a href="https://trustwallet.com/download" target="_blank">Trust Wallet</a>.';
+  return false;
 }
-async function initWeb3(){
-  if (!window.Web3) return false;
-  try{
-    if (window.ethereum) web3 = new Web3(window.ethereum);
-    else if (window.web3) web3 = new Web3(window.web3.currentProvider);
-    else return false;
-    haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
-    usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-    presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
-    try{ haipDec = await haipContract.methods.decimals().call(); }catch{}
-    try{ usdtDec = await usdtContract.methods.decimals().call(); }catch{}
-    return true;
-  }catch{ return false; }
-}
-async function checkNetwork(){
-  try{
+
+async function checkNetwork() {
+  try {
     const chainId = await web3.eth.getChainId();
-    if (chainId !== 56) await window.ethereum.request({ method:'wallet_switchEthereumChain', params:[{ chainId:'0x38' }] });
+    if (chainId !== 56) {
+      await window.ethereum.request({ method:'wallet_switchEthereumChain', params:[{ chainId:'0x38' }] });
+      return true;
+    }
     return true;
-  }catch(switchError){
-    if (switchError.code === 4902 || String(switchError.message||'').toLowerCase().includes('missing trie node')){
-      await window.ethereum.request({ method:'wallet_addEthereumChain',
+  } catch (switchError) {
+    if (switchError.code === 4902 || String(switchError.message||'').toLowerCase().includes('missing trie node')) {
+      await window.ethereum.request({
+        method:'wallet_addEthereumChain',
         params:[{ chainId:'0x38', chainName:'Binance Smart Chain', nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18}, rpcUrls:GOOD_BSC_RPCS, blockExplorerUrls:['https://bscscan.com'] }]
       });
       return true;
     }
-    presaleWalletStatus && (presaleWalletStatus.textContent = 'Failed to switch to Binance Smart Chain.'); return false;
-  }
-}
-const g = (n)=>web3.utils.toWei(String(n),'gwei');
-async function pickGasPriceGwei(){ try{ const netWei=await web3.eth.getGasPrice(); const netGwei=Number(web3.utils.fromWei(netWei,'gwei')); return Math.max(GAS_CONF.minGwei, Math.min(netGwei, GAS_CONF.maxGwei)); }catch{ return GAS_CONF.startGwei; } }
-async function estimateGasCapped(call, from, valueWei, cap){ try{ const est=await call.estimateGas({from, value:valueWei||'0x0'}); return Math.min(Math.ceil(est*GAS_CONF.safety), cap); }catch{ return cap; } }
-function isTrieError(err){ const m=String(err?.message||'').toLowerCase(); return m.includes('missing trie node')||m.includes('state node')||err?.code===-32000; }
-async function sendWithLowFee(call,{from,valueWei='0x0',cap,label}){ let gasPriceGwei=await pickGasPriceGwei();
-  try{ const gasLimit=await estimateGasCapped(call,from,valueWei,cap); gasStatus&&(gasStatus.textContent=`${label}… ${gasPriceGwei.toFixed(2)} gwei · gas ? ${gasLimit}`); return await call.send({from,gas:gasLimit,gasPrice:g(gasPriceGwei),value:valueWei}); }
-  catch(e1){ if(isTrieError(e1)){ gasStatus&&(gasStatus.textContent='RPC node error. Switching to a healthy BSC RPC…'); try{await checkNetwork();}catch{} }
-    try{ gasStatus&&(gasStatus.textContent=`${label} retry via wallet estimator…`); return await call.send({from,value:valueWei}); }
-    catch(e2){ const msg=String(e2?.message||'').toLowerCase(); if(msg.includes('underpriced')||msg.includes('replacement')||msg.includes('price too low')){ gasPriceGwei=Math.min(gasPriceGwei+1.0,GAS_CONF.maxGwei); const gasLimit=await estimateGasCapped(call,from,valueWei,cap); return await call.send({from,gas:gasLimit,gasPrice:g(gasPriceGwei),value:valueWei}); } throw e2; }
+    presaleWalletStatus.textContent = 'Failed to switch to Binance Smart Chain.'; return false;
   }
 }
 
-/* Validare UI */
-function setError(msg){ if(!amountError||!purchaseAmountInput)return; amountError.textContent=msg||''; msg?purchaseAmountInput.classList.add('input-error'):purchaseAmountInput.classList.remove('input-error'); }
+const GAS_CONF = { minGwei:2.5, startGwei:3.0, maxGwei:6.0, safety:1.2, capApprove:220000, capBuy:350000 };
+const g = (n)=>web3.utils.toWei(String(n), 'gwei');
+
+function setError(msg){
+  amountError.textContent = msg || '';
+  if (msg) purchaseAmountInput.classList.add('input-error');
+  else purchaseAmountInput.classList.remove('input-error');
+}
 function isValidAmount(val){
-  if(val===''||isNaN(val)) return false;
-  const n=parseFloat(val);
-  if(n<PRIVATE_MIN){ setError(`Minimum is ${PRIVATE_MIN.toFixed(2)} USDT`); return false; }
-  if(n>PRIVATE_MAX){ setError(`Maximum is ${PRIVATE_MAX.toFixed(2)} USDT`); return false; }
-  setError(''); return true;
+  if (val === '' || isNaN(val)) return false;
+  const n = parseFloat(val);
+  if (n < PRIVATE_MIN) { setError(`Minimum is ${PRIVATE_MIN.toFixed(2)} USDT`); return false; }
+  if (n > PRIVATE_MAX) { setError(`Maximum is ${PRIVATE_MAX.toFixed(2)} USDT`); return false; }
+  setError('');
+  return true;
 }
-function refreshPurchaseButtonState(){ if(!purchaseBtn) return; const ok=purchaseAmountInput&&isValidAmount(purchaseAmountInput.value); purchaseBtn.disabled = !ok || !connectedAddress; }
-purchaseAmountInput && purchaseAmountInput.addEventListener('input', refreshPurchaseButtonState);
+function refreshPurchaseButtonState(){
+  const ok = isValidAmount(purchaseAmountInput.value);
+  purchaseBtn.disabled = !ok || !connectedAddress;
+}
+purchaseAmountInput?.addEventListener('input', refreshPurchaseButtonState);
 
-/* UI Private */
+async function pickGasPriceGwei(){
+  try{
+    const netWei = await web3.eth.getGasPrice();
+    const netGwei = Number(web3.utils.fromWei(netWei,'gwei'));
+    return Math.max(GAS_CONF.minGwei, Math.min(netGwei, GAS_CONF.maxGwei));
+  }catch{ return GAS_CONF.startGwei; }
+}
+async function estimateGasCapped(call, from, valueWei, cap){
+  try{
+    const est = await call.estimateGas({from, value: valueWei || '0x0'});
+    return Math.min(Math.ceil(est * GAS_CONF.safety), cap);
+  }catch{ return cap; }
+}
+function isTrieError(err){
+  const m = String(err?.message || '').toLowerCase();
+  return m.includes('missing trie node') || m.includes('state node') || err?.code === -32000;
+}
+async function sendWithLowFee(call, { from, valueWei='0x0', cap, label }){
+  let gasPriceGwei = await pickGasPriceGwei();
+  try{
+    const gasLimit = await estimateGasCapped(call, from, valueWei, cap);
+    gasStatus.textContent = `${label}… ${gasPriceGwei.toFixed(2)} gwei · gas ? ${gasLimit}`;
+    return await call.send({ from, gas: gasLimit, gasPrice: g(gasPriceGwei), value: valueWei });
+  }catch(e1){
+    if (isTrieError(e1)) {
+      gasStatus.textContent = 'RPC node error. Switching to a healthy BSC RPC…';
+      try{ await checkNetwork(); }catch{}
+    }
+    try{
+      gasStatus.textContent = `${label} retry via wallet estimator…`;
+      return await call.send({ from, value: valueWei });
+    }catch(e2){
+      const msg = String(e2?.message||'').toLowerCase();
+      if ((msg.includes('underpriced') || msg.includes('replacement') || msg.includes('price too low'))) {
+        gasPriceGwei = Math.min(gasPriceGwei + 1.0, GAS_CONF.maxGwei);
+        const gasLimit = await estimateGasCapped(call, from, valueWei, cap);
+        return await call.send({ from, gas: gasLimit, gasPrice: g(gasPriceGwei), value: valueWei });
+      }
+      throw e2;
+    }
+  }
+}
+
+// -------- Connect / UI --------
+async function connectWallet(){
+  presaleConnectWalletBtn.classList.add('loading'); presaleConnectWalletBtn.disabled = true;
+  try{
+    if (!await initWeb3()) throw new Error('No wallet provider detected.');
+    if (!await checkNetwork()) throw new Error('Wrong network');
+    const accounts = await window.ethereum.request({ method:'eth_requestAccounts' });
+    if (accounts.length === 0) throw new Error('No accounts authorized.');
+    connectedAddress = accounts[0];
+
+    const balance = await haipContract.methods.balanceOf(connectedAddress).call().catch(()=>0);
+    presaleWalletStatus.textContent = `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)} · Balance ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
+    presaleConnectWalletBtn.classList.add('hidden');
+    presaleDisconnectWalletBtn.classList.remove('hidden');
+    purchaseInput.classList.remove('hidden');
+    refreshPurchaseButtonState();
+    await refreshStageUI(); // set UI for Private
+  }catch(error){
+    presaleWalletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
+  }finally{
+    presaleConnectWalletBtn.classList.remove('loading'); presaleConnectWalletBtn.disabled = false;
+  }
+}
+
 async function refreshPresaleLimits(){
-  if(!presaleLimits||!purchaseAmountInput) return;
-  presaleLimits.textContent = `Private Presale Limits: Min ${PRIVATE_MIN.toFixed(2)} USDT, Max ${PRIVATE_MAX.toFixed(2)} USDT · Price ${PRIVATE_PRICE.toFixed(5)} USDT/HAIP`;
+  presaleLimits.textContent =
+    `Private Presale Limits: Min ${PRIVATE_MIN.toFixed(2)} USDT, Max ${PRIVATE_MAX.toFixed(2)} USDT · Price ${PRIVATE_PRICE.toFixed(5)} USDT/HAIP`;
   purchaseAmountInput.min = PRIVATE_MIN;
   purchaseAmountInput.max = PRIVATE_MAX;
 }
+
 async function refreshStageUI(){
   try{
-    const title=document.getElementById('v3StageTitle');
-    const price=document.getElementById('v3StagePrice');
-    const yourLimit=document.getElementById('v3YourLimit');
-    const soldEl=document.getElementById('v3StageSold');
-    const remEl=document.getElementById('v3StageRemaining');
-    const prog=document.getElementById('v3StageProgress');
-    const quote=document.getElementById('v3Quote');
-
-    title && (title.textContent='Private');
-    price && (price.textContent=`${PRIVATE_PRICE.toFixed(5)} USDT / HAIP`);
-    yourLimit && (yourLimit.textContent=`3.24–90.00`);
-    quote && (quote.textContent=`Private Presale is live. Connect your wallet to see your personalized remaining limit.`);
+    // Titluri & valori (Private)
+    document.getElementById('v3StageTitle').textContent = 'Private';
+    document.getElementById('v3StagePrice').textContent = `${PRIVATE_PRICE.toFixed(5)} USDT / HAIP`;
+    document.getElementById('v3YourLimit').textContent = `3.24–90.00`;
+    document.getElementById('v3Quote').textContent =
+      `Private Presale is live. Connect your wallet to see your personalized remaining limit.`;
     await refreshPresaleLimits();
 
-    let sold=0, cap=PRIVATE_CAP; // fallback Private
+    // Fallback Private: sold=0, cap=360M
+    let sold = 0;
+    let cap  = PRIVATE_CAP;
 
-    if(web3 && presaleContract){
+    // Încearcă să citești on-chain, dar ignoră cap-uri >> 360M (adică stage public)
+    if (presaleContract && web3) {
       try{
-        const idx=await presaleContract.methods.currentStage().call();
-        const st=await presaleContract.methods.getStage(idx).call();
-        const soldOnChain=fromUnits(web3, web3.utils.toBN(st.soldTokens||st[4]), haipDec);
-        const capOnChain=fromUnits(web3, web3.utils.toBN(st.capTokens||st[3]), haipDec);
-        if(capOnChain>0 && capOnChain <= PRIVATE_CAP*1.01){ sold=Math.max(0, Math.min(soldOnChain, capOnChain)); cap=capOnChain; }
+        const idx = await presaleContract.methods.currentStage().call();
+        const st  = await presaleContract.methods.getStage(idx).call();
+        const soldOnChain = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
+        const capOnChain  = fromUnits(web3, web3.utils.toBN(st.capTokens  || st[3]), haipDec);
+        if (capOnChain > 0 && capOnChain <= PRIVATE_CAP * 1.01) {
+          sold = Math.max(0, Math.min(soldOnChain, capOnChain));
+          cap  = capOnChain;
+        }
       }catch{}
     }
-    const remaining=Math.max(cap-sold,0);
-    const pct=cap>0?Math.min((sold/cap)*100,100):0;
 
-    soldEl && (soldEl.textContent = `${fmt(sold,2)} / ${fmt(cap,0)} HAIP`);
-    remEl && (remEl.textContent = `${fmt(remaining,0)} HAIP`);
-    prog && (prog.style.width = `${pct.toFixed(2)}%`);
+    const remaining = Math.max(cap - sold, 0);
+    const pct = cap > 0 ? Math.min((sold / cap) * 100, 100) : 0;
 
-    if (connectedAddress && web3 && presaleContract) {
+    document.getElementById('v3StageSold').textContent       = `${fmt(sold,2)} / ${fmt(cap,0)} HAIP`;
+    document.getElementById('v3StageRemaining').textContent  = `${fmt(remaining,0)} HAIP`;
+    document.getElementById('v3StageProgress').style.width   = `${pct.toFixed(2)}%`;
+
+    // Personal limit dacă e conectat (CLAMP la 90)
+    if (connectedAddress && presaleContract && web3) {
       try {
-        const idx=await presaleContract.methods.currentStage().call();
-        const maxUser=await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
-        const maxUserFloat=fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
-        const allowed=Math.max(0, Math.min(maxUserFloat, PRIVATE_MAX));
-        yourLimit && (yourLimit.textContent = `${allowed.toFixed(2)}`);
-        quote && (quote.textContent = `You can still buy up to ${allowed.toFixed(2)} USDT in this stage.`);
+        const idx = await presaleContract.methods.currentStage().call();
+        const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
+        const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
+        const allowed = Math.max(0, Math.min(maxUserFloat, PRIVATE_MAX));
+        document.getElementById('v3YourLimit').textContent = `${allowed.toFixed(2)}`;
+        document.getElementById('v3Quote').textContent     = `You can still buy up to ${allowed.toFixed(2)} USDT in this stage.`;
       } catch {}
     }
-  }catch{}
+  }catch(e){
+    // păstrăm fallback-ul Private
+  }
 }
 setInterval(refreshStageUI, 20000);
 
-/* Connect/Purchase */
-async function connectWallet(){
-  presaleConnectWalletBtn && presaleConnectWalletBtn.classList.add('loading');
-  presaleConnectWalletBtn && (presaleConnectWalletBtn.disabled = true);
-  try{
-    await loadWeb3IfNeeded();
-    if(!await initWeb3()) throw new Error('No wallet provider detected.');
-    if(!await checkNetwork()) throw new Error('Wrong network');
-    const accounts = await window.ethereum.request({ method:'eth_requestAccounts' });
-    if(!accounts||!accounts.length) throw new Error('No accounts authorized.');
-    connectedAddress = accounts[0];
-
-    const bal = await haipContract.methods.balanceOf(connectedAddress).call().catch(()=>0);
-    presaleWalletStatus && (presaleWalletStatus.textContent = `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)} · Balance ${fromUnits(web3, web3.utils.toBN(bal), haipDec).toFixed(6)} HAIP`);
-    presaleConnectWalletBtn && presaleConnectWalletBtn.classList.add('hidden');
-    presaleDisconnectWalletBtn && presaleDisconnectWalletBtn.classList.remove('hidden');
-    purchaseInput && purchaseInput.classList.remove('hidden');
-    refreshPurchaseButtonState();
-
-    window.ethereum.on('accountsChanged', ()=>location.reload());
-    window.ethereum.on('chainChanged', ()=>location.reload());
-
-    await refreshStageUI();
-  }catch(error){
-    presaleWalletStatus && (presaleWalletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`);
-  }finally{
-    presaleConnectWalletBtn && presaleConnectWalletBtn.classList.remove('loading');
-    presaleConnectWalletBtn && (presaleConnectWalletBtn.disabled = false);
-  }
-}
 function disconnectWallet(){
   connectedAddress = null;
-  presaleWalletStatus && (presaleWalletStatus.textContent = 'Wallet not connected');
-  gasStatus && (gasStatus.textContent = '');
-  presaleConnectWalletBtn && presaleConnectWalletBtn.classList.remove('hidden');
-  presaleDisconnectWalletBtn && presaleDisconnectWalletBtn.classList.add('hidden');
-  purchaseBtn && (purchaseBtn.disabled = true);
-  purchaseInput && purchaseInput.classList.add('hidden');
-  purchaseAmountInput && (purchaseAmountInput.value = '');
+  presaleWalletStatus.textContent = 'Wallet not connected';
+  gasStatus.textContent = '';
+  presaleConnectWalletBtn.classList.remove('hidden');
+  presaleDisconnectWalletBtn.classList.add('hidden');
+  purchaseBtn.disabled = true; purchaseInput.classList.add('hidden');
+  purchaseAmountInput.value = '';
   setError('');
   refreshStageUI();
 }
+
 async function purchaseTokens(){
-  if (purchaseInput && purchaseInput.classList.contains('hidden')) { purchaseInput.classList.remove('hidden'); return; }
+  if (purchaseInput.classList.contains('hidden')) { purchaseInput.classList.remove('hidden'); return; }
   if (!isValidAmount(purchaseAmountInput.value)) { refreshPurchaseButtonState(); return; }
-  purchaseBtn && purchaseBtn.classList.add('loading');
-  purchaseBtn && (purchaseBtn.disabled = true);
+  purchaseBtn.classList.add('loading'); purchaseBtn.disabled = true;
   try{
-    if(!web3 || !usdtContract || !presaleContract || !connectedAddress) throw new Error('Wallet not connected');
+    if (!web3 || !usdtContract || !presaleContract || !connectedAddress) throw new Error('Wallet not connected');
     let usdtAmount = parseFloat(purchaseAmountInput.value);
+
+    // enforce min/max private
     if (usdtAmount < PRIVATE_MIN) usdtAmount = PRIVATE_MIN;
     if (usdtAmount > PRIVATE_MAX) usdtAmount = PRIVATE_MAX;
     purchaseAmountInput.value = usdtAmount.toFixed(2);
@@ -671,19 +720,21 @@ async function purchaseTokens(){
       usdtAmount = Math.floor(maxUserFloat * 100) / 100;
       if (usdtAmount > PRIVATE_MAX) usdtAmount = PRIVATE_MAX;
       purchaseAmountInput.value = usdtAmount.toFixed(2);
-      presaleWalletStatus && (presaleWalletStatus.textContent = `Amount reduced to your current limit: ${usdtAmount.toFixed(2)} USDT.`);
+      presaleWalletStatus.textContent = `Amount reduced to your current limit: ${usdtAmount.toFixed(2)} USDT.`;
     }
     const usdtUnits = toUnits(web3, usdtAmount, usdtDec);
 
+    // Approve dacă e nevoie
     const allowance = await usdtContract.methods.allowance(connectedAddress, PRESALE_ADDRESS).call();
     if (web3.utils.toBN(allowance).lt(usdtUnits)) {
-      gasStatus && (gasStatus.textContent = 'Approving USDT…');
+      gasStatus.textContent = 'Approving USDT…';
       await sendWithLowFee(
         usdtContract.methods.approve(PRESALE_ADDRESS, usdtUnits.toString()),
         { from: connectedAddress, cap: GAS_CONF.capApprove, label: 'Approve' }
       );
     }
 
+    // Quote opțional (UI)
     let haipAmountStr = '';
     try {
       const tokens = await presaleContract.methods.quoteTokens(idx, usdtUnits.toString()).call();
@@ -691,69 +742,95 @@ async function purchaseTokens(){
       haipAmountStr = ` (~${haipFloat.toFixed(6)} HAIP)`;
     } catch {}
 
-    gasStatus && (gasStatus.textContent = 'Submitting purchase…');
+    gasStatus.textContent = 'Submitting purchase…';
     const tx = await sendWithLowFee(
       presaleContract.methods.buy(usdtUnits.toString()),
       { from: connectedAddress, cap: GAS_CONF.capBuy, label: 'Buy' }
     );
 
-    presaleWalletStatus && (presaleWalletStatus.innerHTML = `Success${haipAmountStr}! <a target="_blank" rel="noopener noreferrer" href="https://bscscan.com/tx/${tx.transactionHash}">View on BscScan</a>`);
-    gasStatus && (gasStatus.textContent = 'Done.');
-    purchaseInput && purchaseInput.classList.add('hidden');
-    purchaseAmountInput && (purchaseAmountInput.value = '');
+    presaleWalletStatus.innerHTML = `Success${haipAmountStr}! <a target="_blank" href="https://bscscan.com/tx/${tx.transactionHash}">View on BscScan</a>`;
+    gasStatus.textContent = 'Done.';
+    purchaseInput.classList.add('hidden'); purchaseAmountInput.value = '';
     setError('');
     await refreshStageUI();
   }catch(error){
-    presaleWalletStatus && (presaleWalletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`);
-    isTrieError?.(error) && gasStatus && (gasStatus.textContent = 'Your RPC may be pruned/unstable. Switch RPC in MetaMask to: bsc-dataseed.binance.org / ankr / ninicoin.');
+    presaleWalletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
+    if (isTrieError?.(error)) gasStatus.textContent = 'Your RPC may be pruned/unstable. Switch RPC in MetaMask to: bsc-dataseed.binance.org / ankr / ninicoin.';
   }finally{
-    purchaseBtn && purchaseBtn.classList.remove('loading');
+    purchaseBtn.classList.remove('loading');
     refreshPurchaseButtonState();
   }
 }
 
-/* Wire */
-presaleConnectWalletBtn && presaleConnectWalletBtn.addEventListener('click', connectWallet, { passive:true });
-presaleDisconnectWalletBtn && presaleDisconnectWalletBtn.addEventListener('click', disconnectWallet, { passive:true });
-purchaseBtn && purchaseBtn.addEventListener('click', purchaseTokens, { passive:true });
+// Buttons
+presaleConnectWalletBtn.addEventListener('click', connectWallet);
+presaleDisconnectWalletBtn.addEventListener('click', disconnectWallet);
+purchaseBtn.addEventListener('click', purchaseTokens);
 
-/* Chips & sticky (lazy wire) */
-(function(){
-  let wired=false;
-  const card=document.querySelector('#presale');
-  function wire(){
-    if(wired) return; wired=true;
-    const chips=[...document.querySelectorAll('.chip')];
-    const amountInput=document.getElementById('purchaseAmount');
-    const sticky=document.getElementById('stickyCta');
-    const stickyBtn=document.getElementById('stickyBuyBtn');
-    chips.forEach(ch=>{
-      ch.addEventListener('click', ()=>{
-        chips.forEach(c=>c.classList.remove('active')); ch.classList.add('active');
-        const isMax=ch.dataset.max==='1';
-        let v=parseFloat(amountInput.value||'0')||0;
-        if(isMax){
-          let max=parseFloat((document.getElementById('v3YourLimit')?.textContent||'90').replace(/[^0-9.]/g,''))||90;
-          v=Math.min(Math.max(max,3.24),90);
-        } else {
-          v=Math.min(Math.max(v + parseFloat(ch.dataset.usdt||'0'),3.24),90);
-        }
-        amountInput.value=v.toFixed(2);
-        amountInput.dispatchEvent(new Event('input'));
-      }, { passive:true });
-    });
-    function updateSticky(){ if(!sticky) return; const mq=window.matchMedia('(max-width: 740px)'); sticky.style.display = mq.matches ? 'flex' : 'none'; }
-    updateSticky(); window.addEventListener('resize', updateSticky, { passive:true });
-    stickyBtn && stickyBtn.addEventListener('click', ()=>{ document.getElementById('purchaseBtn')?.click(); }, { passive:true });
-  }
-  if(card && 'IntersectionObserver' in window){
-    const io=new IntersectionObserver((e)=>{ if(e[0].isIntersecting){ wire(); io.disconnect(); }}, {rootMargin:'200px'});
-    io.observe(card);
-  } else { wire(); }
+function copyContract() {
+  const contractAddress = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
+  navigator.clipboard.writeText(contractAddress).then(() => alert('Contract address copied to clipboard!'));
+}
+
+// Initialize widget
+(async () => {
+  try {
+    if (window.ethereum || window.web3) {
+      await initWeb3();
+    }
+    await refreshStageUI();
+    refreshPurchaseButtonState();
+  } catch {}
 })();
+</script>
 
-/* Init */
-(async()=>{ try{ await refreshStageUI(); refreshPurchaseButtonState(); }catch{} })();
+<script>
+// === Presale v3 UX enhancements (chips, sticky CTA) ===
+(function(){
+  const chips = Array.from(document.querySelectorAll('.chip'));
+  const amountInput = document.getElementById('purchaseAmount');
+  const toast = document.getElementById('toast');
+  const sticky = document.getElementById('stickyCta');
+  const stickyBtn = document.getElementById('stickyBuyBtn');
+
+  function showToast(msg){
+    if(!toast) return; toast.textContent = msg || 'Done'; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 1600);
+  }
+
+  // Chips respectă validarea [3.24, 90]
+  chips.forEach(ch=>{
+    ch.addEventListener('click', ()=>{
+      chips.forEach(c=>c.classList.remove('active')); ch.classList.add('active');
+      const isMax = ch.dataset.max === '1';
+      let current = parseFloat(amountInput.value || '0'); if(isNaN(current)) current = 0;
+
+      if(isMax){
+        const limEl = document.getElementById('v3YourLimit');
+        let max = limEl && parseFloat((limEl.textContent||'0').replace(/[^0-9.]/g,'')) || 90.00;
+        if (!isFinite(max) || max <= 0) max = 90.00;
+        amountInput.value = Math.min(Math.max(max, 3.24), 90.00).toFixed(2);
+      } else {
+        const inc = parseFloat(ch.dataset.usdt || '0');
+        let v = current + inc;
+        if (v < 3.24) v = 3.24;
+        if (v > 90.00) v = 90.00;
+        amountInput.value = v.toFixed(2);
+      }
+
+      amountInput.dispatchEvent(new Event('input'));
+    });
+  });
+
+  function updateSticky(){ const mq = window.matchMedia('(max-width: 740px)'); sticky.style.display = mq.matches ? 'flex' : 'none'; }
+  updateSticky(); window.addEventListener('resize', updateSticky);
+
+  if(stickyBtn){ stickyBtn.addEventListener('click', ()=>{ document.getElementById('purchaseBtn')?.click(); }); }
+
+  window.copyContract = function(){
+    const contractAddress = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
+    navigator.clipboard.writeText(contractAddress).then(()=>showToast('Contract copied'));
+  };
+})();
 </script>
 </body>
 </html>
