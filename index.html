@@ -6,16 +6,12 @@
   <meta name="description" content="HAIP Token: Empowering AI and blockchain innovation through decentralized ecosystems." />
   <title>HAIP Token - Official Site</title>
 
-  <!-- ↓↓↓ Performance: rețea mai rapidă -->
+  <!-- Perf -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
-  <!-- Preload font & background (non-blocking la randare) -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap">
   <link rel="preload" as="image" href="images/background-cyber.jpg" imagesrcset="images/background-cyber.jpg 1200w" imagesizes="100vw">
-
-  <!-- Font & AOS: non-blocking -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" media="print" onload="this.media='all'">
 
@@ -26,8 +22,10 @@
       background: url('images/background-cyber.jpg') no-repeat center center / cover;
       color: #f8f8f8; margin: 0; padding: 0; min-width: 100%; overflow-x: hidden;
     }
-    /* Evită background fixed pe mobil - costă GPU */
     @media (max-width: 800px){ body { background-attachment: scroll; } }
+
+    /* FIX: lipsea clasa hidden */
+    .hidden{ display:none !important; }
 
     header { background: rgba(31, 40, 51, 0.85); padding: 20px; text-align: center; position: relative; }
     header h1 { color: #66fcf1; margin: 0; font-size: 1.8rem; }
@@ -38,7 +36,6 @@
       padding: 20px; max-width: 900px; margin: auto; background-color: rgba(15, 32, 39, 0.8);
       border-radius: 15px; box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
     }
-    /* Content-visibility: secțiuni randate doar când intră în viewport */
     main > section { content-visibility: auto; contain-intrinsic-size: 600px 800px; }
 
     section { margin-bottom: 20px; }
@@ -62,11 +59,7 @@
     }
     @keyframes spin { 0% { transform: translateY(-50%) rotate(0deg);} 100% { transform: translateY(-50%) rotate(360deg);} }
 
-    .partner-logo, .future-partner-logo {
-      transition: transform 0.4s ease, filter 0.4s ease;
-      filter: drop-shadow(0 0 5px rgba(102, 252, 241, 0.3));
-      background-color: transparent;
-    }
+    .partner-logo, .future-partner-logo { transition: transform 0.4s ease, filter 0.4s ease; filter: drop-shadow(0 0 5px rgba(102, 252, 241, 0.3)); background-color: transparent; }
     .partner-logo:hover, .future-partner-logo:hover { transform: scale(1.06); filter: drop-shadow(0 0 15px #00f9ff); }
 
     .future-partner-logo { height: 50px; margin: 10px 20px; object-fit: contain; }
@@ -75,47 +68,33 @@
     .future-partner-logo.okx { height: 100px; max-width: 100px; }
     .logo-section { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; padding: 20px; }
 
-    .presale-stage {
-      background: rgba(31, 40, 51, 0.7); border-left: 4px solid #66fcf1; padding: 15px; margin-bottom: 10px; border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0, 249, 255, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; cursor: pointer;
-    }
+    .presale-stage { background: rgba(31, 40, 51, 0.7); border-left: 4px solid #66fcf1; padding: 15px; margin-bottom: 10px; border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 249, 255, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; cursor: pointer; }
     .presale-stage:hover { transform: scale(1.02); box-shadow: 0 0 25px rgba(0, 249, 255, 0.3); background: rgba(31, 40, 51, 0.9); }
     .presale-stage h3 { margin-top: 0; color: #0ff0fc; font-size: 1.2rem; }
     .presale-stage p { margin: 5px 0; color: #f0f0f0; font-size: 0.9rem; }
 
-    .countdown {
-      text-align: center; font-size: 1.5rem; color: #0ff0fc; margin: 20px auto; font-weight: bold; text-shadow: 0 0 15px #0ff0fc;
-      border: 2px solid #0ff0fc; border-radius: 10px; padding: 15px; width: fit-content; background: rgba(0, 255, 255, 0.05);
-    }
+    .countdown { text-align: center; font-size: 1.5rem; color: #0ff0fc; margin: 20px auto; font-weight: bold; text-shadow: 0 0 15px #0ff0fc;
+      border: 2px solid #0ff0fc; border-radius: 10px; padding: 15px; width: fit-content; background: rgba(0, 255, 255, 0.05); }
 
     .newsletter-form { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-    .newsletter-form input {
-      padding: 10px; border: 1px solid #66fcf1; border-radius: 5px; background: #1f2833; color: #f8f8f8; width: 100%; box-sizing: border-box;
-    }
+    .newsletter-form input { padding: 10px; border: 1px solid #66fcf1; border-radius: 5px; background: #1f2833; color: #f8f8f8; width: 100%; box-sizing: border-box; }
     .newsletter-form button { background: #66fcf1; color: #0b0c10; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
 
     .token-details { display: grid; grid-template-columns: repeat(3, minmax(200px, 1fr)); gap: 15px; margin: 10px 0; }
-    .token-details div {
-      background: #1f2833; padding: 15px; border-radius: 10px; text-align: center; color: #f8f8f8; border: 2px solid #1f2833;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; align-items: center;
-    }
+    .token-details div { background: #1f2833; padding: 15px; border-radius: 10px; text-align: center; color: #f8f8f8; border: 2px solid #1f2833;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; align-items: center; }
     .token-details div strong { color: #66fcf1; display: block; margin-bottom: 5px; }
     .token-details div:hover { border-color: #0ff0fc; box-shadow: 0 0 15px #0ff0fc, 0 0 30px rgba(0, 255, 252, 0.5); }
     .token-details div img { max-width: 80%; height: auto; margin-top: 10px; }
 
     canvas#tokenomicsChart { display: block; max-width: 300px; width: 100%; margin: 0 auto; }
-    .tokenomics-section p:last-child { margin-bottom: 5px; }
     .tokenomics-container .chart-legend { font-size: 1rem; text-align: center; padding: 0 10px; }
     .tokenomics-container .chart-legend p { margin: 5px 0; }
 
-    .presale-dashboard {
-      background: rgba(31, 40, 51, 0.9); border-radius: 10px; padding: 15px; box-shadow: 0 0 20px rgba(0, 249, 255, 0.2);
-      text-align: center; margin-bottom: 20px;
-    }
     .presale-status { font-size: 1rem; color: #f0f0f0; margin-bottom: 10px; word-break: break-word; }
     .live-status { font-size: .95rem; color: #bfefff; opacity: .9; margin-bottom: 15px; min-height: 1.2em; }
-    .presale-limits { font-size: 1.2rem; color: #0ff0fc; margin-bottom: 20px; text-shadow: 0 0 10px #0ff0fc; }
-    .presale-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+    .presale-limits { font-size: 1.1rem; color: #0ff0fc; margin-bottom: 12px; text-shadow: 0 0 10px #0ff0fc; }
 
     .error-msg { color: #ff8e8e; font-size: .9rem; margin: 6px auto 0; text-align: center; min-height: 1.2em; }
     .input-error { border-color: #ff6b6b !important; box-shadow: 0 0 10px rgba(255, 0, 0, 0.25); }
@@ -126,60 +105,22 @@
     }
     .presale-input.hidden { display: none; }
 
-    .stage-widget { text-align: left; margin-bottom: 15px; }
-    .stage-title { font-size: 1.2rem; color: #0ff0fc; margin: 4px 0 10px; }
-    .stage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-    .stage-kv { background:#1f2833; border:1px solid #0b2a31; border-radius:8px; padding:10px; }
-    .stage-kv b { color:#66fcf1; }
-    .progress-wrap { background:#132029; border:1px solid #0ff0fc33; border-radius:999px; height:14px; overflow:hidden; }
-    .progress-fill { height:100%; width:0%; background:linear-gradient(90deg,#66fcf1,#0ff0fc); box-shadow:0 0 15px #0ff0fc66 inset; transition:width .6s ease; }
-    .muted { opacity:.85; font-size:.95rem; }
+    .kv{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    .kv .box{background:#152028; border:1px solid #0b2a31; border-radius:10px; padding:10px; text-align:center}
+    .kv .box b{display:block; color:#66fcf1; margin-bottom:2px}
+    .progress{height:12px; background:#132029; border:1px solid #0ff0fc33; border-radius:999px; overflow:hidden}
+    .progress>i{display:block; height:100%; width:0%; background:linear-gradient(90deg,#66fcf1,#0ff0fc); box-shadow:0 0 14px #0ff0fc66 inset; transition:width .6s ease}
+
+    .presale-v3{display:grid; gap:14px;}
+    .presale-card{background:rgba(31,40,51,.92); border:1px solid #0ff0fc22; border-radius:14px; padding:14px; box-shadow:0 6px 24px rgba(0,249,255,.15); backdrop-filter: blur(4px);}
 
     @media (max-width: 600px) {
       header h1 { font-size: 1.5rem; } h2 { font-size: 1.2rem; }
       .logo-fixed { height: 80px; top: 15px; left: 15px; }
       main { padding: 15px; } .btn { padding: 10px 20px; font-size: 0.9rem; min-width: 100px; }
-      .presale-stage h3 { font-size: 1rem; } .presale-stage p { font-size: 0.8rem; }
-      .countdown { font-size: 1.2rem; padding: 10px; }
-      .token-details { grid-template-columns: 1fr; gap: 10px; }
-      .token-details div { padding: 10px; } canvas#tokenomicsChart { max-width: 250px; }
-      .tokenomics-container .chart-legend { font-size: 0.9rem; }
-      .presale-dashboard { padding: 10px; }
-      .presale-status { font-size: 0.9rem; }
-      .presale-limits { font-size: 1rem; }
-      .presale-actions { flex-direction: column; gap: 10px; }
-      .presale-actions .btn { width: 100%; max-width: 300px; }
-      .stage-grid { grid-template-columns: 1fr; }
+      .kv{grid-template-columns:1fr;}
     }
 
-    :root{ --haip-teal:#66fcf1; --haip-cyan:#0ff0fc; --haip-bg:#0b0c10; --haip-card:#1f2833; }
-    .presale-v3{display:grid; gap:14px;}
-    .presale-card{background:rgba(31,40,51,.92); border:1px solid #0ff0fc22; border-radius:14px; padding:14px; box-shadow:0 6px 24px rgba(0,249,255,.15); backdrop-filter: blur(4px);}
-    .presale-head{display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap}
-    .presale-title{font-size:1.2rem; color:var(--haip-teal); margin:0}
-    .badge-stage{font-size:.85rem; border:1px solid #0ff0fc44; color:#bff; padding:4px 10px; border-radius:999px}
-    .kv{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-    .kv .box{background:#152028; border:1px solid #0b2a31; border-radius:10px; padding:10px; text-align:center}
-    .kv .box b{display:block; color:var(--haip-teal); margin-bottom:2px}
-    .progress{height:12px; background:#132029; border:1px solid #0ff0fc33; border-radius:999px; overflow:hidden}
-    .progress>i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--haip-teal),var(--haip-cyan)); box-shadow:0 0 14px #0ff0fc66 inset; transition:width .6s ease}
-    .quote{font-size:.95rem; color:#d9ffff; opacity:.9; text-align:center}
-    .amount-chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center}
-    .chip{padding:8px 12px; border:1px solid #0ff0fc44; background:#142129; color:#eaffff; border-radius:999px; cursor:pointer; transition:transform .15s ease, border-color .2s ease}
-    .chip:hover{transform:translateY(-1px); border-color:#0ff0fc99}
-    .chip.active{background:#122; border-color:#0ff0fc; box-shadow:0 0 10px #0ff0fc55 inset}
-    .presale-actions .btn{min-width:140px}
-    .sticky-cta{position:fixed; left:0; right:0; bottom:12px; display:none; justify-content:center; z-index:1000; padding:0 12px}
-    .sticky-cta .btn{width:100%; max-width:460px; border-radius:999px; box-shadow:0 10px 30px rgba(0,249,255,.25)}
-    .toast{position:fixed; bottom:70px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; background:#12242c; color:#eaffff; padding:10px 14px; border:1px solid #0ff0fc55; border-radius:10px; z-index:1100; transition:all .25s ease}
-    .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
-
-    @media(min-width: 740px){
-      .kv{grid-template-columns:repeat(4,1fr)}
-      .presale-title{font-size:1.35rem}
-    }
-
-    /* Respectă preferința utilizatorilor pentru mișcare redusă */
     @media (prefers-reduced-motion: reduce){
       *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition:none !important; }
     }
@@ -200,7 +141,7 @@
   <section data-aos="fade-up">
     <h2>About HAIP</h2>
     <p>HAIP is a BEP-20 token on Binance Smart Chain designed to fund and integrate artificial intelligence with decentralized finance (DeFi) and Web3 ecosystems. Leveraging smart contracts, Chainlink oracles, and IPFS storage, HAIP empowers AI-driven dApps and community governance through a decentralized DAO.</p>
-    <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank" rel="noopener">Buy on PancakeSwap</a>
+    <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank" rel="noopener noreferrer">Buy on PancakeSwap</a>
     <a class="btn" href="#presale">Join Presale</a>
   </section>
 
@@ -274,33 +215,15 @@
     <h2>Technology Partners</h2>
     <p>We are proud to collaborate with industry leaders who support innovation and decentralized technologies.</p>
     <div style="display:flex; gap:40px; flex-wrap:wrap; align-items:center; justify-content:center;">
-      <a href="https://www.hp.com" target="_blank" rel="noopener">
-        <img src="images/logos/hp.png" alt="HP Logo" class="partner-logo" loading="lazy" decoding="async" width="240" height="120" style="max-width:180px; margin-top:10px;">
-      </a>
-      <a href="https://ailabs.tw" target="_blank" rel="noopener">
-        <img src="images/logos/ai_labs.png" alt="AI Labs" class="partner-logo" loading="lazy" decoding="async" width="180" height="80" style="max-width:120px; margin-top:10px;">
-      </a>
-      <a href="https://trustwallet.com" target="_blank" rel="noopener">
-        <img src="images/logos/trustwallet.png" alt="Trust Wallet" class="partner-logo" loading="lazy" decoding="async" width="180" height="80" style="max-width:120px; margin-top:10px;">
-      </a>
-      <a href="https://ai.google" target="_blank" rel="noopener">
-        <img src="images/logos/google_ai.png" alt="Google AI" class="partner-logo" loading="lazy" decoding="async" width="220" height="100" style="max-width:160px; margin-top:10px;">
-      </a>
-      <a href="https://openai.com" target="_blank" rel="noopener">
-        <img src="images/logos/openai.png" alt="OpenAI" class="partner-logo" loading="lazy" decoding="async" width="200" height="90" style="max-width:140px; margin-top:10px;">
-      </a>
-      <a href="https://www.mit.edu" target="_blank" rel="noopener">
-        <img src="images/logos/mit.png" alt="MIT" class="partner-logo" loading="lazy" decoding="async" width="200" height="90" style="max-width:140px; margin-top:10px;">
-      </a>
-      <a href="https://pancakeswap.finance" target="_blank" rel="noopener">
-        <img src="images/logos/pancakeswap.png" alt="PancakeSwap" class="partner-logo" loading="lazy" decoding="async" width="190" height="90" style="max-width:130px; margin-top:10px;">
-      </a>
-      <a href="https://chain.link" target="_blank" rel="noopener">
-        <img src="images/logos/chainlink.png" alt="Chainlink" class="partner-logo" loading="lazy" decoding="async" width="200" height="90" style="max-width:140px; margin-top:10px;">
-      </a>
-      <a href="https://metamask.io" target="_blank" rel="noopener">
-        <img src="images/logos/metamask.png" alt="MetaMask" class="partner-logo" loading="lazy" decoding="async" width="200" height="90" style="max-width:140px; margin-top:10px;">
-      </a>
+      <a href="https://www.hp.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/hp.png" alt="HP Logo" class="partner-logo" loading="lazy" decoding="async" width="240" height="120" style="max-width:180px; margin-top:10px;"></a>
+      <a href="https://ailabs.tw" target="_blank" rel="noopener noreferrer"><img src="images/logos/ai_labs.png" alt="AI Labs" class="partner-logo" loading="lazy" decoding="async" width="180" height="80" style="max-width:120px; margin-top:10px;"></a>
+      <a href="https://trustwallet.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/trustwallet.png" alt="Trust Wallet" class="partner-logo" loading="lazy" decoding="async" width="180" height="80" style="max-width:120px; margin-top:10px;"></a>
+      <a href="https://ai.google" target="_blank" rel="noopener noreferrer"><img src="images/logos/google_ai.png" alt="Google AI" class="partner-logo" loading="lazy" decoding="async" width="220" height="100" style="max-width:160px; margin-top:10px;"></a>
+      <a href="https://openai.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/openai.png" alt="OpenAI" class="partner-logo" loading="lazy" decoding="async" width="200" height="90" style="max-width:140px; margin-top:10px;"></a>
+      <a href="https://www.mit.edu" target="_blank" rel="noopener noreferrer"><img src="images/logos/mit.png" alt="MIT" class="partner-logo" loading="lazy" decoding="async" width="200" height="90" style="max-width:140px; margin-top:10px;"></a>
+      <a href="https://pancakeswap.finance" target="_blank" rel="noopener noreferrer"><img src="images/logos/pancakeswap.png" alt="PancakeSwap" class="partner-logo" loading="lazy" decoding="async" width="190" height="90" style="max-width:130px; margin-top:10px;"></a>
+      <a href="https://chain.link" target="_blank" rel="noopener noreferrer"><img src="images/logos/chainlink.png" alt="Chainlink" class="partner-logo" loading="lazy" decoding="async" width="200" height="90" style="max-width:140px; margin-top:10px;"></a>
+      <a href="https://metamask.io" target="_blank" rel="noopener noreferrer"><img src="images/logos/metamask.png" alt="MetaMask" class="partner-logo" loading="lazy" decoding="async" width="200" height="90" style="max-width:140px; margin-top:10px;"></a>
     </div>
   </section>
 
@@ -308,18 +231,18 @@
     <h2 style="text-align:center; color:#66fcf1;">Future Collaboration Plan</h2>
     <p style="text-align:center;">We are excited to explore future collaborations with leading crypto exchanges to expand our ecosystem.</p>
     <div class="logo-section">
-      <a href="https://www.kucoin.com" target="_blank" rel="noopener"><img src="images/logos/kucoin.png" alt="KuCoin" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.kraken.com" target="_blank" rel="noopener"><img src="images/logos/kraken.png" alt="Kraken" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.uphold.com" target="_blank" rel="noopener"><img src="images/logos/uphold.png" alt="Uphold" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.gate.io" target="_blank" rel="noopener"><img src="images/logos/gateio.png" alt="Gate.io" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.revolut.com" target="_blank" rel="noopener"><img src="images/logos/revolut.png" alt="Revolut" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.bitunix.com" target="_blank" rel="noopener"><img src="images/logos/bitunix.png" alt="Bitunix" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.bitfinex.com" target="_blank" rel="noopener"><img src="images/logos/bitfinex.png" alt="Bitfinex" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.bybit.com" target="_blank" rel="noopener"><img src="images/logos/bybit.png" alt="Bybit" class="future-partner-logo bybit" loading="lazy" decoding="async" width="240" height="150"></a>
-      <a href="https://www.crypto.com" target="_blank" rel="noopener"><img src="images/logos/crypto_com.png" alt="Crypto.com" class="future-partner-logo crypto-com" loading="lazy" decoding="async" width="160" height="100"></a>
-      <a href="https://whitebit.com" target="_blank" rel="noopener"><img src="images/logos/whitebit.png" alt="WhiteBIT" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
-      <a href="https://www.okx.com" target="_blank" rel="noopener"><img src="images/logos/okx.png" alt="OKX" class="future-partner-logo okx" loading="lazy" decoding="async" width="160" height="100"></a>
-      <a href="https://www.binance.com" target="_blank" rel="noopener"><img src="images/logos/binance.png" alt="Binance" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
+      <a href="https://www.kucoin.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/kucoin.png" alt="KuCoin" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
+      <a href="https://www.kraken.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/kraken.png" alt="Kraken" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
+      <a href="https://www.uphold.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/uphold.png" alt="Uphold" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
+      <a href="https://www.gate.io" target="_blank" rel="noopener noreferrer"><img src="images/logos/gateio.png" alt="Gate.io" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
+      <a href="https://www.revolut.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/revolut.png" alt="Revolut" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
+      <a href="https://www.bitunix.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/bitunix.png" alt="Bitunix" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
+      <a href="https://www.bitfinex.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/bitfinex.png" alt="Bitfinex" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
+      <a href="https://www.bybit.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/bybit.png" alt="Bybit" class="future-partner-logo bybit" loading="lazy" decoding="async" width="240" height="150"></a>
+      <a href="https://www.crypto.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/crypto_com.png" alt="Crypto.com" class="future-partner-logo crypto-com" loading="lazy" decoding="async" width="160" height="100"></a>
+      <a href="https://whitebit.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/whitebit.png" alt="WhiteBIT" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
+      <a href="https://www.okx.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/okx.png" alt="OKX" class="future-partner-logo okx" loading="lazy" decoding="async" width="160" height="100"></a>
+      <a href="https://www.binance.com" target="_blank" rel="noopener noreferrer"><img src="images/logos/binance.png" alt="Binance" class="future-partner-logo" loading="lazy" decoding="async" width="160" height="60"></a>
     </div>
   </section>
 
@@ -420,9 +343,9 @@
     <p>Join our community or reach out for inquiries and collaborations.</p>
     <ul>
       <li>Email: <a href="mailto:contact@haip-token.org">contact@haip-token.org</a></li>
-      <li>Telegram: <a href="https://t.me/haipcommunity" target="_blank" rel="noopener">@haipcommunity</a></li>
-      <li>Twitter: <a href="https://twitter.com/haiptoken" target="_blank" rel="noopener">@haiptoken</a></li>
-      <li>Discord: <a href="https://discord.gg/haip" target="_blank" rel="noopener">HAIP Community</a></li>
+      <li>Telegram: <a href="https://t.me/haipcommunity" target="_blank" rel="noopener noreferrer">@haipcommunity</a></li>
+      <li>Twitter: <a href="https://twitter.com/haiptoken" target="_blank" rel="noopener noreferrer">@haiptoken</a></li>
+      <li>Discord: <a href="https://discord.gg/haip" target="_blank" rel="noopener noreferrer">HAIP Community</a></li>
     </ul>
     <div class="newsletter-form">
       <input type="email" placeholder="Enter your email for updates" required />
@@ -433,8 +356,8 @@
   <section data-aos="fade-up">
     <h2>Resources</h2>
     <ul>
-      <li><a href="https://bscscan.com/token/0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank" rel="noopener">View on BscScan</a></li>
-      <li><a href="https://github.com/Darck120579/assets" target="_blank" rel="noopener">GitHub Repository (Coming Q4 2025)</a></li>
+      <li><a href="https://bscscan.com/token/0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank" rel="noopener noreferrer">View on BscScan</a></li>
+      <li><a href="https://github.com/Darck120579/assets" target="_blank" rel="noopener noreferrer">GitHub Repository (Coming Q4 2025)</a></li>
     </ul>
   </section>
 
@@ -444,25 +367,26 @@
   </section>
 </main>
 
-<!-- AOS (defer, non-blocking) -->
+<!-- AOS defer -->
 <script defer src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
-<!-- Script aplicație (defer) -->
 <script defer>
-/* ====== UTIL ====== */
+/* ===== Utils & AOS ===== */
 function copyContract() {
   const contractAddress = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
   navigator.clipboard.writeText(contractAddress).then(() => alert('Contract address copied to clipboard!'));
 }
-document.addEventListener('DOMContentLoaded', ()=>{ if (window.AOS) AOS.init({ duration: 700, once: true }); });
+(function waitAOS(){
+  if (window.AOS) { AOS.init({ duration: 700, once: true }); }
+  else { setTimeout(waitAOS, 50); }
+})();
 
-/* ====== COUNTDOWN ====== */
+/* ===== Countdown ===== */
 const countdown = document.getElementById('countdown');
 const launchDate = new Date('2025-08-01T00:00:00Z').getTime();
 function updateCountdown() {
   if (!countdown) return;
-  const now = Date.now();
-  const d = launchDate - now;
+  const now = Date.now(), d = launchDate - now;
   if (d <= 0) { countdown.innerHTML = "Private Presale is Live!"; return; }
   const days = Math.floor(d / 86400000);
   const hours = Math.floor((d % 86400000) / 3600000);
@@ -472,7 +396,7 @@ function updateCountdown() {
 }
 setInterval(updateCountdown, 1000); updateCountdown();
 
-/* ====== TOKENOMICS CHART: load on view ====== */
+/* ===== Tokenomics: load Chart.js la vizibilitate ===== */
 const tokenomicsEl = document.getElementById('tokenomicsChart');
 let chartLoaded = false;
 function loadChartJs(){
@@ -508,7 +432,7 @@ if ('IntersectionObserver' in window && tokenomicsEl){
   window.addEventListener('load', onTokenomicsVisible, { once: true });
 }
 
-/* ====== PRESALE (Private) ====== */
+/* ===== Presale (Private) ===== */
 const presaleWalletStatus = document.getElementById('presaleWalletStatus');
 const presaleConnectWalletBtn = document.getElementById('presaleConnectWalletBtn');
 const presaleDisconnectWalletBtn = document.getElementById('presaleDisconnectWalletBtn');
@@ -550,11 +474,10 @@ const PRESALE_ABI = [
 let web3, haipContract, usdtContract, presaleContract;
 let connectedAddress = null, haipDec = 18, usdtDec = 18;
 
-// Private constants
 const PRIVATE_PRICE = 0.00009;
 const PRIVATE_MIN   = 3.24;
 const PRIVATE_MAX   = 90.00;
-const PRIVATE_CAP   = 360000000; // 2% din 18B
+const PRIVATE_CAP   = 360000000;
 
 const fmt = (n,d=2)=>Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
 const GOOD_BSC_RPCS = [
@@ -565,208 +488,144 @@ const GOOD_BSC_RPCS = [
 ];
 const GAS_CONF = { minGwei:2.5, startGwei:3.0, maxGwei:6.0, safety:1.2, capApprove:220000, capBuy:350000 };
 
-function toUnits(_web3, val, dec) {
-  const bn = _web3.utils.toBN(Math.floor((+val) * 1e6));
-  const scale = _web3.utils.toBN(10).pow(_web3.utils.toBN(dec - 6));
-  return bn.mul(scale);
-}
-function fromUnits(_web3, bn, dec) {
-  const s = bn.toString();
-  const pad = s.padStart(dec+1, '0');
-  const intPart = pad.slice(0, -dec);
-  const fracPart = pad.slice(-dec, -dec+6);
-  return Number(`${intPart}.${fracPart}`);
-}
+function toUnits(_web3, val, dec){ const bn=_web3.utils.toBN(Math.floor((+val)*1e6)); const scale=_web3.utils.toBN(10).pow(_web3.utils.toBN(dec-6)); return bn.mul(scale); }
+function fromUnits(_web3, bn, dec){ const s=bn.toString(); const pad=s.padStart(dec+1,'0'); const intPart=pad.slice(0,-dec); const fracPart=pad.slice(-dec,-dec+6); return Number(`${intPart}.${fracPart}`); }
 
-// Lazy-load Web3 doar când e nevoie
 async function loadWeb3IfNeeded(){
   if (!window.Web3) {
     await new Promise((resolve, reject)=>{
-      const s = document.createElement('script');
-      s.src = 'https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js';
-      s.defer = true;
-      s.onload = resolve;
-      s.onerror = ()=>reject(new Error('Failed to load web3'));
+      const s=document.createElement('script');
+      s.src='https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js';
+      s.defer=true; s.onload=resolve; s.onerror=()=>reject(new Error('Failed to load web3'));
       document.head.appendChild(s);
     });
   }
 }
-async function initWeb3() {
+async function initWeb3(){
   if (!window.Web3) return false;
-  try {
-    if (window.ethereum) {
-      web3 = new Web3(window.ethereum);
-    } else if (window.web3) {
-      web3 = new Web3(window.web3.currentProvider);
-    } else {
-      return false;
-    }
+  try{
+    if (window.ethereum) web3 = new Web3(window.ethereum);
+    else if (window.web3) web3 = new Web3(window.web3.currentProvider);
+    else return false;
     haipContract = new web3.eth.Contract(HAIP_ABI, HAIP_ADDRESS);
     usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
     presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
-    try { haipDec = await haipContract.methods.decimals().call(); } catch {}
-    try { usdtDec = await usdtContract.methods.decimals().call(); } catch {}
+    try{ haipDec = await haipContract.methods.decimals().call(); }catch{}
+    try{ usdtDec = await usdtContract.methods.decimals().call(); }catch{}
     return true;
-  } catch { return false; }
+  }catch{ return false; }
 }
-async function checkNetwork() {
-  try {
+async function checkNetwork(){
+  try{
     const chainId = await web3.eth.getChainId();
-    if (chainId !== 56) {
-      await window.ethereum.request({ method:'wallet_switchEthereumChain', params:[{ chainId:'0x38' }] });
-    }
+    if (chainId !== 56) await window.ethereum.request({ method:'wallet_switchEthereumChain', params:[{ chainId:'0x38' }] });
     return true;
-  } catch (switchError) {
-    if (switchError.code === 4902 || String(switchError.message||'').toLowerCase().includes('missing trie node')) {
-      await window.ethereum.request({
-        method:'wallet_addEthereumChain',
+  }catch(switchError){
+    if (switchError.code === 4902 || String(switchError.message||'').toLowerCase().includes('missing trie node')){
+      await window.ethereum.request({ method:'wallet_addEthereumChain',
         params:[{ chainId:'0x38', chainName:'Binance Smart Chain', nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18}, rpcUrls:GOOD_BSC_RPCS, blockExplorerUrls:['https://bscscan.com'] }]
       });
       return true;
     }
-    presaleWalletStatus.textContent = 'Failed to switch to Binance Smart Chain.'; return false;
+    presaleWalletStatus && (presaleWalletStatus.textContent = 'Failed to switch to Binance Smart Chain.'); return false;
+  }
+}
+const g = (n)=>web3.utils.toWei(String(n),'gwei');
+async function pickGasPriceGwei(){ try{ const netWei=await web3.eth.getGasPrice(); const netGwei=Number(web3.utils.fromWei(netWei,'gwei')); return Math.max(GAS_CONF.minGwei, Math.min(netGwei, GAS_CONF.maxGwei)); }catch{ return GAS_CONF.startGwei; } }
+async function estimateGasCapped(call, from, valueWei, cap){ try{ const est=await call.estimateGas({from, value:valueWei||'0x0'}); return Math.min(Math.ceil(est*GAS_CONF.safety), cap); }catch{ return cap; } }
+function isTrieError(err){ const m=String(err?.message||'').toLowerCase(); return m.includes('missing trie node')||m.includes('state node')||err?.code===-32000; }
+async function sendWithLowFee(call,{from,valueWei='0x0',cap,label}){ let gasPriceGwei=await pickGasPriceGwei();
+  try{ const gasLimit=await estimateGasCapped(call,from,valueWei,cap); gasStatus&&(gasStatus.textContent=`${label}… ${gasPriceGwei.toFixed(2)} gwei · gas ? ${gasLimit}`); return await call.send({from,gas:gasLimit,gasPrice:g(gasPriceGwei),value:valueWei}); }
+  catch(e1){ if(isTrieError(e1)){ gasStatus&&(gasStatus.textContent='RPC node error. Switching to a healthy BSC RPC…'); try{await checkNetwork();}catch{} }
+    try{ gasStatus&&(gasStatus.textContent=`${label} retry via wallet estimator…`); return await call.send({from,value:valueWei}); }
+    catch(e2){ const msg=String(e2?.message||'').toLowerCase(); if(msg.includes('underpriced')||msg.includes('replacement')||msg.includes('price too low')){ gasPriceGwei=Math.min(gasPriceGwei+1.0,GAS_CONF.maxGwei); const gasLimit=await estimateGasCapped(call,from,valueWei,cap); return await call.send({from,gas:gasLimit,gasPrice:g(gasPriceGwei),value:valueWei}); } throw e2; }
   }
 }
 
-const g = (n)=>web3.utils.toWei(String(n), 'gwei');
-async function pickGasPriceGwei(){
-  try{ const netWei = await web3.eth.getGasPrice(); const netGwei = Number(web3.utils.fromWei(netWei,'gwei'));
-    return Math.max(GAS_CONF.minGwei, Math.min(netGwei, GAS_CONF.maxGwei)); } catch { return GAS_CONF.startGwei; }
-}
-async function estimateGasCapped(call, from, valueWei, cap){
-  try{ const est = await call.estimateGas({from, value: valueWei || '0x0'}); return Math.min(Math.ceil(est * GAS_CONF.safety), cap); }
-  catch{ return cap; }
-}
-function isTrieError(err){
-  const m = String(err?.message || '').toLowerCase();
-  return m.includes('missing trie node') || m.includes('state node') || err?.code === -32000;
-}
-async function sendWithLowFee(call, { from, valueWei='0x0', cap, label }){
-  let gasPriceGwei = await pickGasPriceGwei();
-  try{
-    const gasLimit = await estimateGasCapped(call, from, valueWei, cap);
-    if (gasStatus) gasStatus.textContent = `${label}… ${gasPriceGwei.toFixed(2)} gwei · gas ? ${gasLimit}`;
-    return await call.send({ from, gas: gasLimit, gasPrice: g(gasPriceGwei), value: valueWei });
-  }catch(e1){
-    if (isTrieError(e1)) {
-      if (gasStatus) gasStatus.textContent = 'RPC node error. Switching to a healthy BSC RPC…';
-      try{ await checkNetwork(); }catch{}
-    }
-    try{
-      if (gasStatus) gasStatus.textContent = `${label} retry via wallet estimator…`;
-      return await call.send({ from, value: valueWei });
-    }catch(e2){
-      const msg = String(e2?.message||'').toLowerCase();
-      if ((msg.includes('underpriced') || msg.includes('replacement') || msg.includes('price too low'))) {
-        gasPriceGwei = Math.min(gasPriceGwei + 1.0, GAS_CONF.maxGwei);
-        const gasLimit = await estimateGasCapped(call, from, valueWei, cap);
-        return await call.send({ from, gas: gasLimit, gasPrice: g(gasPriceGwei), value: valueWei });
-      }
-      throw e2;
-    }
-  }
-}
-
-/* ====== VALIDARE UI ====== */
-function setError(msg){
-  if (!amountError || !purchaseAmountInput) return;
-  amountError.textContent = msg || '';
-  if (msg) purchaseAmountInput.classList.add('input-error');
-  else purchaseAmountInput.classList.remove('input-error');
-}
+/* Validare UI */
+function setError(msg){ if(!amountError||!purchaseAmountInput)return; amountError.textContent=msg||''; msg?purchaseAmountInput.classList.add('input-error'):purchaseAmountInput.classList.remove('input-error'); }
 function isValidAmount(val){
-  if (val === '' || isNaN(val)) return false;
-  const n = parseFloat(val);
-  if (n < PRIVATE_MIN) { setError(`Minimum is ${PRIVATE_MIN.toFixed(2)} USDT`); return false; }
-  if (n > PRIVATE_MAX) { setError(`Maximum is ${PRIVATE_MAX.toFixed(2)} USDT`); return false; }
-  setError('');
-  return true;
+  if(val===''||isNaN(val)) return false;
+  const n=parseFloat(val);
+  if(n<PRIVATE_MIN){ setError(`Minimum is ${PRIVATE_MIN.toFixed(2)} USDT`); return false; }
+  if(n>PRIVATE_MAX){ setError(`Maximum is ${PRIVATE_MAX.toFixed(2)} USDT`); return false; }
+  setError(''); return true;
 }
-function refreshPurchaseButtonState(){
-  if (!purchaseBtn) return;
-  const ok = purchaseAmountInput && isValidAmount(purchaseAmountInput.value);
-  purchaseBtn.disabled = !ok || !connectedAddress;
-}
-purchaseAmountInput?.addEventListener('input', refreshPurchaseButtonState);
+function refreshPurchaseButtonState(){ if(!purchaseBtn) return; const ok=purchaseAmountInput&&isValidAmount(purchaseAmountInput.value); purchaseBtn.disabled = !ok || !connectedAddress; }
+purchaseAmountInput && purchaseAmountInput.addEventListener('input', refreshPurchaseButtonState);
 
-/* ====== UI (Private defaults) ====== */
+/* UI Private */
 async function refreshPresaleLimits(){
-  if (!presaleLimits || !purchaseAmountInput) return;
-  presaleLimits.textContent =
-    `Private Presale Limits: Min ${PRIVATE_MIN.toFixed(2)} USDT, Max ${PRIVATE_MAX.toFixed(2)} USDT · Price ${PRIVATE_PRICE.toFixed(5)} USDT/HAIP`;
+  if(!presaleLimits||!purchaseAmountInput) return;
+  presaleLimits.textContent = `Private Presale Limits: Min ${PRIVATE_MIN.toFixed(2)} USDT, Max ${PRIVATE_MAX.toFixed(2)} USDT · Price ${PRIVATE_PRICE.toFixed(5)} USDT/HAIP`;
   purchaseAmountInput.min = PRIVATE_MIN;
   purchaseAmountInput.max = PRIVATE_MAX;
 }
 async function refreshStageUI(){
   try{
-    const title = document.getElementById('v3StageTitle');
-    const price = document.getElementById('v3StagePrice');
-    const yourLimit = document.getElementById('v3YourLimit');
-    const soldEl = document.getElementById('v3StageSold');
-    const remEl = document.getElementById('v3StageRemaining');
-    const prog = document.getElementById('v3StageProgress');
-    const quote = document.getElementById('v3Quote');
+    const title=document.getElementById('v3StageTitle');
+    const price=document.getElementById('v3StagePrice');
+    const yourLimit=document.getElementById('v3YourLimit');
+    const soldEl=document.getElementById('v3StageSold');
+    const remEl=document.getElementById('v3StageRemaining');
+    const prog=document.getElementById('v3StageProgress');
+    const quote=document.getElementById('v3Quote');
 
-    if (title) title.textContent = 'Private';
-    if (price) price.textContent = `${PRIVATE_PRICE.toFixed(5)} USDT / HAIP`;
-    if (yourLimit) yourLimit.textContent = `3.24–90.00`;
-    if (quote) quote.textContent = `Private Presale is live. Connect your wallet to see your personalized remaining limit.`;
+    title && (title.textContent='Private');
+    price && (price.textContent=`${PRIVATE_PRICE.toFixed(5)} USDT / HAIP`);
+    yourLimit && (yourLimit.textContent=`3.24–90.00`);
+    quote && (quote.textContent=`Private Presale is live. Connect your wallet to see your personalized remaining limit.`);
     await refreshPresaleLimits();
 
-    // fallback Private
-    let sold = 0, cap = PRIVATE_CAP;
+    let sold=0, cap=PRIVATE_CAP; // fallback Private
 
-    // încearcă să citești on-chain (dacă există Web3), dar ignoră cap-uri mari (public)
-    if (web3 && presaleContract) {
+    if(web3 && presaleContract){
       try{
-        const idx = await presaleContract.methods.currentStage().call();
-        const st  = await presaleContract.methods.getStage(idx).call();
-        const soldOnChain = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
-        const capOnChain  = fromUnits(web3, web3.utils.toBN(st.capTokens  || st[3]), haipDec);
-        if (capOnChain > 0 && capOnChain <= PRIVATE_CAP * 1.01) {
-          sold = Math.max(0, Math.min(soldOnChain, capOnChain));
-          cap  = capOnChain;
-        }
+        const idx=await presaleContract.methods.currentStage().call();
+        const st=await presaleContract.methods.getStage(idx).call();
+        const soldOnChain=fromUnits(web3, web3.utils.toBN(st.soldTokens||st[4]), haipDec);
+        const capOnChain=fromUnits(web3, web3.utils.toBN(st.capTokens||st[3]), haipDec);
+        if(capOnChain>0 && capOnChain <= PRIVATE_CAP*1.01){ sold=Math.max(0, Math.min(soldOnChain, capOnChain)); cap=capOnChain; }
       }catch{}
     }
-    const remaining = Math.max(cap - sold, 0);
-    const pct = cap > 0 ? Math.min((sold / cap) * 100, 100) : 0;
+    const remaining=Math.max(cap-sold,0);
+    const pct=cap>0?Math.min((sold/cap)*100,100):0;
 
-    if (soldEl) soldEl.textContent = `${fmt(sold,2)} / ${fmt(cap,0)} HAIP`;
-    if (remEl) remEl.textContent = `${fmt(remaining,0)} HAIP`;
-    if (prog) prog.style.width = `${pct.toFixed(2)}%`;
+    soldEl && (soldEl.textContent = `${fmt(sold,2)} / ${fmt(cap,0)} HAIP`);
+    remEl && (remEl.textContent = `${fmt(remaining,0)} HAIP`);
+    prog && (prog.style.width = `${pct.toFixed(2)}%`);
 
-    // personal limit dacă e conectat (CLAMP la 90)
     if (connectedAddress && web3 && presaleContract) {
       try {
-        const idx = await presaleContract.methods.currentStage().call();
-        const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
-        const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
-        const allowed = Math.max(0, Math.min(maxUserFloat, PRIVATE_MAX));
-        if (yourLimit) yourLimit.textContent = `${allowed.toFixed(2)}`;
-        if (quote) quote.textContent = `You can still buy up to ${allowed.toFixed(2)} USDT in this stage.`;
+        const idx=await presaleContract.methods.currentStage().call();
+        const maxUser=await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
+        const maxUserFloat=fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
+        const allowed=Math.max(0, Math.min(maxUserFloat, PRIVATE_MAX));
+        yourLimit && (yourLimit.textContent = `${allowed.toFixed(2)}`);
+        quote && (quote.textContent = `You can still buy up to ${allowed.toFixed(2)} USDT in this stage.`);
       } catch {}
     }
   }catch{}
 }
 setInterval(refreshStageUI, 20000);
 
-/* ====== CONNECT / PURCHASE ====== */
+/* Connect/Purchase */
 async function connectWallet(){
-  if (presaleConnectWalletBtn){ presaleConnectWalletBtn.classList.add('loading'); presaleConnectWalletBtn.disabled = true; }
+  presaleConnectWalletBtn && presaleConnectWalletBtn.classList.add('loading');
+  presaleConnectWalletBtn && (presaleConnectWalletBtn.disabled = true);
   try{
     await loadWeb3IfNeeded();
-    if (!await initWeb3()) throw new Error('No wallet provider detected.');
-    if (!await checkNetwork()) throw new Error('Wrong network');
+    if(!await initWeb3()) throw new Error('No wallet provider detected.');
+    if(!await checkNetwork()) throw new Error('Wrong network');
     const accounts = await window.ethereum.request({ method:'eth_requestAccounts' });
-    if (!accounts || !accounts.length) throw new Error('No accounts authorized.');
+    if(!accounts||!accounts.length) throw new Error('No accounts authorized.');
     connectedAddress = accounts[0];
 
     const bal = await haipContract.methods.balanceOf(connectedAddress).call().catch(()=>0);
-    if (presaleWalletStatus) presaleWalletStatus.textContent = `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)} · Balance ${fromUnits(web3, web3.utils.toBN(bal), haipDec).toFixed(6)} HAIP`;
-    presaleConnectWalletBtn?.classList.add('hidden');
-    presaleDisconnectWalletBtn?.classList.remove('hidden');
-    purchaseInput?.classList.remove('hidden');
+    presaleWalletStatus && (presaleWalletStatus.textContent = `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)} · Balance ${fromUnits(web3, web3.utils.toBN(bal), haipDec).toFixed(6)} HAIP`);
+    presaleConnectWalletBtn && presaleConnectWalletBtn.classList.add('hidden');
+    presaleDisconnectWalletBtn && presaleDisconnectWalletBtn.classList.remove('hidden');
+    purchaseInput && purchaseInput.classList.remove('hidden');
     refreshPurchaseButtonState();
 
     window.ethereum.on('accountsChanged', ()=>location.reload());
@@ -774,32 +633,32 @@ async function connectWallet(){
 
     await refreshStageUI();
   }catch(error){
-    if (presaleWalletStatus) presaleWalletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
+    presaleWalletStatus && (presaleWalletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`);
   }finally{
-    presaleConnectWalletBtn?.classList.remove('loading');
-    if (presaleConnectWalletBtn) presaleConnectWalletBtn.disabled = false;
+    presaleConnectWalletBtn && presaleConnectWalletBtn.classList.remove('loading');
+    presaleConnectWalletBtn && (presaleConnectWalletBtn.disabled = false);
   }
 }
 function disconnectWallet(){
   connectedAddress = null;
-  if (presaleWalletStatus) presaleWalletStatus.textContent = 'Wallet not connected';
-  if (gasStatus) gasStatus.textContent = '';
-  presaleConnectWalletBtn?.classList.remove('hidden');
-  presaleDisconnectWalletBtn?.classList.add('hidden');
-  if (purchaseBtn) purchaseBtn.disabled = true; purchaseInput?.classList.add('hidden');
-  if (purchaseAmountInput) purchaseAmountInput.value = '';
+  presaleWalletStatus && (presaleWalletStatus.textContent = 'Wallet not connected');
+  gasStatus && (gasStatus.textContent = '');
+  presaleConnectWalletBtn && presaleConnectWalletBtn.classList.remove('hidden');
+  presaleDisconnectWalletBtn && presaleDisconnectWalletBtn.classList.add('hidden');
+  purchaseBtn && (purchaseBtn.disabled = true);
+  purchaseInput && purchaseInput.classList.add('hidden');
+  purchaseAmountInput && (purchaseAmountInput.value = '');
   setError('');
   refreshStageUI();
 }
 async function purchaseTokens(){
-  if (purchaseInput?.classList.contains('hidden')) { purchaseInput.classList.remove('hidden'); return; }
+  if (purchaseInput && purchaseInput.classList.contains('hidden')) { purchaseInput.classList.remove('hidden'); return; }
   if (!isValidAmount(purchaseAmountInput.value)) { refreshPurchaseButtonState(); return; }
-  purchaseBtn?.classList.add('loading'); if (purchaseBtn) purchaseBtn.disabled = true;
+  purchaseBtn && purchaseBtn.classList.add('loading');
+  purchaseBtn && (purchaseBtn.disabled = true);
   try{
-    if (!web3 || !usdtContract || !presaleContract || !connectedAddress) throw new Error('Wallet not connected');
+    if(!web3 || !usdtContract || !presaleContract || !connectedAddress) throw new Error('Wallet not connected');
     let usdtAmount = parseFloat(purchaseAmountInput.value);
-
-    // enforce min/max private
     if (usdtAmount < PRIVATE_MIN) usdtAmount = PRIVATE_MIN;
     if (usdtAmount > PRIVATE_MAX) usdtAmount = PRIVATE_MAX;
     purchaseAmountInput.value = usdtAmount.toFixed(2);
@@ -812,21 +671,19 @@ async function purchaseTokens(){
       usdtAmount = Math.floor(maxUserFloat * 100) / 100;
       if (usdtAmount > PRIVATE_MAX) usdtAmount = PRIVATE_MAX;
       purchaseAmountInput.value = usdtAmount.toFixed(2);
-      if (presaleWalletStatus) presaleWalletStatus.textContent = `Amount reduced to your current limit: ${usdtAmount.toFixed(2)} USDT.`;
+      presaleWalletStatus && (presaleWalletStatus.textContent = `Amount reduced to your current limit: ${usdtAmount.toFixed(2)} USDT.`);
     }
     const usdtUnits = toUnits(web3, usdtAmount, usdtDec);
 
-    // Approve dacă e nevoie
     const allowance = await usdtContract.methods.allowance(connectedAddress, PRESALE_ADDRESS).call();
     if (web3.utils.toBN(allowance).lt(usdtUnits)) {
-      if (gasStatus) gasStatus.textContent = 'Approving USDT…';
+      gasStatus && (gasStatus.textContent = 'Approving USDT…');
       await sendWithLowFee(
         usdtContract.methods.approve(PRESALE_ADDRESS, usdtUnits.toString()),
         { from: connectedAddress, cap: GAS_CONF.capApprove, label: 'Approve' }
       );
     }
 
-    // Quote opțional
     let haipAmountStr = '';
     try {
       const tokens = await presaleContract.methods.quoteTokens(idx, usdtUnits.toString()).call();
@@ -834,73 +691,69 @@ async function purchaseTokens(){
       haipAmountStr = ` (~${haipFloat.toFixed(6)} HAIP)`;
     } catch {}
 
-    if (gasStatus) gasStatus.textContent = 'Submitting purchase…';
+    gasStatus && (gasStatus.textContent = 'Submitting purchase…');
     const tx = await sendWithLowFee(
       presaleContract.methods.buy(usdtUnits.toString()),
       { from: connectedAddress, cap: GAS_CONF.capBuy, label: 'Buy' }
     );
 
-    if (presaleWalletStatus) presaleWalletStatus.innerHTML = `Success${haipAmountStr}! <a target="_blank" rel="noopener" href="https://bscscan.com/tx/${tx.transactionHash}">View on BscScan</a>`;
-    if (gasStatus) gasStatus.textContent = 'Done.';
-    purchaseInput?.classList.add('hidden'); if (purchaseAmountInput) purchaseAmountInput.value = '';
+    presaleWalletStatus && (presaleWalletStatus.innerHTML = `Success${haipAmountStr}! <a target="_blank" rel="noopener noreferrer" href="https://bscscan.com/tx/${tx.transactionHash}">View on BscScan</a>`);
+    gasStatus && (gasStatus.textContent = 'Done.');
+    purchaseInput && purchaseInput.classList.add('hidden');
+    purchaseAmountInput && (purchaseAmountInput.value = '');
     setError('');
     await refreshStageUI();
   }catch(error){
-    if (presaleWalletStatus) presaleWalletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
-    if (isTrieError?.(error) && gasStatus) gasStatus.textContent = 'Your RPC may be pruned/unstable. Switch RPC in MetaMask to: bsc-dataseed.binance.org / ankr / ninicoin.';
+    presaleWalletStatus && (presaleWalletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`);
+    isTrieError?.(error) && gasStatus && (gasStatus.textContent = 'Your RPC may be pruned/unstable. Switch RPC in MetaMask to: bsc-dataseed.binance.org / ankr / ninicoin.');
   }finally{
-    purchaseBtn?.classList.remove('loading');
+    purchaseBtn && purchaseBtn.classList.remove('loading');
     refreshPurchaseButtonState();
   }
 }
 
-/* ====== WIRE BUTTONS ====== */
-presaleConnectWalletBtn?.addEventListener('click', connectWallet, { passive:true });
-presaleDisconnectWalletBtn?.addEventListener('click', disconnectWallet, { passive:true });
-purchaseBtn?.addEventListener('click', purchaseTokens, { passive:true });
+/* Wire */
+presaleConnectWalletBtn && presaleConnectWalletBtn.addEventListener('click', connectWallet, { passive:true });
+presaleDisconnectWalletBtn && presaleDisconnectWalletBtn.addEventListener('click', disconnectWallet, { passive:true });
+purchaseBtn && purchaseBtn.addEventListener('click', purchaseTokens, { passive:true });
 
-/* ====== UX: chips & sticky ====== */
+/* Chips & sticky (lazy wire) */
 (function(){
-  let wired = false;
-  const card = document.querySelector('#presale');
+  let wired=false;
+  const card=document.querySelector('#presale');
   function wire(){
-    if (wired) return; wired = true;
-    const chips = Array.from(document.querySelectorAll('.chip'));
-    const amountInput = document.getElementById('purchaseAmount');
-    const sticky = document.getElementById('stickyCta');
-    const stickyBtn = document.getElementById('stickyBuyBtn');
+    if(wired) return; wired=true;
+    const chips=[...document.querySelectorAll('.chip')];
+    const amountInput=document.getElementById('purchaseAmount');
+    const sticky=document.getElementById('stickyCta');
+    const stickyBtn=document.getElementById('stickyBuyBtn');
     chips.forEach(ch=>{
       ch.addEventListener('click', ()=>{
         chips.forEach(c=>c.classList.remove('active')); ch.classList.add('active');
-        const isMax = ch.dataset.max === '1';
-        let v = parseFloat(amountInput.value||'0') || 0;
+        const isMax=ch.dataset.max==='1';
+        let v=parseFloat(amountInput.value||'0')||0;
         if(isMax){
-          let max = parseFloat((document.getElementById('v3YourLimit')?.textContent||'90').replace(/[^0-9.]/g,''))||90;
-          v = Math.min(Math.max(max,3.24),90);
+          let max=parseFloat((document.getElementById('v3YourLimit')?.textContent||'90').replace(/[^0-9.]/g,''))||90;
+          v=Math.min(Math.max(max,3.24),90);
         } else {
-          v = Math.min(Math.max(v + parseFloat(ch.dataset.usdt||'0'),3.24),90);
+          v=Math.min(Math.max(v + parseFloat(ch.dataset.usdt||'0'),3.24),90);
         }
-        amountInput.value = v.toFixed(2);
+        amountInput.value=v.toFixed(2);
         amountInput.dispatchEvent(new Event('input'));
       }, { passive:true });
     });
-    function updateSticky(){ if(!sticky) return; const mq = window.matchMedia('(max-width: 740px)'); sticky.style.display = mq.matches ? 'flex' : 'none'; }
+    function updateSticky(){ if(!sticky) return; const mq=window.matchMedia('(max-width: 740px)'); sticky.style.display = mq.matches ? 'flex' : 'none'; }
     updateSticky(); window.addEventListener('resize', updateSticky, { passive:true });
-    stickyBtn?.addEventListener('click', ()=>{ document.getElementById('purchaseBtn')?.click(); }, { passive:true });
+    stickyBtn && stickyBtn.addEventListener('click', ()=>{ document.getElementById('purchaseBtn')?.click(); }, { passive:true });
   }
-  if (card && 'IntersectionObserver' in window){
-    const io = new IntersectionObserver((e)=>{ if (e[0].isIntersecting){ wire(); io.disconnect(); }}, {rootMargin:'200px'});
+  if(card && 'IntersectionObserver' in window){
+    const io=new IntersectionObserver((e)=>{ if(e[0].isIntersecting){ wire(); io.disconnect(); }}, {rootMargin:'200px'});
     io.observe(card);
   } else { wire(); }
 })();
 
-/* ====== INIT UI (fără Web3 necesar) ====== */
-(async () => {
-  try {
-    await refreshStageUI(); // fallback Private data la load
-    refreshPurchaseButtonState();
-  } catch {}
-})();
+/* Init */
+(async()=>{ try{ await refreshStageUI(); refreshPurchaseButtonState(); }catch{} })();
 </script>
 </body>
 </html>
