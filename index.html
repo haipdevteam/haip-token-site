@@ -97,7 +97,12 @@
     .live-status { font-size: .95rem; color: #bfefff; opacity: .9; margin-bottom: 15px; min-height: 1.2em; }
     .presale-limits { font-size: 1.2rem; color: #0ff0fc; margin-bottom: 20px; text-shadow: 0 0 10px #0ff0fc; }
     .presale-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-    .presale-input { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+
+    /* >>>> ERORI INPUT <<<< */
+    .error-msg { color: #ff8e8e; font-size: .9rem; margin: 6px auto 0; text-align: center; min-height: 1.2em; }
+    .input-error { border-color: #ff6b6b !important; box-shadow: 0 0 10px rgba(255, 0, 0, 0.25); }
+
+    .presale-input { display: flex; flex-direction: column; gap: 6px; margin-bottom: 15px; }
     .presale-input input {
       padding: 10px; border: 1px solid #66fcf1; border-radius: 5px; background: #1f2833; color: #f8f8f8; width: 100%; max-width: 300px; margin: 0 auto;
     }
@@ -337,7 +342,9 @@
       </div>
 
       <div class="presale-input" id="purchaseInput">
-        <input type="number" id="purchaseAmount" placeholder="Amount to spend (USDT)" min="0" step="0.01" />
+        <!-- min/max set pentru validare implicită -->
+        <input type="number" id="purchaseAmount" placeholder="Amount to spend (USDT)" min="3.24" max="90" step="0.01" />
+        <div id="amountError" class="error-msg"></div>
       </div>
 
       <div class="presale-actions" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
@@ -420,6 +427,7 @@ const presaleDisconnectWalletBtn = document.getElementById('presaleDisconnectWal
 const purchaseBtn = document.getElementById('purchaseBtn');
 const purchaseInput = document.getElementById('purchaseInput');
 const purchaseAmountInput = document.getElementById('purchaseAmount');
+const amountError = document.getElementById('amountError');
 const presaleLimits = document.getElementById('presaleLimits');
 const gasStatus = document.getElementById('gasStatus');
 
@@ -521,7 +529,6 @@ async function checkNetwork() {
     }
     return true;
   } catch (switchError) {
-    // add BSC with healthy RPCs or recover from bad rpc
     if (switchError.code === 4902 || String(switchError.message||'').toLowerCase().includes('missing trie node')) {
       await window.ethereum.request({
         method:'wallet_addEthereumChain',
@@ -536,6 +543,31 @@ async function checkNetwork() {
 const GAS_CONF = { minGwei:2.5, startGwei:3.0, maxGwei:6.0, safety:1.2, capApprove:220000, capBuy:350000 };
 const g = (n)=>web3.utils.toWei(String(n), 'gwei');
 const setGasStatus = (msg)=>{ if(gasStatus) gasStatus.textContent = msg || ''; };
+
+// ----- VALIDARE SUMĂ -----
+const PRIVATE_MIN = 3.24;
+const PRIVATE_MAX = 90.00;
+
+function setError(msg){
+  amountError.textContent = msg || '';
+  if (msg) purchaseAmountInput.classList.add('input-error');
+  else purchaseAmountInput.classList.remove('input-error');
+}
+function isValidAmount(val){
+  if (val === '' || isNaN(val)) return false;
+  const n = parseFloat(val);
+  if (n < PRIVATE_MIN) { setError(`Minimum is ${PRIVATE_MIN.toFixed(2)} USDT`); return false; }
+  if (n > PRIVATE_MAX) { setError(`Maximum is ${PRIVATE_MAX.toFixed(2)} USDT`); return false; }
+  setError('');
+  return true;
+}
+function refreshPurchaseButtonState(){
+  const ok = isValidAmount(purchaseAmountInput.value);
+  purchaseBtn.disabled = !ok || !connectedAddress;
+}
+
+// Legăm validarea de input
+purchaseAmountInput?.addEventListener('input', refreshPurchaseButtonState);
 
 async function pickGasPriceGwei(){
   try{
@@ -561,19 +593,17 @@ function isTrieError(err){
 
 async function sendWithLowFee(call, { from, valueWei='0x0', cap, label }){
   let gasPriceGwei = await pickGasPriceGwei();
-  // try 1: with capped gas limit
   try{
     const gasLimit = await estimateGasCapped(call, from, valueWei, cap);
-    setGasStatus(`${label}… ${gasPriceGwei.toFixed(2)} gwei · gas ? ${gasLimit}`);
+    gasStatus.textContent = `${label}… ${gasPriceGwei.toFixed(2)} gwei · gas ? ${gasLimit}`;
     return await call.send({ from, gas: gasLimit, gasPrice: g(gasPriceGwei), value: valueWei });
   }catch(e1){
     if (isTrieError(e1)) {
-      setGasStatus('RPC node error. Switching to a healthy BSC RPC…');
+      gasStatus.textContent = 'RPC node error. Switching to a healthy BSC RPC…';
       try{ await checkNetwork(); }catch{}
     }
-    // try 2: let wallet estimate fully
     try{
-      setGasStatus(`${label} retry via wallet estimator…`);
+      gasStatus.textContent = `${label} retry via wallet estimator…`;
       return await call.send({ from, value: valueWei });
     }catch(e2){
       const msg = String(e2?.message||'').toLowerCase();
@@ -601,10 +631,9 @@ async function connectWallet(){
     presaleWalletStatus.textContent = `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)} · Balance ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
     presaleConnectWalletBtn.classList.add('hidden');
     presaleDisconnectWalletBtn.classList.remove('hidden');
-    purchaseBtn.disabled = false; purchaseInput.classList.remove('hidden');
-
-    // Keep hardcoded Private Presale info visible, but still show personalized limit if contract supports it
-    await refreshStageUI(true); // true => private labeling
+    purchaseInput.classList.remove('hidden');
+    refreshPurchaseButtonState();
+    await refreshStageUI(true);
   }catch(error){
     presaleWalletStatus.textContent = `Error: ${error.message || 'Failed to connect wallet'}`;
   }finally{
@@ -614,19 +643,16 @@ async function connectWallet(){
 
 // Hardcoded Private Presale config (display defaults)
 const PRIVATE_PRICE = 0.00009;
-const PRIVATE_MIN = 3.24;
-const PRIVATE_MAX = 90.00;
 
 async function refreshStageUI(forcePrivate=false){
   try{
-    // Label & defaults for Private Presale (requested)
     document.getElementById('v3StageTitle').textContent = 'Private';
     document.getElementById('v3StagePrice').textContent = `${PRIVATE_PRICE.toFixed(5)} USDT / HAIP`;
     document.getElementById('v3YourLimit').textContent = `3.24–90.00`;
     document.getElementById('v3Quote').textContent = `Private Presale is live. Connect your wallet to see your personalized remaining limit.`;
     presaleLimits.textContent = `Private Presale Limits: Min ${PRIVATE_MIN.toFixed(2)} USDT, Max ${PRIVATE_MAX.toFixed(2)} USDT · Price ${PRIVATE_PRICE.toFixed(5)} USDT/HAIP`;
+    purchaseAmountInput.min = PRIVATE_MIN; purchaseAmountInput.max = PRIVATE_MAX;
 
-    // If contract is reachable, we still display sold/remaining/progress + personalized limit
     if (presaleContract && web3) {
       const idx = await presaleContract.methods.currentStage().call();
       const st = await presaleContract.methods.getStage(idx).call();
@@ -642,13 +668,14 @@ async function refreshStageUI(forcePrivate=false){
         try {
           const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
           const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
+          // arătăm limita personalizată, dar validarea UI rămâne în [3.24, 90]
           document.getElementById('v3YourLimit').textContent = `${maxUserFloat.toFixed(2)}`;
           document.getElementById('v3Quote').textContent = `You can still buy up to ${maxUserFloat.toFixed(2)} USDT in this stage.`;
         } catch {}
       }
     }
   }catch(e){
-    // leave hardcoded defaults
+    // păstrăm fallback-urile
   }
 }
 setInterval(()=>{ if (presaleContract) refreshStageUI(true); }, 20000);
@@ -656,25 +683,28 @@ setInterval(()=>{ if (presaleContract) refreshStageUI(true); }, 20000);
 function disconnectWallet(){
   connectedAddress = null;
   presaleWalletStatus.textContent = 'Wallet not connected';
-  setGasStatus('');
+  gasStatus.textContent = '';
   presaleConnectWalletBtn.classList.remove('hidden');
   presaleDisconnectWalletBtn.classList.add('hidden');
   purchaseBtn.disabled = true; purchaseInput.classList.add('hidden');
   purchaseAmountInput.value = '';
+  setError('');
   refreshStageUI(true);
 }
 
 async function purchaseTokens(){
   if (purchaseInput.classList.contains('hidden')) { purchaseInput.classList.remove('hidden'); return; }
+  // Validează înainte de orice
+  if (!isValidAmount(purchaseAmountInput.value)) { refreshPurchaseButtonState(); return; }
   purchaseBtn.classList.add('loading'); purchaseBtn.disabled = true;
   try{
     if (!web3 || !usdtContract || !presaleContract || !connectedAddress) throw new Error('Wallet not connected');
     let usdtAmount = parseFloat(purchaseAmountInput.value);
-    if (isNaN(usdtAmount) || usdtAmount <= 0) throw new Error('Enter a valid positive number');
 
-    // Enforce Private Presale client-side bounds (UX safety)
-    if (usdtAmount < PRIVATE_MIN) { usdtAmount = PRIVATE_MIN; purchaseAmountInput.value = usdtAmount.toFixed(2); }
-    if (usdtAmount > PRIVATE_MAX) { usdtAmount = PRIVATE_MAX; purchaseAmountInput.value = usdtAmount.toFixed(2); }
+    // Impunere UI: clamp în [3.24, 90]
+    if (usdtAmount < PRIVATE_MIN) usdtAmount = PRIVATE_MIN;
+    if (usdtAmount > PRIVATE_MAX) usdtAmount = PRIVATE_MAX;
+    purchaseAmountInput.value = usdtAmount.toFixed(2);
 
     const idx = await presaleContract.methods.currentStage().call();
     const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
@@ -687,17 +717,15 @@ async function purchaseTokens(){
     }
     const usdtUnits = toUnits(web3, usdtAmount, usdtDec);
 
-    // Allowance
     const allowance = await usdtContract.methods.allowance(connectedAddress, PRESALE_ADDRESS).call();
     if (web3.utils.toBN(allowance).lt(usdtUnits)) {
-      setGasStatus('Approving USDT…');
+      gasStatus.textContent = 'Approving USDT…';
       await sendWithLowFee(
         usdtContract.methods.approve(PRESALE_ADDRESS, usdtUnits.toString()),
         { from: connectedAddress, cap: GAS_CONF.capApprove, label: 'Approve' }
       );
     }
 
-    // Optional quote for UI
     let haipAmountStr = '';
     try {
       const tokens = await presaleContract.methods.quoteTokens(idx, usdtUnits.toString()).call();
@@ -705,21 +733,23 @@ async function purchaseTokens(){
       haipAmountStr = ` (~${haipFloat.toFixed(6)} HAIP)`;
     } catch {}
 
-    setGasStatus('Submitting purchase…');
+    gasStatus.textContent = 'Submitting purchase…';
     const tx = await sendWithLowFee(
       presaleContract.methods.buy(usdtUnits.toString()),
       { from: connectedAddress, cap: GAS_CONF.capBuy, label: 'Buy' }
     );
 
     presaleWalletStatus.innerHTML = `Success${haipAmountStr}! <a target="_blank" href="https://bscscan.com/tx/${tx.transactionHash}">View on BscScan</a>`;
-    setGasStatus('Done.');
+    gasStatus.textContent = 'Done.';
     purchaseInput.classList.add('hidden'); purchaseAmountInput.value = '';
+    setError('');
     await refreshStageUI(true);
   }catch(error){
     presaleWalletStatus.textContent = `Error: ${error.message || 'Purchase failed'}`;
-    if (isTrieError?.(error)) setGasStatus('Your RPC may be pruned/unstable. Switch RPC in MetaMask to: bsc-dataseed.binance.org / ankr / ninicoin.');
+    if (isTrieError?.(error)) gasStatus.textContent = 'Your RPC may be pruned/unstable. Switch RPC in MetaMask to: bsc-dataseed.binance.org / ankr / ninicoin.';
   }finally{
-    purchaseBtn.classList.remove('loading'); purchaseBtn.disabled = connectedAddress ? false : true;
+    purchaseBtn.classList.remove('loading');
+    refreshPurchaseButtonState();
   }
 }
 
@@ -740,8 +770,8 @@ function copyContract() {
     if (window.ethereum || window.web3) {
       await initWeb3();
     }
-    // Ensure Private Presale defaults are shown on load
     await refreshStageUI(true);
+    refreshPurchaseButtonState();
   } catch {}
 })();
 </script>
@@ -759,19 +789,26 @@ function copyContract() {
     if(!toast) return; toast.textContent = msg || 'Done'; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 1600);
   }
 
+  // chips respectă validarea [3.24, 90]
   chips.forEach(ch=>{
     ch.addEventListener('click', ()=>{
       chips.forEach(c=>c.classList.remove('active')); ch.classList.add('active');
       const isMax = ch.dataset.max === '1';
       let current = parseFloat(amountInput.value || '0'); if(isNaN(current)) current = 0;
+
       if(isMax){
         const limEl = document.getElementById('v3YourLimit');
-        // If personalized limit is available, use it; else use Private Presale max
-        const max = limEl && parseFloat((limEl.textContent||'0').replace(/[^0-9.]/g,'')) || 90.00;
-        if(max>0){ amountInput.value = max.toFixed(2); }
+        let max = limEl && parseFloat((limEl.textContent||'0').replace(/[^0-9.]/g,'')) || 90.00;
+        if (!isFinite(max) || max <= 0) max = 90.00;
+        amountInput.value = Math.min(Math.max(max, 3.24), 90.00).toFixed(2);
       } else {
-        const inc = parseFloat(ch.dataset.usdt || '0'); amountInput.value = (current + inc).toFixed(2);
+        const inc = parseFloat(ch.dataset.usdt || '0');
+        let v = current + inc;
+        if (v < 3.24) v = 3.24;
+        if (v > 90.00) v = 90.00;
+        amountInput.value = v.toFixed(2);
       }
+
       amountInput.dispatchEvent(new Event('input'));
     });
   });
@@ -785,7 +822,6 @@ function copyContract() {
     const contractAddress = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
     navigator.clipboard.writeText(contractAddress).then(()=>showToast('Contract copied'));
   };
-
 })();
 </script>
 </body>
