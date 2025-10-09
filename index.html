@@ -98,7 +98,6 @@
     .presale-limits { font-size: 1.2rem; color: #0ff0fc; margin-bottom: 20px; text-shadow: 0 0 10px #0ff0fc; }
     .presale-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
 
-    /* >>>> ERORI INPUT <<<< */
     .error-msg { color: #ff8e8e; font-size: .9rem; margin: 6px auto 0; text-align: center; min-height: 1.2em; }
     .input-error { border-color: #ff6b6b !important; box-shadow: 0 0 10px rgba(255, 0, 0, 0.25); }
 
@@ -134,10 +133,7 @@
       .stage-grid { grid-template-columns: 1fr; }
     }
 
-    /* === Presale v3 (mobile-first) === */
-    :root{
-      --haip-teal:#66fcf1; --haip-cyan:#0ff0fc; --haip-bg:#0b0c10; --haip-card:#1f2833;
-    }
+    :root{ --haip-teal:#66fcf1; --haip-cyan:#0ff0fc; --haip-bg:#0b0c10; --haip-card:#1f2833; }
     .presale-v3{display:grid; gap:14px;}
     .presale-card{background:rgba(31,40,51,.92); border:1px solid #0ff0fc22; border-radius:14px; padding:14px; box-shadow:0 6px 24px rgba(0,249,255,.15); backdrop-filter: blur(4px);}
     .presale-head{display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap}
@@ -322,10 +318,10 @@
       <div class="kv" style="margin:10px 0">
         <div class="box"><b>Price</b><div id="v3StagePrice">0.00009 USDT / HAIP</div></div>
         <div class="box"><b>Your Limit (USDT)</b><div id="v3YourLimit">3.24–90.00</div></div>
-        <div class="box"><b>Sold</b><div id="v3StageSold">—</div></div>
-        <div class="box"><b>Remaining</b><div id="v3StageRemaining">—</div></div>
+        <div class="box"><b>Sold</b><div id="v3StageSold">0 / 360,000,000 HAIP</div></div>
+        <div class="box"><b>Remaining</b><div id="v3StageRemaining">360,000,000 HAIP</div></div>
       </div>
-      <div class="progress"><i id="v3StageProgress"></i></div>
+      <div class="progress"><i id="v3StageProgress" style="width:0%"></i></div>
       <p class="quote" id="v3Quote">Private Presale is live. Connect your wallet to see your personalized remaining limit.</p>
     </div>
 
@@ -342,7 +338,6 @@
       </div>
 
       <div class="presale-input" id="purchaseInput">
-        <!-- min/max set pentru validare implicită -->
         <input type="number" id="purchaseAmount" placeholder="Amount to spend (USDT)" min="3.24" max="90" step="0.01" />
         <div id="amountError" class="error-msg"></div>
       </div>
@@ -420,7 +415,7 @@ new Chart(ctx, {
   options: { responsive:true, maintainAspectRatio:true, animation:{animateScale:true, animateRotate:true}, plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'#1f2833', titleColor:'#fff', bodyColor:'#fff', borderColor:'#66fcf1', borderWidth:1, cornerRadius:6, padding:10 } } }
 });
 
-// -------- Web3 & Presale Logic (no staking) --------
+// -------- Web3 & Presale Logic --------
 const presaleWalletStatus = document.getElementById('presaleWalletStatus');
 const presaleConnectWalletBtn = document.getElementById('presaleConnectWalletBtn');
 const presaleDisconnectWalletBtn = document.getElementById('presaleDisconnectWalletBtn');
@@ -431,7 +426,6 @@ const amountError = document.getElementById('amountError');
 const presaleLimits = document.getElementById('presaleLimits');
 const gasStatus = document.getElementById('gasStatus');
 
-// Stage widget (legacy IDs still used by refreshStageUI)
 const stageTitle = document.getElementById('stageTitle') || {textContent:''};
 const stagePrice = document.getElementById('stagePrice') || {textContent:''};
 const stageSold = document.getElementById('stageSold') || {textContent:''};
@@ -439,7 +433,7 @@ const stageRemaining = document.getElementById('stageRemaining') || {textContent
 const stageProgress = document.getElementById('stageProgress') || {style:{width:''}};
 const stageHint = document.getElementById('stageHint') || {textContent:''};
 
-// Contract details (BSC mainnet)
+// Addresses
 const HAIP_ADDRESS = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
 const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
 const PRESALE_ADDRESS = '0x07e11a90bFea0f38D203f25C26c21de1cD78bFf7';
@@ -471,6 +465,12 @@ const PRESALE_ABI = [
 let web3, haipContract, usdtContract, presaleContract;
 let connectedAddress = null, haipDec = 18, usdtDec = 18;
 
+// Private Presale constants
+const PRIVATE_PRICE = 0.00009;
+const PRIVATE_MIN = 3.24;
+const PRIVATE_MAX = 90.00;
+const PRIVATE_CAP = 360000000; // 360M HAIP (2% din 18B)
+
 const fmt = (n,d=2)=>Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
 const toUnits = (web3, val, dec) => {
   const bn = web3.utils.toBN(Math.floor((+val) * 1e6));
@@ -485,7 +485,6 @@ const fromUnits = (web3, bn, dec) => {
   return Number(`${intPart}.${fracPart}`);
 };
 
-// ---------- PATCH: healthy RPC fallback + robust sending ----------
 const GOOD_BSC_RPCS = [
   'https://bsc-dataseed.binance.org',
   'https://bsc-dataseed1.ninicoin.io',
@@ -542,11 +541,6 @@ async function checkNetwork() {
 
 const GAS_CONF = { minGwei:2.5, startGwei:3.0, maxGwei:6.0, safety:1.2, capApprove:220000, capBuy:350000 };
 const g = (n)=>web3.utils.toWei(String(n), 'gwei');
-const setGasStatus = (msg)=>{ if(gasStatus) gasStatus.textContent = msg || ''; };
-
-// ----- VALIDARE SUMĂ -----
-const PRIVATE_MIN = 3.24;
-const PRIVATE_MAX = 90.00;
 
 function setError(msg){
   amountError.textContent = msg || '';
@@ -566,7 +560,6 @@ function refreshPurchaseButtonState(){
   purchaseBtn.disabled = !ok || !connectedAddress;
 }
 
-// Legăm validarea de input
 purchaseAmountInput?.addEventListener('input', refreshPurchaseButtonState);
 
 async function pickGasPriceGwei(){
@@ -576,21 +569,16 @@ async function pickGasPriceGwei(){
     return Math.max(GAS_CONF.minGwei, Math.min(netGwei, GAS_CONF.maxGwei));
   }catch{ return GAS_CONF.startGwei; }
 }
-
 async function estimateGasCapped(call, from, valueWei, cap){
   try{
     const est = await call.estimateGas({from, value: valueWei || '0x0'});
     return Math.min(Math.ceil(est * GAS_CONF.safety), cap);
-  }catch{
-    return cap;
-  }
+  }catch{ return cap; }
 }
-
 function isTrieError(err){
   const m = String(err?.message || '').toLowerCase();
   return m.includes('missing trie node') || m.includes('state node') || err?.code === -32000;
 }
-
 async function sendWithLowFee(call, { from, valueWei='0x0', cap, label }){
   let gasPriceGwei = await pickGasPriceGwei();
   try{
@@ -641,38 +629,45 @@ async function connectWallet(){
   }
 }
 
-// Hardcoded Private Presale config (display defaults)
-const PRIVATE_PRICE = 0.00009;
-
 async function refreshStageUI(forcePrivate=false){
   try{
+    // Label & defaults for Private Presale
     document.getElementById('v3StageTitle').textContent = 'Private';
     document.getElementById('v3StagePrice').textContent = `${PRIVATE_PRICE.toFixed(5)} USDT / HAIP`;
     document.getElementById('v3YourLimit').textContent = `3.24–90.00`;
     document.getElementById('v3Quote').textContent = `Private Presale is live. Connect your wallet to see your personalized remaining limit.`;
     presaleLimits.textContent = `Private Presale Limits: Min ${PRIVATE_MIN.toFixed(2)} USDT, Max ${PRIVATE_MAX.toFixed(2)} USDT · Price ${PRIVATE_PRICE.toFixed(5)} USDT/HAIP`;
-    purchaseAmountInput.min = PRIVATE_MIN; purchaseAmountInput.max = PRIVATE_MAX;
 
+    // DEFAULTS: sold=0, cap=360,000,000
+    let sold = 0;
+    let cap  = PRIVATE_CAP;
+
+    // Try to read on-chain values (if disponibile)
     if (presaleContract && web3) {
-      const idx = await presaleContract.methods.currentStage().call();
-      const st = await presaleContract.methods.getStage(idx).call();
-      const sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
-      const cap  = fromUnits(web3, web3.utils.toBN(st.capTokens  || st[3]), haipDec);
-      const remaining = Math.max(cap - sold, 0);
-      const pct = cap > 0 ? Math.min((sold / cap) * 100, 100) : 0;
-      document.getElementById('v3StageSold').textContent = `${fmt(sold,2)} / ${fmt(cap,2)} HAIP`;
-      document.getElementById('v3StageRemaining').textContent = `${fmt(remaining,2)} HAIP`;
-      document.getElementById('v3StageProgress').style.width = `${pct.toFixed(2)}%`;
+      try{
+        const idx = await presaleContract.methods.currentStage().call();
+        const st = await presaleContract.methods.getStage(idx).call();
+        sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
+        cap  = fromUnits(web3, web3.utils.toBN(st.capTokens  || st[3]), haipDec);
+      }catch{}
+    }
 
-      if (connectedAddress) {
-        try {
-          const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
-          const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
-          // arătăm limita personalizată, dar validarea UI rămâne în [3.24, 90]
-          document.getElementById('v3YourLimit').textContent = `${maxUserFloat.toFixed(2)}`;
-          document.getElementById('v3Quote').textContent = `You can still buy up to ${maxUserFloat.toFixed(2)} USDT in this stage.`;
-        } catch {}
-      }
+    const remaining = Math.max(cap - sold, 0);
+    const pct = cap > 0 ? Math.min((sold / cap) * 100, 100) : 0;
+
+    document.getElementById('v3StageSold').textContent = `${fmt(sold,2)} / ${fmt(cap,0)} HAIP`;
+    document.getElementById('v3StageRemaining').textContent = `${fmt(remaining,0)} HAIP`;
+    document.getElementById('v3StageProgress').style.width = `${pct.toFixed(2)}%`;
+
+    // Personalized limit (dacă e conectat wallet)
+    if (connectedAddress && presaleContract && web3) {
+      try {
+        const idx = await presaleContract.methods.currentStage().call();
+        const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx, connectedAddress).call();
+        const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
+        document.getElementById('v3YourLimit').textContent = `${maxUserFloat.toFixed(2)}`;
+        document.getElementById('v3Quote').textContent = `You can still buy up to ${maxUserFloat.toFixed(2)} USDT in this stage.`;
+      } catch {}
     }
   }catch(e){
     // păstrăm fallback-urile
@@ -694,14 +689,12 @@ function disconnectWallet(){
 
 async function purchaseTokens(){
   if (purchaseInput.classList.contains('hidden')) { purchaseInput.classList.remove('hidden'); return; }
-  // Validează înainte de orice
   if (!isValidAmount(purchaseAmountInput.value)) { refreshPurchaseButtonState(); return; }
   purchaseBtn.classList.add('loading'); purchaseBtn.disabled = true;
   try{
     if (!web3 || !usdtContract || !presaleContract || !connectedAddress) throw new Error('Wallet not connected');
     let usdtAmount = parseFloat(purchaseAmountInput.value);
 
-    // Impunere UI: clamp în [3.24, 90]
     if (usdtAmount < PRIVATE_MIN) usdtAmount = PRIVATE_MIN;
     if (usdtAmount > PRIVATE_MAX) usdtAmount = PRIVATE_MAX;
     purchaseAmountInput.value = usdtAmount.toFixed(2);
@@ -758,7 +751,6 @@ presaleConnectWalletBtn.addEventListener('click', connectWallet);
 presaleDisconnectWalletBtn.addEventListener('click', disconnectWallet);
 purchaseBtn.addEventListener('click', purchaseTokens);
 
-// Copy contract address
 function copyContract() {
   const contractAddress = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
   navigator.clipboard.writeText(contractAddress).then(() => alert('Contract address copied to clipboard!'));
