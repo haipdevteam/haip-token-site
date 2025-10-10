@@ -330,11 +330,13 @@
       <div class="live-status" id="gasStatus"></div>
       <div class="presale-limits" id="presaleLimits">Private Presale Limits: Min 3.24 USDT, Max 90.00 USDT · Price 0.00009 USDT/HAIP</div>
 
+      <!-- CHIPS cu MIN inclus -->
       <div class="amount-chips" id="chipsRow" style="margin:8px 0 6px">
+        <button class="chip" data-min="1">Min</button>
         <button class="chip" data-usdt="25">+25</button>
         <button class="chip" data-usdt="50">+50</button>
         <button class="chip" data-usdt="75">+75</button>
-        <button class="chip" data-usdt="0" data-max="1">Max</button>
+        <button class="chip" data-max="1">Max</button>
       </div>
 
       <div class="presale-input" id="purchaseInput">
@@ -784,8 +786,8 @@ function copyContract() {
 })();
 </script>
 
+<!-- === Presale v3 UX enhancements (chips, sticky CTA) — cu MIN === -->
 <script>
-// === Presale v3 UX enhancements (chips, sticky CTA) ===
 (function(){
   const chips = Array.from(document.querySelectorAll('.chip'));
   const amountInput = document.getElementById('purchaseAmount');
@@ -794,26 +796,44 @@ function copyContract() {
   const stickyBtn = document.getElementById('stickyBuyBtn');
 
   function showToast(msg){
-    if(!toast) return; toast.textContent = msg || 'Done'; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 1600);
+    if(!toast) return;
+    toast.textContent = msg || 'Done';
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'), 1600);
   }
 
-  // Chips respectă validarea [3.24, 90]
+  function getMinMax() {
+    // citește din input, care e actualizat dinamic de logică
+    const minAttr = parseFloat(amountInput.min || '0') || 3.24;
+    const maxAttr = parseFloat(amountInput.max || '0') || 90.00;
+    return { minVal: minAttr, maxVal: maxAttr };
+  }
+
+  // Chips: Min, +25, +50, +75, Max — clamp între [min, max]
   chips.forEach(ch=>{
     ch.addEventListener('click', ()=>{
-      chips.forEach(c=>c.classList.remove('active')); ch.classList.add('active');
-      const isMax = ch.dataset.max === '1';
-      let current = parseFloat(amountInput.value || '0'); if(isNaN(current)) current = 0;
+      chips.forEach(c=>c.classList.remove('active'));
+      ch.classList.add('active');
 
-      if(isMax){
+      const { minVal, maxVal } = getMinMax();
+      const isMax = ch.dataset.max === '1';
+      const isMin = ch.dataset.min === '1';
+
+      let current = parseFloat(String(amountInput.value).replace(',', '.'));
+      if (isNaN(current)) current = 0;
+
+      if (isMin) {
+        amountInput.value = minVal.toFixed(2);
+      } else if (isMax) {
         const limEl = document.getElementById('v3YourLimit');
-        let max = limEl && parseFloat((limEl.textContent||'0').replace(/[^0-9.]/g,'')) || 90.00;
-        if (!isFinite(max) || max <= 0) max = 90.00;
-        amountInput.value = Math.min(Math.max(max, 3.24), 90.00).toFixed(2);
+        let maxUi = limEl ? parseFloat((limEl.textContent||'').replace(/[^0-9.]/g,'')) : NaN;
+        if (!isFinite(maxUi) || maxUi <= 0) maxUi = maxVal;
+        amountInput.value = Math.min(Math.max(maxUi, minVal), maxVal).toFixed(2);
       } else {
-        const inc = parseFloat(ch.dataset.usdt || '0');
+        const inc = parseFloat(ch.dataset.usdt || '0') || 0;
         let v = current + inc;
-        if (v < 3.24) v = 3.24;
-        if (v > 90.00) v = 90.00;
+        if (v < minVal) v = minVal;
+        if (v > maxVal) v = maxVal;
         amountInput.value = v.toFixed(2);
       }
 
@@ -821,11 +841,20 @@ function copyContract() {
     });
   });
 
-  function updateSticky(){ const mq = window.matchMedia('(max-width: 740px)'); sticky.style.display = mq.matches ? 'flex' : 'none'; }
-  updateSticky(); window.addEventListener('resize', updateSticky);
+  function updateSticky(){
+    const mq = window.matchMedia('(max-width: 740px)');
+    sticky.style.display = mq.matches ? 'flex' : 'none';
+  }
+  updateSticky();
+  window.addEventListener('resize', updateSticky);
 
-  if(stickyBtn){ stickyBtn.addEventListener('click', ()=>{ document.getElementById('purchaseBtn')?.click(); }); }
+  if(stickyBtn){
+    stickyBtn.addEventListener('click', ()=>{
+      document.getElementById('purchaseBtn')?.click();
+    });
+  }
 
+  // expune copyContract cu toast
   window.copyContract = function(){
     const contractAddress = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
     navigator.clipboard.writeText(contractAddress).then(()=>showToast('Contract copied'));
