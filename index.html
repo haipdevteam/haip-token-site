@@ -119,7 +119,6 @@
       .presale-actions .btn { width: 100%; max-width: 300px; }
       .stage-grid { grid-template-columns: 1fr; }
     }
-    /* === Presale v3 (mobile-first) === */
     :root{
       --haip-teal:#66fcf1; --haip-cyan:#0ff0fc; --haip-bg:#0b0c10; --haip-card:#1f2833;
     }
@@ -158,7 +157,7 @@
 </header>
 <main>
   <section data-aos="fade-up">
-    <h2>About HAIP</h2>
+    <h2>About申し込み HAIP</h2>
     <p>HAIP is a BEP-20 token on Binance Smart Chain designed to fund and integrate artificial intelligence with decentralized finance (DeFi) and Web3 ecosystems. Leveraging smart contracts, Chainlink oracles, and IPFS storage, HAIP empowers AI-driven dApps and community governance through a decentralized DAO.</p>
     <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">Buy on PancakeSwap</a>
     <a class="btn" href="#presale">Join Presale</a>
@@ -286,7 +285,6 @@
     </div>
   </section>
 
-  <!-- PRIVATE PRESALE SECTION -->
   <section id="presale" class="presale-v3" data-aos="fade-up" data-aos-delay="60">
     <h2>Join Private Presale - LIVE NOW</h2>
     <div class="presale-card">
@@ -422,7 +420,7 @@ window.onload = function() {
 
   const toUnits = (web3, val, dec) => {
     if (!val || isNaN(val) || val <= 0) return web3.utils.toBN(0);
-    const str = String(val).trim();
+    const str = String(val).trim().replace(',', '.');
     if (!str || str === '' || str === '0') return web3.utils.toBN(0);
     const [int, frac = ''] = str.split('.');
     const cleanInt = int.replace(/^0+/, '') || '0';
@@ -478,6 +476,7 @@ window.onload = function() {
       presaleDisconnectWalletBtn.classList.remove('hidden');
       purchaseBtn.disabled = false;
       purchaseInput.classList.remove('hidden');
+      purchaseAmountInput.value = "3.24";
       await refreshPresaleLimits();
       await v3Refresh();
     } catch (err) {
@@ -551,14 +550,15 @@ window.onload = function() {
     try{
       if (!connectedAddress) throw new Error('Connect wallet');
 
-      const rawAmount = purchaseAmountInput.value.trim();
+      let rawAmount = purchaseAmountInput.value.trim().replace(',', '.');
       if (!rawAmount || rawAmount === '' || rawAmount === '0' || rawAmount === '0.0') {
+        purchaseAmountInput.value = "3.24";
         throw new Error('Enter amount > 0');
       }
 
       let amount = parseFloat(rawAmount);
       if (isNaN(amount) || amount < 3.24 || amount > 90) {
-        purchaseAmountInput.value = '3.24';
+        purchaseAmountInput.value = "3.24";
         throw new Error('Amount must be 3.24 - 90 USDT');
       }
 
@@ -626,7 +626,7 @@ window.onload = function() {
     presaleDisconnectWalletBtn.classList.add('hidden');
     purchaseBtn.disabled = true;
     purchaseInput.classList.add('hidden');
-    purchaseAmountInput.value = '';
+    purchaseAmountInput.value = '3.24';
   });
   purchaseBtn.addEventListener('click', purchaseTokens);
 
@@ -639,7 +639,7 @@ window.onload = function() {
 
     chips.forEach(ch => ch.addEventListener('click', () => {
       chips.forEach(c=>c.classList.remove('active')); ch.classList.add('active');
-      let val = parseFloat(amountInput.value || '0') || 0;
+      let val = parseFloat((amountInput.value || '0').replace(',', '.')) || 0;
       if (ch.dataset.max === '1') {
         const lim = document.getElementById('v3YourLimit');
         const max = lim && parseFloat(lim.textContent) || 90;
@@ -662,8 +662,10 @@ window.onload = function() {
     };
 
     amountInput.addEventListener('input', () => {
-      const v = parseFloat(amountInput.value);
-      purchaseBtn.disabled = !v || v < 3.24 || v > 90;
+      const raw = amountInput.value.replace(',', '.');
+      const v = parseFloat(raw);
+      purchaseBtn.disabled = isNaN(v) || v < 3.24 || v > 90;
+      if (!isNaN(v)) amountInput.value = v.toFixed(2);
     });
   })();
 
