@@ -419,23 +419,26 @@ window.onload = function() {
   const PRESALE_ABI = [{"inputs":[{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"buy","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"currentStage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"}],"name":"getStage","outputs":[{"internalType":"uint256","name":"priceNum","type":"uint256"},{"internalType":"uint256","name":"minUsdt","type":"uint256"},{"internalType":"uint256","name":"maxUsdt","type":"uint256"},{"internalType":"uint256","name":"capTokens","type":"uint256"},{"internalType":"uint256","name":"soldTokens","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"},{"internalType":"address","name":"user","type":"address"}],"name":"maxUsdtUserCanBuy","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"},{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"quoteTokens","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
 
   let web3, haipContract, usdtContract, presaleContract;
-  let connectedAddress = null, haipDec = 18, usdtDec = 18;
+  let connectedAddress = null, haipDec = 18, usdtDec = 6;
 
   const fmt = (n,d=2)=>Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
+
+  // CORECTAT: toUnits pentru 6 decimals (USDT)
   const toUnits = (web3, val, dec) => {
-    const bn = web3.utils.toBN(Math.floor((+val) * 1e6));
-    const scale = web3.utils.toBN(10).pow(web3.utils.toBN(dec - 6));
-    return bn.mul(scale);
+    if (!val || isNaN(val) || val <= 0) return web3.utils.toBN(0);
+    const str = String(val).trim();
+    const [int, frac = ''] = str.split('.');
+    const padded = int + (frac + '0'.repeat(dec)).slice(0, dec);
+    return web3.utils.toBN(padded);
   };
+
   const fromUnits = (web3, bn, dec) => {
     const s = bn.toString();
     const pad = s.padStart(dec+1, '0');
-    const intPart = pad.slice(0, -dec);
-    const fracPart = pad.slice(-dec, -dec+6);
+    const intPart = pad.slice(0, -dec) || '0';
+    const fracPart = pad.slice(-dec);
     return Number(`${intPart}.${fracPart}`);
   };
-
-  const GOOD_BSC_RPCS = ['https://bsc-dataseed.binance.org','https://bsc-dataseed1.ninicoin.io','https://bsc.rpc.blxrbdn.com','https://rpc.ankr.com/bsc'];
 
   async function initWeb3() {
     if (window.ethereum) web3 = new Web3(window.ethereum);
@@ -445,7 +448,7 @@ window.onload = function() {
     usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
     presaleContract = new web3.eth.Contract(PRESALE_ABI, PRESALE_ADDRESS);
     haipDec = await haipContract.methods.decimals().call().catch(()=>18);
-    usdtDec = await usdtContract.methods.decimals().call().catch(()=>18);
+    usdtDec = await usdtContract.methods.decimals().call().catch(()=>6);
     return true;
   }
 
@@ -453,13 +456,15 @@ window.onload = function() {
     const chainId = await web3.eth.getChainId();
     if (chainId !== 56) {
       try { await window.ethereum.request({ method:'wallet_switchEthereumChain', params:[{ chainId:'0x38' }] }); }
-      catch { await window.ethereum.request({ method:'wallet_addEthereumChain', params:[{ chainId:'0x38', chainName:'Binance Smart Chain', nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18}, rpcUrls:GOOD_BSC_RPCS, blockExplorerUrls:['https://bscscan.com'] }] }); }
+      catch { await window.ethereum.request({ method:'wallet_addEthereumChain', params:[{ chainId:'0x38', chainName:'Binance Smart Chain', nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18}, rpcUrls:['https://bsc-dataseed.binance.org'], blockExplorerUrls:['https://bscscan.com'] }] }); }
     }
     return true;
   }
 
   async function connectWallet() {
-    presaleConnectWalletBtn.classList.add('loading'); presaleConnectWalletBtn.disabled = true;
+    if (!presaleConnectWalletBtn) return;
+    presaleConnectWalletBtn.classList.add('loading'); 
+    presaleConnectWalletBtn.disabled = true;
     try {
       if (!await initWeb3()) throw new Error('No wallet');
       if (!await checkNetwork()) throw new Error('Wrong network');
@@ -477,7 +482,8 @@ window.onload = function() {
     } catch (err) {
       presaleWalletStatus.textContent = `Error: ${err.message || 'Connect failed'}`;
     } finally {
-      presaleConnectWalletBtn.classList.remove('loading'); presaleConnectWalletBtn.disabled = false;
+      presaleConnectWalletBtn.classList.remove('loading');
+      presaleConnectWalletBtn.disabled = false;
     }
   }
 
@@ -538,32 +544,77 @@ window.onload = function() {
   }
 
   async function purchaseTokens(){
-    purchaseBtn.classList.add('loading'); purchaseBtn.disabled = true;
+    if (!purchaseBtn) return;
+    purchaseBtn.classList.add('loading'); 
+    purchaseBtn.disabled = true;
     try{
       if (!connectedAddress) throw new Error('Connect wallet');
-      let amount = parseFloat(purchaseAmountInput.value);
-      if (isNaN(amount) || amount < 3.24 || amount > 90) throw new Error('Invalid amount');
+
+      const rawAmount = purchaseAmountInput.value.trim();
+      if (!rawAmount || rawAmount === '0' || rawAmount === '0.0') {
+        throw new Error('Enter amount > 0');
+      }
+
+      let amount = parseFloat(rawAmount);
+      if (isNaN(amount) || amount < 3.24 || amount > 90) {
+        purchaseAmountInput.value = '3.24';
+        throw new Error('Amount must be 3.24 - 90 USDT');
+      }
+
       const idx = await presaleContract.methods.currentStage().call();
-      const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(idx === "0" ? 0 : idx, connectedAddress).call();
-      const maxFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
-      if (amount > maxFloat) { amount = Math.floor(maxFloat*100)/100; purchaseAmountInput.value = amount.toFixed(2); }
+      if (idx !== "0") throw new Error('Private Presale not active');
+
+      const stage = await presaleContract.methods.getStage(0).call();
+      const minUsdt = fromUnits(web3, web3.utils.toBN(stage.minUsdt), usdtDec);
+      const maxUsdt = fromUnits(web3, web3.utils.toBN(stage.maxUsdt), usdtDec);
+
+      if (amount < minUsdt) {
+        amount = minUsdt;
+        purchaseAmountInput.value = amount.toFixed(2);
+      }
+      if (amount > maxUsdt) {
+        amount = maxUsdt;
+        purchaseAmountInput.value = amount.toFixed(2);
+      }
+
+      const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(0, connectedAddress).call();
+      const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
+      if (amount > maxUserFloat) {
+        amount = maxUserFloat;
+        purchaseAmountInput.value = amount.toFixed(2);
+      }
 
       const usdtUnits = toUnits(web3, amount, usdtDec);
+      if (usdtUnits.isZero()) throw new Error('Conversion failed - amount became 0');
+
+      console.log("Sending USDT units:", usdtUnits.toString()); // DEBUG
+
       const allowance = await usdtContract.methods.allowance(connectedAddress, PRESALE_ADDRESS).call();
       if (web3.utils.toBN(allowance).lt(usdtUnits)) {
         gasStatus.textContent = 'Approving USDT...';
         await usdtContract.methods.approve(PRESALE_ADDRESS, usdtUnits.toString()).send({ from: connectedAddress });
       }
-      gasStatus.textContent = 'Buying...';
+
+      gasStatus.textContent = 'Buying HAIP...';
       const tx = await presaleContract.methods.buy(usdtUnits.toString()).send({ from: connectedAddress });
+      
       presaleWalletStatus.innerHTML = `Success! <a href="https://bscscan.com/tx/${tx.transactionHash}" target="_blank">View Tx</a>`;
       purchaseInput.classList.add('hidden');
       purchaseAmountInput.value = '';
-      await refreshPresaleLimits(); await v3Refresh();
+      await refreshPresaleLimits();
+      await v3Refresh();
+
     }catch(err){
-      presaleWalletStatus.textContent = `Error: ${err.message || 'Failed'}`;
+      console.error("Purchase error:", err);
+      let msg = err.message || 'Transaction failed';
+      if (msg.includes('Zero amount')) msg = 'Amount became 0 - check input';
+      if (msg.includes('Below stage minimum')) msg = 'Contract min not set - run setStage(0, ...)';
+      presaleWalletStatus.textContent = `Error: ${msg}`;
     }finally{
-      purchaseBtn.classList.remove('loading'); purchaseBtn.disabled = false;
+      if (purchaseBtn) {
+        purchaseBtn.classList.remove('loading');
+        purchaseBtn.disabled = false;
+      }
     }
   }
 
