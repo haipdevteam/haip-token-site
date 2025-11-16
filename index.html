@@ -163,6 +163,7 @@
     <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">Buy on PancakeSwap</a>
     <a class="btn" href="#presale">Join Presale</a>
   </section>
+
   <section data-aos="fade-up">
     <h2>Token Details</h2>
     <div class="token-details">
@@ -178,6 +179,7 @@
       </div>
     </div>
   </section>
+
   <section data-aos="fade-up" class="tokenomics-section">
     <h2>Tokenomics</h2>
     <p><strong>Total Supply:</strong> 18,000,000,000 HAIP</p>
@@ -189,6 +191,7 @@
     </ul>
     <p><strong>Vesting:</strong> Team and partner tokens vested over 2 years to ensure long-term commitment.</p>
   </section>
+
   <div class="tokenomics-container">
     <div class="chart-legend">
       <p><span style="color:#66fcf1;">Presale (54%)</span></p>
@@ -198,6 +201,7 @@
     </div>
     <canvas id="tokenomicsChart" class="tokenomics-chart"></canvas>
   </div>
+
   <section data-aos="fade-up" class="roadmap-section">
     <h2>Roadmap</h2>
     <p>Updated June 2025 to reflect current development timeline.</p>
@@ -210,6 +214,7 @@
       <li><strong>Q4 2026:</strong> Launchpad for AI startups funded in HAIP</li>
     </ul>
   </section>
+
   <section data-aos="fade-up">
     <h2>Technology Partners</h2>
     <p>We are proud to collaborate with industry leaders who support innovation and decentralized technologies.</p>
@@ -225,6 +230,7 @@
       <a href="https://metamask.io" target="_blank"><img src="images/logos/metamask.png" alt="MetaMask" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
     </div>
   </section>
+
   <section data-aos="fade-up">
     <h2 style="text-align:center; color:#66fcf1;">Future Collaboration Plan</h2>
     <p style="text-align:center;">We are excited to explore future collaborations with leading crypto exchanges to expand our ecosystem.</p>
@@ -243,10 +249,12 @@
       <a href="https://www.binance.com" target="_blank"><img src="images/logos/binance.png" alt="Binance" class="future-partner-logo"></a>
     </div>
   </section>
+
   <section data-aos="fade-up">
     <h2>Presale Countdown</h2>
     <div class="countdown" id="countdown"></div>
   </section>
+
   <section data-aos="fade-up">
     <h2>Presale Stages</h2>
     <div class="presale-stage" style="animation-delay:.2s">
@@ -464,7 +472,7 @@ window.onload = function() {
 
   async function connectWallet() {
     if (!presaleConnectWalletBtn) return;
-    presaleConnectWalletBtn.classList.add('loading'); 
+    presaleConnectWalletBtn.classList.add('loading');
     presaleConnectWalletBtn.disabled = true;
     try {
       if (!await initWeb3()) throw new Error('No wallet');
@@ -524,9 +532,10 @@ window.onload = function() {
     }catch(e){ console.log(e); }
   }
 
+  // *** FIXED FUNCTION ***
   async function purchaseTokens(){
     if (!purchaseBtn) return;
-    purchaseBtn.classList.add('loading'); 
+    purchaseBtn.classList.add('loading');
     purchaseBtn.disabled = true;
     try{
       if (!connectedAddress) throw new Error('Connect wallet');
@@ -538,32 +547,39 @@ window.onload = function() {
       }
 
       let amount = parseFloat(rawAmount);
-      if (isNaN(amount) || amount < 3.24 || amount > 90) {
+      if (isNaN(amount)) {
         purchaseAmountInput.value = "3.24";
-        throw new Error('Amount must be 3.24 - 90 USDT');
+        throw new Error('Invalid amount');
       }
 
       const idx = await presaleContract.methods.currentStage().call();
       if (idx !== "0") throw new Error('Private Presale not active');
 
+      // Stage limits from contract
       const stage = await presaleContract.methods.getStage(0).call();
       const minUsdt = fromUnits(web3, web3.utils.toBN(stage.minUsdt), usdtDec);
-      const maxUsdt = fromUnits(web3, web3.utils.toBN(stage.maxUsdt), usdtDec);
+      const maxUsdtStage = fromUnits(web3, web3.utils.toBN(stage.maxUsdt), usdtDec);
 
-      if (amount < minUsdt) {
-        amount = minUsdt;
-        purchaseAmountInput.value = amount.toFixed(2);
-      }
-      if (amount > maxUsdt) {
-        amount = maxUsdt;
-        purchaseAmountInput.value = amount.toFixed(2);
-      }
+      // Clamp to stage limits first
+      if (amount < minUsdt) amount = minUsdt;
+      if (amount > maxUsdtStage) amount = maxUsdtStage;
 
+      // User-specific remaining allocation
       const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(0, connectedAddress).call();
       const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
-      if (amount > maxUserFloat) {
-        amount = maxUserFloat;
-        purchaseAmountInput.value = amount.toFixed(2);
+
+      // If user has 0 allowance from contract side, don't push him to 0 USDT
+      if (maxUserFloat < minUsdt) {
+        throw new Error('Not eligible for Private Presale (whitelist only)');
+      }
+
+      const effectiveMax = Math.min(maxUsdtStage, maxUserFloat);
+      if (amount > effectiveMax) amount = effectiveMax;
+
+      purchaseAmountInput.value = amount.toFixed(2);
+
+      if (amount < minUsdt || amount <= 0) {
+        throw new Error('Amount must be at least ' + minUsdt.toFixed(2) + ' USDT');
       }
 
       const usdtUnits = toUnits(web3, amount, usdtDec);
@@ -579,15 +595,17 @@ window.onload = function() {
 
       gasStatus.textContent = 'Buying HAIP...';
       const tx = await presaleContract.methods.buy(usdtUnits.toString()).send({ from: connectedAddress });
-      
+
       presaleWalletStatus.innerHTML = `Success! <a href="https://bscscan.com/tx/${tx.transactionHash}" target="_blank">View Tx</a>`;
-      purchaseAmountInput.value = '';
       await v3Refresh();
 
     }catch(err){
       console.error("Purchase error:", err);
       let msg = err.message || 'Transaction failed';
-      if (msg.includes('BN')) msg = 'Invalid amount - please enter a valid number';
+      // Mesaj mai clar pentru user
+      if (msg.includes('invalid BigNumber') || msg.includes('invalid decimal')) {
+        msg = 'Invalid amount - please enter a valid number';
+      }
       presaleWalletStatus.textContent = `Error: ${msg}`;
     }finally{
       if (purchaseBtn) {
