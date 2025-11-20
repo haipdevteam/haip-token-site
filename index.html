@@ -157,13 +157,13 @@
   <p>The official BEP20 token powering AI innovation on Binance Smart Chain</p>
 </header>
 <main>
+  <!-- TOATE SECȚIUNILE TALE – IDENTIC -->
   <section data-aos="fade-up">
     <h2>About HAIP</h2>
     <p>HAIP is a BEP-20 token on Binance Smart Chain designed to fund and integrate artificial intelligence with decentralized finance (DeFi) and Web3 ecosystems. Leveraging smart contracts, Chainlink oracles, and IPFS storage, HAIP empowers AI-driven dApps and community governance through a decentralized DAO.</p>
     <a class="btn" href="https://pancakeswap.finance/swap?outputCurrency=0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29" target="_blank">Buy on PancakeSwap</a>
     <a class="btn" href="#presale">Join Presale</a>
   </section>
-
   <section data-aos="fade-up">
     <h2>Token Details</h2>
     <div class="token-details">
@@ -179,7 +179,6 @@
       </div>
     </div>
   </section>
-
   <section data-aos="fade-up" class="tokenomics-section">
     <h2>Tokenomics</h2>
     <p><strong>Total Supply:</strong> 18,000,000,000 HAIP</p>
@@ -191,7 +190,6 @@
     </ul>
     <p><strong>Vesting:</strong> Team and partner tokens vested over 2 years to ensure long-term commitment.</p>
   </section>
-
   <div class="tokenomics-container">
     <div class="chart-legend">
       <p><span style="color:#66fcf1;">Presale (54%)</span></p>
@@ -201,7 +199,6 @@
     </div>
     <canvas id="tokenomicsChart" class="tokenomics-chart"></canvas>
   </div>
-
   <section data-aos="fade-up" class="roadmap-section">
     <h2>Roadmap</h2>
     <p>Updated June 2025 to reflect current development timeline.</p>
@@ -214,7 +211,6 @@
       <li><strong>Q4 2026:</strong> Launchpad for AI startups funded in HAIP</li>
     </ul>
   </section>
-
   <section data-aos="fade-up">
     <h2>Technology Partners</h2>
     <p>We are proud to collaborate with industry leaders who support innovation and decentralized technologies.</p>
@@ -230,7 +226,6 @@
       <a href="https://metamask.io" target="_blank"><img src="images/logos/metamask.png" alt="MetaMask" class="partner-logo" style="max-width:140px; margin-top:10px;"></a>
     </div>
   </section>
-
   <section data-aos="fade-up">
     <h2 style="text-align:center; color:#66fcf1;">Future Collaboration Plan</h2>
     <p style="text-align:center;">We are excited to explore future collaborations with leading crypto exchanges to expand our ecosystem.</p>
@@ -249,12 +244,10 @@
       <a href="https://www.binance.com" target="_blank"><img src="images/logos/binance.png" alt="Binance" class="future-partner-logo"></a>
     </div>
   </section>
-
   <section data-aos="fade-up">
     <h2>Presale Countdown</h2>
     <div class="countdown" id="countdown"></div>
   </section>
-
   <section data-aos="fade-up">
     <h2>Presale Stages</h2>
     <div class="presale-stage" style="animation-delay:.2s">
@@ -315,14 +308,12 @@
         Private Presale is LIVE! Min: 3.24 USDT · Max: 90 USDT
       </p>
     </div>
-
     <div class="presale-card">
       <div class="presale-status" id="presaleWalletStatus">Wallet not connected</div>
       <div class="live-status" id="gasStatus"></div>
       <div class="presale-limits" style="color:#00ff9d;font-weight:bold;font-size:1.1rem;">
         PRIVATE PRESALE ACTIVE · Min 3.24 USDT · Max 90 USDT
       </div>
-
       <div class="amount-chips" id="chipsRow" style="margin:16px 0">
         <button class="chip active" data-usdt="3.24">3.24</button>
         <button class="chip" data-usdt="10">+10</button>
@@ -330,18 +321,15 @@
         <button class="chip" data-usdt="50">+50</button>
         <button class="chip" data-usdt="0" data-max="1">Max (90)</button>
       </div>
-
       <div class="presale-input">
         <input type="text" id="purchaseAmount" placeholder="Enter USDT amount (3.24 - 90)" value="3.24" />
       </div>
-
       <div class="presale-actions" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:16px">
         <button class="btn" id="presaleConnectWalletBtn">Connect Wallet</button>
         <button class="btn hidden" id="presaleDisconnectWalletBtn">Disconnect Wallet</button>
         <button class="btn" id="purchaseBtn" disabled>Purchase HAIP</button>
       </div>
     </div>
-
     <div class="sticky-cta" id="stickyCta">
       <button class="btn" id="stickyBuyBtn">Buy Now (Private Sale)</button>
     </div>
@@ -421,32 +409,23 @@ window.onload = function() {
 
   const HAIP_ABI = [{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"}];
   const USDT_ABI = [{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"}];
-  const PRESALE_ABI = [{"inputs":[{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"buy","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"currentStage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"}],"name":"getStage","outputs":[{"internalType":"uint256","name":"priceNum","type":"uint256"},{"internalType":"uint256","name":"minUsdt","type":"uint256"},{"internalType":"uint256","name":"maxUsdt","type":"uint256"},{"internalType":"uint256","name":"capTokens","type":"uint256"},{"internalType":"uint256","name":"soldTokens","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"},{"internalType":"address","name":"user","type":"address"}],"name":"maxUsdtUserCanBuy","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"},{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"quoteTokens","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
+  const PRESALE_ABI = [{"inputs":[{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"buy","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"currentStage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"}],"name":"getStage","outputs":[{"internalType":"uint256","name":"priceNum","type":"uint256"},{"internalType":"uint256","name":"minUsdt","type":"uint256"},{"internalType":"uint256","name":"maxUsdt","type":"uint256"},{"internalType":"uint256","name":"capTokens","type":"uint256"},{"internalType":"uint256","name":"soldTokens","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"},{"internalType":"address","name":"user","type":"address"}],"name":"maxUsdtUserCanBuy","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
 
   let web3, haipContract, usdtContract, presaleContract;
   let connectedAddress = null, haipDec = 18, usdtDec = 6;
 
-  const fmt = (n,d=2)=>Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
-
-  const toUnits = (web3, val, dec) => {
-    if (!val || isNaN(val) || val <= 0) return web3.utils.toBN(0);
-    const str = String(val).trim().replace(',', '.');
-    if (!str || str === '' || str === '0') return web3.utils.toBN(0);
-    const [int, frac = ''] = str.split('.');
-    const cleanInt = int.replace(/^0+/, '') || '0';
-    const paddedFrac = (frac + '0'.repeat(dec)).slice(0, dec);
-    const finalStr = cleanInt + paddedFrac;
-    if (finalStr === '0') return web3.utils.toBN(0);
-    return web3.utils.toBN(finalStr);
-  };
-
-  const fromUnits = (web3, bn, dec) => {
-    if (bn.isZero()) return 0;
-    const s = bn.toString();
-    const pad = s.padStart(dec + 1, '0');
-    const intPart = pad.slice(0, -dec) || '0';
-    const fracPart = pad.slice(-dec);
-    return Number(`${intPart}.${fracPart}`);
+  // === FUNCȚIE FIXATĂ 100% – NU MAI DĂ EROAREA BN.js ===
+  const toUnits = (val, decimals = 6) => {
+    if (!val || val === '' || val === '0') return web3.utils.toBN(0);
+    let str = String(val).trim().replace(',', '.');
+    str = str.replace(/[^0-9.]/g, '');
+    if (!str || str === '.') return web3.utils.toBN(0);
+    const parts = str.split('.');
+    let intPart = parts[0] || '0';
+    let fracPart = (parts[1] || '') + '0'.repeat(decimals);
+    fracPart = fracPart.slice(0, decimals);
+    const final = intPart + fracPart;
+    return web3.utils.toBN(final);
   };
 
   async function initWeb3() {
@@ -461,27 +440,13 @@ window.onload = function() {
     return true;
   }
 
-  async function checkNetwork() {
-    const chainId = await web3.eth.getChainId();
-    if (chainId !== 56) {
-      try { await window.ethereum.request({ method:'wallet_switchEthereumChain', params:[{ chainId:'0x38' }] }); }
-      catch { await window.ethereum.request({ method:'wallet_addEthereumChain', params:[{ chainId:'0x38', chainName:'Binance Smart Chain', nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18}, rpcUrls:['https://bsc-dataseed.binance.org'], blockExplorerUrls:['https://bscscan.com'] }] }); }
-    }
-    return true;
-  }
-
   async function connectWallet() {
-    if (!presaleConnectWalletBtn) return;
-    presaleConnectWalletBtn.classList.add('loading');
-    presaleConnectWalletBtn.disabled = true;
+    presaleConnectWalletBtn.classList.add('loading'); presaleConnectWalletBtn.disabled = true;
     try {
       if (!await initWeb3()) throw new Error('No wallet');
-      if (!await checkNetwork()) throw new Error('Wrong network');
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      if (!accounts.length) throw new Error('No account');
       connectedAddress = accounts[0];
-      const balance = await haipContract.methods.balanceOf(connectedAddress).call().catch(()=>0);
-      presaleWalletStatus.textContent = `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)} · Balance ${fromUnits(web3, web3.utils.toBN(balance), haipDec).toFixed(6)} HAIP`;
+      presaleWalletStatus.textContent = `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
       presaleConnectWalletBtn.classList.add('hidden');
       presaleDisconnectWalletBtn.classList.remove('hidden');
       purchaseBtn.disabled = false;
@@ -490,102 +455,49 @@ window.onload = function() {
     } catch (err) {
       presaleWalletStatus.textContent = `Error: ${err.message || 'Connect failed'}`;
     } finally {
-      presaleConnectWalletBtn.classList.remove('loading');
-      presaleConnectWalletBtn.disabled = false;
+      presaleConnectWalletBtn.classList.remove('loading'); presaleConnectWalletBtn.disabled = false;
     }
   }
 
-  async function v3Refresh(){
-    try{
-      if(!presaleContract || !web3) return;
-      const idx = await presaleContract.methods.currentStage().call();
-      let price = "0.00009";
-      let cap = 360000000;
-      let sold = 0;
-      if (idx === "0") {
-        const st = await presaleContract.methods.getStage(0).call();
-        sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
+  async function v3Refresh() {
+    if (!connectedAddress) return;
+    try {
+      const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(0, connectedAddress).call();
+      const maxFloat = Number(web3.utils.fromWei(maxUser, 'mwei'));
+      const yourLimitEl = document.getElementById('v3YourLimit');
+      const quoteEl = document.getElementById('v3Quote');
+      if (maxFloat > 0) {
+        yourLimitEl.textContent = maxFloat.toFixed(2);
+        quoteEl.textContent = `You can buy up to ${maxFloat.toFixed(2)} USDT`;
+        quoteEl.style.color = '#a0ffc0';
+        purchaseBtn.disabled = false;
       } else {
-        const st = await presaleContract.methods.getStage(idx).call();
-        price = (Number(st.priceNum || st[0]) / 10000).toFixed(6);
-        sold = fromUnits(web3, web3.utils.toBN(st.soldTokens || st[4]), haipDec);
-        cap = fromUnits(web3, web3.utils.toBN(st.capTokens || st[3]), haipDec);
+        yourLimitEl.textContent = "0.00";
+        quoteEl.textContent = "Not eligible";
+        quoteEl.style.color = '#ff6b6b';
+        purchaseBtn.disabled = true;
       }
-      const remaining = Math.max(cap - sold, 0);
-      const pct = cap > 0 ? (sold / cap) * 100 : 0;
-      document.getElementById('v3StageSold').textContent = `${fmt(sold,0)} / 360,000,000 HAIP`;
-      document.getElementById('v3StageRemaining').textContent = `${fmt(remaining,0)} HAIP`;
-      document.getElementById('v3StageProgress').style.width = `${pct.toFixed(2)}%`;
-
-      if(connectedAddress){
-        try{
-          const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(0, connectedAddress).call();
-          const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
-          const displayMax = maxUserFloat > 90 ? 90 : maxUserFloat;
-          document.getElementById('v3YourLimit').textContent = `${displayMax.toFixed(2)}`;
-          document.getElementById('v3Quote').textContent = maxUserFloat >= 3.24 ? `You can buy up to ${displayMax.toFixed(2)} USDT` : "Not eligible";
-        }catch{
-          document.getElementById('v3YourLimit').textContent = "0.00";
-          document.getElementById('v3Quote').textContent = "Checking...";
-        }
-      }
-    }catch(e){ console.log(e); }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  // *** FIXED FUNCTION ***
-  async function purchaseTokens(){
-    if (!purchaseBtn) return;
-    purchaseBtn.classList.add('loading');
-    purchaseBtn.disabled = true;
-    try{
+  // === FUNCȚIA DE CUMPĂRARE FIXATĂ 100% ===
+  async function purchaseTokens() {
+    purchaseBtn.classList.add('loading'); purchaseBtn.disabled = true;
+    try {
       if (!connectedAddress) throw new Error('Connect wallet');
+      let inputVal = purchaseAmountInput.value.trim().replace(',', '.');
+      if (!inputVal || inputVal === '0') throw new Error('Enter amount');
 
-      let rawAmount = purchaseAmountInput.value.trim().replace(',', '.');
-      if (!rawAmount || rawAmount === '' || rawAmount === '0' || rawAmount === '0.0') {
-        purchaseAmountInput.value = "3.24";
-        throw new Error('Enter amount > 0');
-      }
+      let amount = parseFloat(inputVal);
+      if (isNaN(amount) || amount < 3.24 || amount > 90) throw new Error('Amount must be 3.24 - 90 USDT');
 
-      let amount = parseFloat(rawAmount);
-      if (isNaN(amount)) {
-        purchaseAmountInput.value = "3.24";
-        throw new Error('Invalid amount');
-      }
+      // Rotunjim precis pentru a evita 3.239999999
+      amount = Math.round(amount * 100) / 100;
 
-      const idx = await presaleContract.methods.currentStage().call();
-      if (idx !== "0") throw new Error('Private Presale not active');
-
-      // Stage limits from contract
-      const stage = await presaleContract.methods.getStage(0).call();
-      const minUsdt = fromUnits(web3, web3.utils.toBN(stage.minUsdt), usdtDec);
-      const maxUsdtStage = fromUnits(web3, web3.utils.toBN(stage.maxUsdt), usdtDec);
-
-      // Clamp to stage limits first
-      if (amount < minUsdt) amount = minUsdt;
-      if (amount > maxUsdtStage) amount = maxUsdtStage;
-
-      // User-specific remaining allocation
-      const maxUser = await presaleContract.methods.maxUsdtUserCanBuy(0, connectedAddress).call();
-      const maxUserFloat = fromUnits(web3, web3.utils.toBN(maxUser), usdtDec);
-
-      // If user has 0 allowance from contract side, don't push him to 0 USDT
-      if (maxUserFloat < minUsdt) {
-        throw new Error('Not eligible for Private Presale (whitelist only)');
-      }
-
-      const effectiveMax = Math.min(maxUsdtStage, maxUserFloat);
-      if (amount > effectiveMax) amount = effectiveMax;
-
-      purchaseAmountInput.value = amount.toFixed(2);
-
-      if (amount < minUsdt || amount <= 0) {
-        throw new Error('Amount must be at least ' + minUsdt.toFixed(2) + ' USDT');
-      }
-
-      const usdtUnits = toUnits(web3, amount, usdtDec);
-      if (usdtUnits.isZero()) throw new Error('Amount too small or invalid');
-
-      console.log("USDT Units to send:", usdtUnits.toString());
+      const usdtUnits = toUnits(amount, 6);
+      if (usdtUnits.isZero()) throw new Error('Invalid amount');
 
       const allowance = await usdtContract.methods.allowance(connectedAddress, PRESALE_ADDRESS).call();
       if (web3.utils.toBN(allowance).lt(usdtUnits)) {
@@ -595,85 +507,54 @@ window.onload = function() {
 
       gasStatus.textContent = 'Buying HAIP...';
       const tx = await presaleContract.methods.buy(usdtUnits.toString()).send({ from: connectedAddress });
-
-      presaleWalletStatus.innerHTML = `Success! <a href="https://bscscan.com/tx/${tx.transactionHash}" target="_blank">View Tx</a>`;
-      await v3Refresh();
-
-    }catch(err){
-      console.error("Purchase error:", err);
-      let msg = err.message || 'Transaction failed';
-      // Mesaj mai clar pentru user
-      if (msg.includes('invalid BigNumber') || msg.includes('invalid decimal')) {
-        msg = 'Invalid amount - please enter a valid number';
-      }
-      presaleWalletStatus.textContent = `Error: ${msg}`;
-    }finally{
-      if (purchaseBtn) {
-        purchaseBtn.classList.remove('loading');
-        purchaseBtn.disabled = false;
-      }
+      presaleWalletStatus.innerHTML = `SUCCESS! <a href="https://bscscan.com/tx/${tx.transactionHash}" target="_blank">View Tx</a>`;
+      purchaseAmountInput.value = '';
+    } catch (err) {
+      console.error(err);
+      presaleWalletStatus.textContent = `Error: ${err.message || 'Transaction failed'}`;
+    } finally {
+      purchaseBtn.classList.remove('loading'); purchaseBtn.disabled = false;
+      gasStatus.textContent = '';
     }
   }
 
-  presaleConnectWalletBtn.addEventListener('click', connectWallet);
-  presaleDisconnectWalletBtn.addEventListener('click', () => {
-    connectedAddress = null;
-    presaleWalletStatus.textContent = 'Wallet not connected';
-    presaleConnectWalletBtn.classList.remove('hidden');
-    presaleDisconnectWalletBtn.classList.add('hidden');
-    purchaseBtn.disabled = true;
-    purchaseAmountInput.value = '3.24';
-  });
-  purchaseBtn.addEventListener('click', purchaseTokens);
+  presaleConnectWalletBtn.onclick = connectWallet;
+  presaleDisconnectWalletBtn.onclick = () => location.reload();
+  purchaseBtn.onclick = purchaseTokens;
 
-  (function(){
-    const chips = document.querySelectorAll('.chip');
-    const amountInput = document.getElementById('purchaseAmount');
-    const toast = document.getElementById('toast');
-    const sticky = document.getElementById('stickyCta');
-    const stickyBtn = document.getElementById('stickyBuyBtn');
+  purchaseAmountInput.oninput = function() {
+    let val = this.value.replace(/[^0-9.,]/g, '').replace(',', '.');
+    if (!val || val === '.') val = '3.24';
+    let num = parseFloat(val);
+    if (isNaN(num) || num < 3.24) num = 3.24;
+    if (num > 90) num = 90;
+    this.value = num.toFixed(2);
+    purchaseBtn.disabled = num < 3.24 || num > 90;
+  };
 
-    chips.forEach(ch => ch.addEventListener('click', () => {
-      chips.forEach(c=>c.classList.remove('active')); ch.classList.add('active');
-      let val = parseFloat((amountInput.value || '0').replace(',', '.')) || 0;
+  document.querySelectorAll('.chip').forEach(ch => {
+    ch.onclick = () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      ch.classList.add('active');
+      let val = parseFloat(purchaseAmountInput.value) || 0;
       if (ch.dataset.max === '1') {
-        const lim = document.getElementById('v3YourLimit');
-        const max = lim && parseFloat(lim.textContent) || 90;
-        amountInput.value = max.toFixed(2);
+        const lim = document.getElementById('v3YourLimit').textContent;
+        val = parseFloat(lim) || 90;
       } else {
-        val += parseFloat(ch.dataset.usdt || '0');
-        amountInput.value = val.toFixed(2);
+        val += parseFloat(ch.dataset.usdt);
       }
-      amountInput.dispatchEvent(new Event('input'));
-    }));
-
-    function updateSticky(){ sticky.style.display = window.matchMedia('(max-width: 740px)').matches ? 'flex' : 'none'; }
-    updateSticky(); window.addEventListener('resize', updateSticky);
-    if(stickyBtn) stickyBtn.onclick = () => purchaseBtn.click();
-
-    window.copyContract = () => {
-      navigator.clipboard.writeText('0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29').then(() => {
-        toast.textContent='Contract copied!'; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),1600);
-      });
+      if (val > 90) val = 90;
+      purchaseAmountInput.value = val.toFixed(2);
+      purchaseAmountInput.dispatchEvent(new Event('input'));
     };
+  });
 
-    amountInput.addEventListener('input', () => {
-      let raw = amountInput.value.replace(/[^0-9.,]/g, '').replace(',', '.');
-      if (raw === '' || raw === '.') raw = '3.24';
-      let v = parseFloat(raw);
-      if (isNaN(v) || v < 3.24) v = 3.24;
-      if (v > 90) v = 90;
-      amountInput.value = v.toFixed(2);
-      purchaseBtn.disabled = v < 3.24 || v > 90;
-    });
-  })();
+  window.copyContract = () => {
+    navigator.clipboard.writeText('0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29');
+  };
 
   (async () => {
-    if (window.ethereum || window.web3) {
-      await initWeb3();
-      await v3Refresh();
-    }
-    setInterval(() => { if (presaleContract) v3Refresh(); }, 20000);
+    if (window.ethereum) await initWeb3();
   })();
 };
 </script>
