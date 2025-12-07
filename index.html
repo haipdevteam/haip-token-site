@@ -451,7 +451,7 @@ window.onload = function() {
   // CONTRACTE
   const HAIP_ADDRESS    = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
   const USDT_ADDRESS    = '0x55d398326f99059fF775485246999027B3197955'; // USDT BSC (18 decimals)
-  const PRESALE_ADDRESS = '0x07e11a90bFea0f38D203f25C26c21de1cD78bFf7';
+  const PRESALE_ADDRESS = '0x6D07c3B6eAfB9433E234DF74dff12B3eaf8355ED';
 
   const HAIP_ABI = [
     {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
@@ -465,22 +465,23 @@ window.onload = function() {
     {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"}
   ];
 
+  // IMPORTANT: ABI ALINIAT CU CONTRACTUL DE PRESALE VERIFICAT
   const PRESALE_ABI = [
     {"inputs":[{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"buy","outputs":[],"stateMutability":"nonpayable","type":"function"},
     {"inputs":[],"name":"currentStage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
     {"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"}],"name":"getStage","outputs":[
-      {"internalType":"uint256","name":"priceNum","type":"uint256"},
+      {"internalType":"uint256","name":"price","type":"uint256"},
       {"internalType":"uint256","name":"minUsdt","type":"uint256"},
       {"internalType":"uint256","name":"maxUsdt","type":"uint256"},
-      {"internalType":"uint256","name":"capTokens","type":"uint256"},
-      {"internalType":"uint256","name":"soldTokens","type":"uint256"}
+      {"internalType":"uint256","name":"cap","type":"uint256"},
+      {"internalType":"uint256","name":"sold","type":"uint256"}
     ],"stateMutability":"view","type":"function"},
     {"inputs":[{"internalType":"uint256","name":"stageIdx","type":"uint256"},{"internalType":"address","name":"user","type":"address"}],"name":"maxUsdtUserCanBuy","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
   ];
 
   let web3, haipContract, usdtContract, presaleContract;
   let connectedAddress = null;
-  let haipDec = 18, usdtDec = 18; // IMPORTANT: 18 DECIMALS
+  let haipDec = 18, usdtDec = 18; // USDT 18 decimals
 
   // ========= UTIL: string -> BN cu N zecimale =========
   const toUnits = (val, decimals) => {
@@ -560,20 +561,22 @@ window.onload = function() {
         purchaseBtn.disabled = true;
       }
 
-      // 2) Stage data (opțional, pentru Sold/Remaining/progress)
+      // 2) Stage data (Sold / Remaining / progress)
       try {
         const stageIdx = await presaleContract.methods.currentStage().call();
         const stageData = await presaleContract.methods.getStage(stageIdx).call();
-        const capTokens  = Number(stageData.capTokens);
-        const soldTokens = Number(stageData.soldTokens);
+        const capTokens  = Number(stageData.cap);   // cap
+        const soldTokens = Number(stageData.sold);  // sold
 
-        v3StageSoldEl.textContent      = soldTokens.toLocaleString();
-        v3StageRemainingEl.textContent = (capTokens - soldTokens).toLocaleString();
+        if (!isNaN(capTokens) && !isNaN(soldTokens)) {
+          v3StageSoldEl.textContent      = soldTokens.toLocaleString();
+          v3StageRemainingEl.textContent = (capTokens - soldTokens).toLocaleString();
 
-        const pct = capTokens > 0 ? (soldTokens * 100 / capTokens) : 0;
-        v3StageProgressEl.style.width = pct.toFixed(2) + '%';
+          const pct = capTokens > 0 ? (soldTokens * 100 / capTokens) : 0;
+          v3StageProgressEl.style.width = pct.toFixed(2) + '%';
+        }
       } catch (e2) {
-        // dacă ABI diferă, lăsăm dashes și nu stricăm nimic
+        console.warn('Stage info error:', e2);
       }
 
     } catch (e) {
