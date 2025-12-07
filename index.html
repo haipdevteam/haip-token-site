@@ -465,7 +465,6 @@ window.onload = function() {
     {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"}
   ];
 
-  // IMPORTANT: ABI ALINIAT CU CONTRACTUL DE PRESALE VERIFICAT
   const PRESALE_ABI = [
     {"inputs":[{"internalType":"uint256","name":"usdtAmount","type":"uint256"}],"name":"buy","outputs":[],"stateMutability":"nonpayable","type":"function"},
     {"inputs":[],"name":"currentStage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
@@ -565,12 +564,16 @@ window.onload = function() {
       try {
         const stageIdx = await presaleContract.methods.currentStage().call();
         const stageData = await presaleContract.methods.getStage(stageIdx).call();
-        const capTokens  = Number(stageData.cap);   // cap
-        const soldTokens = Number(stageData.sold);  // sold
+
+        // cap și sold sunt în wei-like (18 decimale) → convertim la HAIP întregi
+        const capTokens  = parseFloat(web3.utils.fromWei(stageData.cap.toString(),  'ether'));
+        const soldTokens = parseFloat(web3.utils.fromWei(stageData.sold.toString(), 'ether'));
 
         if (!isNaN(capTokens) && !isNaN(soldTokens)) {
-          v3StageSoldEl.textContent      = soldTokens.toLocaleString();
-          v3StageRemainingEl.textContent = (capTokens - soldTokens).toLocaleString();
+          const remaining = capTokens - soldTokens;
+
+          v3StageSoldEl.textContent      = Math.max(0, soldTokens).toLocaleString();
+          v3StageRemainingEl.textContent = Math.max(0, remaining).toLocaleString();
 
           const pct = capTokens > 0 ? (soldTokens * 100 / capTokens) : 0;
           v3StageProgressEl.style.width = pct.toFixed(2) + '%';
