@@ -587,29 +587,59 @@ window.onload = function() {
     }
   }
 
-  // ========= CONNECT WALLET =========
+  // ========= CONNECT WALLET (CU SUPORT MOBILE) =========
   async function connectWallet() {
     presaleConnectWalletBtn.classList.add('loading');
     presaleConnectWalletBtn.disabled = true;
-    try {
-      const ok = await initWeb3();
-      if (!ok) throw new Error('No wallet / init failed');
 
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    try {
+      // ✅ DETECTARE MOBILE
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+      // ✅ CAZ: MOBILE FĂRĂ WALLET INJECTAT
+      if (isMobile && !window.ethereum) {
+        const url = encodeURIComponent(window.location.href);
+
+        // MetaMask Mobile
+        const metamaskLink = `https://metamask.app.link/dapp/${window.location.href.replace(/^https?:\/\//, '')}`;
+
+        // Trust Wallet
+        const trustLink = `https://link.trustwallet.com/open_url?coin_id=20000714&url=${url}`;
+
+        // Wigwam (fallback generic)
+        const wigwamLink = `https://wigwam.app.link/dapp/${url}`;
+
+        // ✅ Deschide automat MetaMask (fallback-urile rămân dacă vrei să le folosești mai târziu)
+        window.location.href = metamaskLink;
+
+        presaleWalletStatus.textContent = "Opening wallet app...";
+        return;
+      }
+
+      // ✅ CAZ NORMAL (PC sau wallet injectat)
+      const ok = await initWeb3();
+      if (!ok) throw new Error('No wallet detected');
+
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts'
+      });
+
       connectedAddress = accounts[0];
 
-      presaleWalletStatus.textContent = `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
+      presaleWalletStatus.textContent =
+        `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
+
       presaleConnectWalletBtn.classList.add('hidden');
       presaleDisconnectWalletBtn.classList.remove('hidden');
 
-      // default 3.24 USDT
       purchaseAmountInput.value = '3.24';
       purchaseAmountInput.dispatchEvent(new Event('input'));
 
       await v3Refresh();
+
     } catch (err) {
       console.error(err);
-      presaleWalletStatus.textContent = 'Error: ' + (err.message || 'Connect failed');
+      presaleWalletStatus.textContent = 'Wallet connection failed';
     } finally {
       presaleConnectWalletBtn.classList.remove('loading');
       presaleConnectWalletBtn.disabled = false;
