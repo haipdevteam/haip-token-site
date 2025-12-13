@@ -148,6 +148,43 @@
       .presale-title{font-size:1.35rem}
     }
     .presale-v3 input[type="text"]{width:100%; max-width:320px; margin:0 auto; display:block; text-align:center; font-size:1.1rem;}
+
+    /* ===== WALLET POPUP (ADDED) ===== */
+    #walletPopup{position:fixed; inset:0; z-index:2000; display:none;}
+    #walletPopup .wallet-popup-overlay{position:absolute; inset:0; background:rgba(0,0,0,.6); backdrop-filter: blur(4px);}
+    #walletPopup .wallet-popup{
+      position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+      width:92%; max-width:360px; padding:18px;
+      background:rgba(31,40,51,.96);
+      border:1px solid #0ff0fc66;
+      border-radius:16px;
+      box-shadow:0 0 30px rgba(0,255,255,.25);
+      text-align:center;
+    }
+    #walletPopup .wallet-popup h3{margin:0 0 14px; color:#66fcf1; font-size:1.25rem;}
+    #walletPopup .wallet-btn{
+      width:100%;
+      padding:12px 14px;
+      margin:0 0 10px;
+      border-radius:12px;
+      border:1px solid #0ff0fc44;
+      background:#142129;
+      color:#eaffff;
+      font-size:1rem;
+      cursor:pointer;
+      transition:transform .15s ease, background .2s ease, border-color .2s ease;
+    }
+    #walletPopup .wallet-btn:hover{transform:translateY(-1px); background:#0ff0fc; color:#000; border-color:#0ff0fc;}
+    #walletPopup .wallet-close{
+      margin-top:6px;
+      width:100%;
+      padding:10px 14px;
+      border-radius:12px;
+      background:transparent;
+      border:1px solid #ffffff22;
+      color:#bfefff;
+      cursor:pointer;
+    }
   </style>
 </head>
 <body>
@@ -382,6 +419,18 @@
   </section>
 </main>
 
+<!-- WALLET SELECT POPUP (ADDED) -->
+<div id="walletPopup">
+  <div class="wallet-popup-overlay" onclick="closeWalletPopup()"></div>
+  <div class="wallet-popup" role="dialog" aria-modal="true" aria-label="Choose wallet">
+    <h3>Choose wallet</h3>
+    <button class="wallet-btn" data-wallet="metamask">🦊 MetaMask</button>
+    <button class="wallet-btn" data-wallet="trust">🔐 Trust Wallet</button>
+    <button class="wallet-btn" data-wallet="wigwam">🟣 Wigwam</button>
+    <button class="wallet-close" onclick="closeWalletPopup()">Cancel</button>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -447,6 +496,48 @@ window.onload = function() {
 
   const stickyCta   = document.getElementById('stickyCta');
   const stickyBuyBtn = document.getElementById('stickyBuyBtn');
+
+  // ===== Wallet popup helpers (ADDED) =====
+  const walletPopup = document.getElementById('walletPopup');
+
+  function openWalletPopup() {
+    if (walletPopup) walletPopup.style.display = 'block';
+  }
+  window.closeWalletPopup = function() {
+    if (walletPopup) walletPopup.style.display = 'none';
+  };
+
+  function openWalletDeepLink(kind) {
+    const fullUrl = window.location.href;
+    const encoded = encodeURIComponent(fullUrl);
+    const hostPath = fullUrl.replace(/^https?:\/\//, ''); // domain/path without protocol
+
+    if (kind === 'metamask') {
+      // MetaMask expects dapp/<host/path>
+      window.location.href = `https://metamask.app.link/dapp/${hostPath}`;
+      return;
+    }
+    if (kind === 'trust') {
+      // Trust opens arbitrary URL
+      window.location.href = `https://link.trustwallet.com/open_url?coin_id=20000714&url=${encoded}`;
+      return;
+    }
+    if (kind === 'wigwam') {
+      // Wigwam fallback
+      window.location.href = `https://wigwam.app.link/dapp/${encoded}`;
+      return;
+    }
+  }
+
+  // Attach clicks once DOM exists (ADDED)
+  document.querySelectorAll('#walletPopup .wallet-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const wallet = btn.dataset.wallet;
+      closeWalletPopup();
+      presaleWalletStatus.textContent = 'Opening wallet app...';
+      openWalletDeepLink(wallet);
+    });
+  });
 
   // CONTRACTE
   const HAIP_ADDRESS    = '0x2e5a3548a65e41e119efa48cf67bfdfc361d1a29';
@@ -587,59 +678,40 @@ window.onload = function() {
     }
   }
 
-  // ========= CONNECT WALLET (CU SUPORT MOBILE) =========
+  // ========= CONNECT WALLET (UPDATED WITH POPUP) =========
   async function connectWallet() {
     presaleConnectWalletBtn.classList.add('loading');
     presaleConnectWalletBtn.disabled = true;
 
     try {
-      // ✅ DETECTARE MOBILE
       const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-      // ✅ CAZ: MOBILE FĂRĂ WALLET INJECTAT
+      // 📱 Mobile browser WITHOUT injected wallet -> show popup (no direct redirect)
       if (isMobile && !window.ethereum) {
-        const url = encodeURIComponent(window.location.href);
-
-        // MetaMask Mobile
-        const metamaskLink = `https://metamask.app.link/dapp/${window.location.href.replace(/^https?:\/\//, '')}`;
-
-        // Trust Wallet
-        const trustLink = `https://link.trustwallet.com/open_url?coin_id=20000714&url=${url}`;
-
-        // Wigwam (fallback generic)
-        const wigwamLink = `https://wigwam.app.link/dapp/${url}`;
-
-        // ✅ Deschide automat MetaMask (fallback-urile rămân dacă vrei să le folosești mai târziu)
-        window.location.href = metamaskLink;
-
-        presaleWalletStatus.textContent = "Opening wallet app...";
+        openWalletPopup();
+        presaleWalletStatus.textContent = 'Select wallet to continue';
         return;
       }
 
-      // ✅ CAZ NORMAL (PC sau wallet injectat)
+      // Normal PC / injected wallet (MetaMask browser / Trust browser etc.)
       const ok = await initWeb3();
-      if (!ok) throw new Error('No wallet detected');
+      if (!ok) throw new Error('No wallet / init failed');
 
-      const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts'
-      });
-
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       connectedAddress = accounts[0];
 
-      presaleWalletStatus.textContent =
-        `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
-
+      presaleWalletStatus.textContent = `Connected: ${connectedAddress.slice(0,6)}...${connectedAddress.slice(-4)}`;
       presaleConnectWalletBtn.classList.add('hidden');
       presaleDisconnectWalletBtn.classList.remove('hidden');
 
+      // default 3.24 USDT
       purchaseAmountInput.value = '3.24';
       purchaseAmountInput.dispatchEvent(new Event('input'));
 
       await v3Refresh();
-
     } catch (err) {
       console.error(err);
-      presaleWalletStatus.textContent = 'Wallet connection failed';
+      presaleWalletStatus.textContent = 'Error: ' + (err.message || 'Connect failed');
     } finally {
       presaleConnectWalletBtn.classList.remove('loading');
       presaleConnectWalletBtn.disabled = false;
